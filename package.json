@@ -4,14 +4,35 @@
   "description": "An API for coding bootcamps",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=production && node server",
-    "dev": "nodemon server.js"
+    "server": "SET NODE_ENV=production && node server",
+    "client": "cd react-client && npm start",
+    "start": "nodemon server.js",
+    "build": "cd react-client && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"npm run client\""
   },
   "author": "Pop Stefan",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^4.0.0",
+    "colors": "^1.4.0",
+    "concurrently": "^5.1.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "express-mongo-sanitize": "^1.3.2",
+    "express-rate-limit": "^5.1.1",
+    "helmet": "^3.21.3",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.2",
+    "morgan": "^1.9.1",
+    "node-geocoder": "^3.25.0",
+    "nodemailer": "^6.4.3",
+    "serve-favicon": "^2.5.0",
+    "slugify": "^1.3.6",
+    "xss-clean": "^0.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
