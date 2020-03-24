@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import { Form, Input, Radio, Button } from 'antd';
 
-import { connect } from 'react-redux';
 import { registerStartAsync } from '../../redux/auth/auth.actions.js';
+import { selectLoading } from '../../redux/auth/auth.selectors.js';
 
 const formItemLayout = {
   labelCol: {
@@ -36,12 +38,11 @@ const tailFormItemLayout = {
   }
 };
 
-const Register = ({ registerStartAsync, auth }) => {
-
+const Register = ({ registerStartAsync, loading }) => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    registerStartAsync(values)
+    registerStartAsync(values);
   };
 
   return (
@@ -71,7 +72,7 @@ const Register = ({ registerStartAsync, auth }) => {
 
       <Form.Item
         name="name"
-        label='Name'
+        label="Name"
         rules={[
           {
             required: true,
@@ -129,7 +130,7 @@ const Register = ({ registerStartAsync, auth }) => {
           }
         ]}
         name="role"
-        label="User Role">
+        label="Role">
         <Radio.Group>
           <Radio value="user">Regular User (Browse, Write reviews, etc)</Radio>
           <Radio value="publisher">Bootcamp Publisher</Radio>
@@ -137,8 +138,8 @@ const Register = ({ registerStartAsync, auth }) => {
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" loading={auth.loading} htmlType="submit">
-          {auth.loading ? 'Loading' : 'Register'}
+        <Button type="primary" loading={loading} htmlType="submit">
+          {loading ? 'Loading' : 'Register'}
         </Button>
       </Form.Item>
     </Form>
@@ -146,12 +147,12 @@ const Register = ({ registerStartAsync, auth }) => {
 };
 
 Register.proptTypes = {
-  auth: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
   registerStartAsync: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  loading: selectLoading(state)
 });
 
-export default connect(mapStateToProps, {registerStartAsync})(Register);
+export default connect(mapStateToProps, { registerStartAsync })(Register);

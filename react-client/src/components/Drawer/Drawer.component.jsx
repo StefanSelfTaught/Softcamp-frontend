@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { Drawer, Avatar, Tabs } from 'antd';
-
 import { UserOutlined } from '@ant-design/icons';
-
-import { connect } from 'react-redux';
-import { hideDrawer } from '../../redux/auth/auth.actions.js';
 
 import UserDetails from './DrawerContent/UserDetails.component.jsx';
 import ChangePassword from './DrawerContent/ChangePassword.component.jsx';
 
+import { hideDrawer } from '../../redux/manageUserInfo/manageUserInfo.actions.js';
+import { selectDrawerShow } from '../../redux/manageUserInfo/manageUserInfo.selectors.js';
+
 const { TabPane } = Tabs;
 
-const DrawerPanel = ({ hideDrawer, accountDrawerShow }) => {
-	
+const DrawerPanel = ({ hideDrawer, drawerShow }) => {
 	const onClose = () => {
 		hideDrawer();
 	};
@@ -32,7 +31,7 @@ const DrawerPanel = ({ hideDrawer, accountDrawerShow }) => {
 			width={'40%'}
 			destroyOnClose={true}
 			onClose={onClose}
-			visible={accountDrawerShow}>
+			visible={drawerShow}>
 			<Tabs defaultActiveKey="1">
 				<TabPane tab="User Details" key="1">
 					<UserDetails closeDrawer={onClose} />
@@ -47,11 +46,11 @@ const DrawerPanel = ({ hideDrawer, accountDrawerShow }) => {
 
 DrawerPanel.proptTypes = {
 	hideDrawer: PropTypes.func.isRequired,
-	accountDrawerShow: PropTypes.bool.isRequired
+	drawerShow: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-	accountDrawerShow: state.auth.accountDrawerShow
+	drawerShow: selectDrawerShow(state)
 });
 
 export default connect(mapStateToProps, { hideDrawer })(DrawerPanel);

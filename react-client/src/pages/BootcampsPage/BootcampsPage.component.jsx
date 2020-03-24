@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions.js';
-
 import { Layout, Typography } from 'antd';
 
-import Content from '../../components/Content/Content.component.jsx';
-import BootcampCollection from '../../components/BootcampCollection/BootcampCollection.component.jsx';
+import Content from '../../components/Content/Content.component';
+import BootcampCollection from '../../components/BootcampCollection/BootcampCollection.component';
+
+import { fetchBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -37,4 +37,4 @@ BootcampCollection.proptTypes = {
 	fetchBootcampsStartAsync: PropTypes.func.isRequired
 };
 
-export default connect(null, {fetchBootcampsStartAsync})(BootcampsPage);
+export default connect(null, { fetchBootcampsStartAsync })(BootcampsPage);

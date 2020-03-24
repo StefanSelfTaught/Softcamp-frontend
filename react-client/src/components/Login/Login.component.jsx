@@ -1,42 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-import { logInStartAsync } from '../../redux/auth/auth.actions.js';
+import { Link } from 'react-router-dom';
 
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import './Login.styles.css';
 
-const layout = {
-	labelCol: {
-		span: 7
-	},
-	wrapperCol: {
-		span: 16,
-		offset: 2
-	}
-};
+import { logInStartAsync } from '../../redux/auth/auth.actions.js';
+import { showModal } from '../../redux/manageUserInfo/manageUserInfo.actions.js';
+import { selectLoading } from '../../redux/auth/auth.selectors.js';
 
-const tailLayout = {
-	wrapperCol: {
-		offset: 2,
-		span: 8
-	}
-};
-
-const Login = ({ logInStartAsync, auth }) => {
+const Login = ({ logInStartAsync, loading, showModal }) => {
 	const [form] = Form.useForm();
-
+	
 	const onFinish = values => {
 		logInStartAsync(values);
 	};
 
 	return (
 		<Form
-			{...layout}
 			form={form}
+			layout="vertical"
 			name="normal_login"
 			className="login-form"
 			initialValues={{ remember: true }}
@@ -67,31 +53,40 @@ const Login = ({ logInStartAsync, auth }) => {
 				name="password"
 				rules={[{ required: true, message: 'Please enter your Password!' }]}>
 				<Input.Password
-					prefix={<LockOutlined className="site-form-item-icon" />}
+					prefix={<LockOutlined />}
 					placeholder="Password"
 				/>
 			</Form.Item>
-			<Form.Item {...tailLayout}>
+			<Form.Item>
 				<Button
 					type="primary"
-					loading={auth.loading}
+					loading={loading}
 					htmlType="submit"
 					className="login-form-button">
-					{auth.loading ? 'Loading' : 'Log in'}
+					{loading ? 'Loading' : 'Log in'}
 				</Button>
-				<p style={{ marginTop: 20 }}>Or register now!</p>
+				<div
+					style={{
+						display: 'flex',
+						marginTop: 10,
+						justifyContent: 'space-between'
+					}}>
+					<Link to="/register">Or register now!</Link>
+					<p style={{ color: '#25b864', cursor: 'pointer' }} onClick={() => showModal()}>Forgot password</p>
+				</div>
 			</Form.Item>
 		</Form>
 	);
 };
 
 Login.proptTypes = {
-	auth: PropTypes.object.isRequired,
-	logInStartAsync: PropTypes.func.isRequired
+	loading: PropTypes.bool.isRequired,
+	logInStartAsync: PropTypes.func.isRequired,
+	showModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	loading: selectLoading(state)
 });
 
-export default connect(mapStateToProps, { logInStartAsync })(Login);
+export default connect(mapStateToProps, { logInStartAsync, showModal })(Login);

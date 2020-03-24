@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
-import { logOutStartAsync, showDrawer } from '../../redux/auth/auth.actions.js';
-
-import logo from '../../assets/logo1.png';
-import logo2 from '../../assets/logo2.png';
-
-import './SideNav.styles.css';
+import { createStructuredSelector } from 'reselect';
 
 import { Layout, Menu } from 'antd';
 import {
@@ -18,10 +12,26 @@ import {
 	LogoutOutlined
 } from '@ant-design/icons';
 
+import logo from '../../assets/logo1.png';
+import logo2 from '../../assets/logo2.png';
+import './SideNav.styles.css';
+
+import { logOutStartAsync } from '../../redux/auth/auth.actions';
+import { showDrawer } from '../../redux/manageUserInfo/manageUserInfo.actions';
+import {selectUserData, selectIsAuthenticated } from '../../redux/auth/auth.selectors';
+import selectPathName from '../../redux/router/router.selectors';
+
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
+const SideNav = ({
+	auth,
+	logOutStartAsync,
+	push,
+	route,
+	showDrawer,
+	isAuthenticated
+}) => {
 	const [collapsed, setCollapsed] = useState(false);
 
 	// Try to use location hook from react-router-dom
@@ -29,7 +39,7 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 	const userRoleNav = (
 		<Menu
 			defaultOpenKeys={['account']}
-			selectedKeys={[router]}
+			selectedKeys={[route]}
 			theme={'dark'}
 			mode={'inline'}>
 			<Menu.Item
@@ -49,7 +59,7 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 				title={
 					<span>
 						<UserOutlined />
-						<span>{auth.userData.name}</span>
+						<span>{auth.name}</span>
 					</span>
 				}>
 				<Menu.Item
@@ -74,7 +84,7 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 	const publisherRoleNav = (
 		<Menu
 			defaultOpenKeys={['account']}
-			selectedKeys={[router]}
+			selectedKeys={[route]}
 			theme={'dark'}
 			mode={'inline'}>
 			<Menu.Item
@@ -94,7 +104,7 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 				title={
 					<span>
 						<UserOutlined />
-						<span>{auth.userData.name}</span>
+						<span>{auth.name}</span>
 					</span>
 				}>
 				<Menu.Item
@@ -104,7 +114,9 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 					}}>
 					Account Settings
 				</Menu.Item>
-				<Menu.Item key="/manage-bootcamp">Manage Bootcamps</Menu.Item>
+				<Menu.Item key="/manage-bootcamp" onClick={() => {
+					push('/manage-bootcamp')
+				}}>Manage Bootcamp</Menu.Item>
 				<Menu.Item key="/manage-courses">Manage Courses</Menu.Item>
 			</SubMenu>
 			<Menu.Item
@@ -133,10 +145,10 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 				)}
 			</div>
 
-			{!auth.isAuthenticated ? (
+			{!isAuthenticated ? (
 				<Menu
 					defaultOpenKeys={['account']}
-					selectedKeys={[router]}
+					selectedKeys={[route]}
 					theme={'dark'}
 					mode={'inline'}>
 					<Menu.Item
@@ -176,7 +188,7 @@ const SideNav = ({ auth, logOutStartAsync, push, router, showDrawer }) => {
 						</Menu.Item>
 					</SubMenu>
 				</Menu>
-			) : auth.userData.role === 'user' ? (
+			) : auth.role === 'user' ? (
 				userRoleNav
 			) : (
 				publisherRoleNav
@@ -189,15 +201,19 @@ SideNav.proptTypes = {
 	auth: PropTypes.object.isRequired,
 	logOutStartAsync: PropTypes.func.isRequired,
 	push: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool.isRequired,
 	showDrawer: PropTypes.func.isRequired,
-	router: PropTypes.object.isRequired
+	route: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth,
-	router: state.router.location.pathname
+const mapStateToProps = createStructuredSelector({
+	auth: selectUserData,
+	isAuthenticated: selectIsAuthenticated,
+	route: selectPathName
 });
 
-export default connect(mapStateToProps, { logOutStartAsync, push, showDrawer })(
+const mapDispatchToProps = { logOutStartAsync, push, showDrawer }
+
+export default connect(mapStateToProps, mapDispatchToProps)(
 	SideNav
 );

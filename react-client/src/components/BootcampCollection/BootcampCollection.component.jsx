@@ -1,18 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import {
-	selectBootcamps,
-	selectLoading,
-	selectBootcampsError
-} from '../../redux/bootcamps/bootcamps.selectors.js';
 
-import PropTypes from 'prop-types';
+import { Row, Skeleton } from 'antd';
 
 import withSkeletonLoading from '../HOC/withSkeletonLoading.component.jsx';
 import BootcampCard from '../BootcampCard/BootcampCard.Component.jsx';
 
-import { Row, Skeleton } from 'antd';
+import {
+	selectBootcamps,
+	selectBootcampsLoading,
+	selectBootcampsError
+} from '../../redux/bootcamps/bootcamps.selectors.js';
 
 const BootcampCardLoading = withSkeletonLoading(BootcampCard);
 
@@ -20,7 +20,7 @@ const BootcampCollection = ({ bootcamps, loading, error }) => {
 	return (
 		<Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="center">
 			{!error ? (
-				!bootcamps.length ? (
+				loading ? (
 					<Skeleton active paragraph={{ rows: 10 }} />
 				) : (
 					bootcamps.map(({ _id, ...props }) => {
@@ -38,12 +38,13 @@ const BootcampCollection = ({ bootcamps, loading, error }) => {
 
 BootcampCollection.proptTypes = {
 	loading: PropTypes.bool.isRequired,
-	bootcamps: PropTypes.array.isRequired
+	bootcamps: PropTypes.array.isRequired,
+	error: PropTypes.string.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
 	bootcamps: selectBootcamps,
-	loading: selectLoading,
+	loading: selectBootcampsLoading,
 	error: selectBootcampsError
 });
 

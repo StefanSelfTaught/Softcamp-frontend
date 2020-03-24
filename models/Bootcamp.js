@@ -1,3 +1,4 @@
+const fs = require('fs');
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const geocoder = require('../utils/geocoder');
@@ -135,6 +136,12 @@ BootcampSchema.pre('save', async function(next) {
 });
 
 BootcampSchema.pre('remove', async function(next) {
+  const photoPath = `${process.env.FILE_UPLOAD_PATH}/${this.photo}`
+
+  await fs.unlink(photoPath, err => {
+    if(err) console.log(err)
+  })
+
   await this.model('Course').deleteMany({ bootcamp: this._id });
   next();
 });

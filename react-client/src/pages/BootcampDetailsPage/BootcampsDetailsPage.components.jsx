@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 
 import Content from '../../components/Content/Content.component.jsx';
@@ -14,10 +13,10 @@ const BootcampDetailsPage = ({
 	},
 	fetchbootcampDetailsStartAsync
 }) => {
-
+	
 	useEffect(() => {
-		fetchbootcampDetailsStartAsync(bootcampId)
-	}, [fetchbootcampDetailsStartAsync, bootcampId])
+		fetchbootcampDetailsStartAsync(bootcampId);
+	}, [fetchbootcampDetailsStartAsync, bootcampId]);
 
 	return (
 		<Content>
@@ -31,4 +30,6 @@ BootcampDetailsPage.proptTypes = {
 	fetchbootcampDetailsStartAsync: PropTypes.func.isRequired
 };
 
-export default connect(null, {fetchbootcampDetailsStartAsync})(BootcampDetailsPage);
+export default connect(null, { fetchbootcampDetailsStartAsync })(
+	BootcampDetailsPage
+);

@@ -1,13 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import { Drawer, Form, Button, Col, Row, Input } from 'antd';
+import { Form, Button, Col, Row, Input } from 'antd';
 
-const ChangePassword = ({ closeDrawer }) => {
+import { selectLoading } from '../../../redux/manageUserInfo/manageUserInfo.selectors.js';
+import { updateUserPasswordStartAsync } from '../../../redux/manageUserInfo/manageUserInfo.actions.js';
+
+const ChangePassword = ({
+	closeDrawer,
+	updateUserPasswordStartAsync,
+	loading
+}) => {
 	const [form] = Form.useForm();
 
-	const onFinishHandle = () => {
-		console.log('Finish');
+	const onFinishHandle = ({ currentPassword, newPassword }) => {
+		updateUserPasswordStartAsync(currentPassword, newPassword);
 	};
 
 	return (
@@ -78,16 +87,24 @@ const ChangePassword = ({ closeDrawer }) => {
 				<Button onClick={closeDrawer} style={{ marginRight: 8 }}>
 					Cancel
 				</Button>
-				<Button htmlType="submit" type="primary">
-					Change Password
+				<Button loading={loading} htmlType="submit" type="primary">
+					{loading ? 'Loading' : 'Change Password'}
 				</Button>
 			</div>
 		</Form>
 	);
 };
 
+const mapStateToProps = createStructuredSelector({
+	loading: selectLoading
+});
+
 ChangePassword.proptTypes = {
-	closeDrawer: PropTypes.func.isRequired
+	closeDrawer: PropTypes.func.isRequired,
+	loading: PropTypes.bool.isRequired,
+	updateUserPasswordStartAsync: PropTypes.func.isRequired
 };
 
-export default ChangePassword;
+export default connect(mapStateToProps, { updateUserPasswordStartAsync })(
+	ChangePassword
+);

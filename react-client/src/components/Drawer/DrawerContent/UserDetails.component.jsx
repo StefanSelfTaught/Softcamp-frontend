@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
+import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import { Drawer, Form, Button, Col, Row, Input } from 'antd';
+import { Form, Button, Col, Row, Input } from 'antd';
 
-import { updateUserDetailsStartAsync } from '../../../redux/auth/auth.actions.js';
+import { updateUserDetailsStartAsync } from '../../../redux/manageUserInfo/manageUserInfo.actions.js';
+import { selectUserData } from '../../../redux/auth/auth.selectors.js';
+import { selectLoading } from '../../../redux/manageUserInfo/manageUserInfo.selectors.js';
 
 const UserDetails = ({
 	closeDrawer,
@@ -15,16 +17,19 @@ const UserDetails = ({
 }) => {
 	const [form] = Form.useForm();
 
+	const { email, name, role, created } = userData;
+
 	const onFinishHandle = ({ name, email }) => {
 		updateUserDetailsStartAsync(name, email);
 	};
 
 	useEffect(() => {
+		console.log('UserDetails.component.jsx Effect!');
 		form.setFieldsValue({
-			email: userData.email,
-			name: userData.name,
-			role: userData.role,
-			joined: userData.created
+			email: email,
+			name: name,
+			role: role,
+			joined: created
 		});
 	}, []);
 
@@ -96,10 +101,7 @@ const UserDetails = ({
 				<Button onClick={closeDrawer} style={{ marginRight: 8 }}>
 					Cancel
 				</Button>
-				<Button
-					type="primary"
-					loading={loading}
-					htmlType="submit">
+				<Button type="primary" loading={loading} htmlType="submit">
 					{loading ? 'Loading' : 'Save Changes'}
 				</Button>
 			</div>
@@ -114,9 +116,9 @@ UserDetails.proptTypes = {
 	loading: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = state => ({
-	userData: state.auth.userData,
-	loading: state.auth.loading
+const mapStateToProps = createStructuredSelector({
+	userData: selectUserData,
+	loading: selectLoading
 });
 
 export default connect(mapStateToProps, { updateUserDetailsStartAsync })(

@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { Layout, Skeleton } from 'antd';
 
-import { selectBootcampDetails } from '../../redux/bootcamps/bootcamps.selectors.js';
+import {
+	selectBootcampDetails,
+	selectBootcampDetailsLoading,
+	selectBootcampDetailsError
+} from '../../redux/bootcamps/bootcamps.selectors.js';
 
 const { Header } = Layout;
 
@@ -32,14 +37,14 @@ const BootcampDetails = ({ bootcamp, loading }) => {
 };
 
 BootcampDetails.proptTypes = {
-	bootcamp: PropTypes.object.isRequired
+	bootcamp: PropTypes.object.isRequired,
+	loading: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = state => ({
-	bootcamp: selectBootcampDetails(state),
-	loading: state.bootcamps.bootcampDetails.loading
+const mapStateToProps = createStructuredSelector({
+	bootcamp: selectBootcampDetails,
+	loading: selectBootcampDetailsLoading,
+	error: selectBootcampDetailsError
 });
 
-export default connect(mapStateToProps)(
-	BootcampDetails
-);
+export default connect(mapStateToProps)(BootcampDetails);

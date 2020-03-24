@@ -61,13 +61,15 @@ exports.login = asyncHandler(async (req, res, next) => {
 exports.getMe = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.user.id);
 
-	const { role, name, created } = user;
+	const { _id, role, name, created, email } = user;
 
 	res.status(200).json({
 		success: true,
+		id: _id,
 		role,
 		name,
-		created
+		created,
+		email
 	});
 });
 
@@ -98,10 +100,11 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 		runValidators: true
 	});
 
-	const { role, created, name, email } = user;
+	const { _id, role, created, name, email } = user;
 
 	res.status(200).json({
 		success: true,
+		id: _id,
 		role,
 		name,
 		created,
@@ -140,11 +143,9 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
 	const resetToken = user.getResetPasswordToken();
 
-	const resetUrl = `${req.protocol}://${req.get(
-		'host'
-	)}/api/v1/auth/resetPassword/${resetToken}`;
-
-	const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+	const message = (
+		`Access this link to reset your password: http://localhost:3000/reset-password/${resetToken}`
+	)
 
 	try {
 		await sendEmail({
@@ -167,11 +168,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 	}
 
 	await user.save({ validateBeforeSave: false });
-
-	res.status(200).json({
-		success: true,
-		data: user
-	});
 });
 
 // @desc     Reset Password
@@ -189,7 +185,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 	});
 
 	if (!user) {
-		return next(new ErrorResponse('Invalid token'), 400);
+		return next(new ErrorResponse('Invalid token', 400));
 	}
 
 	user.password = req.body.password;
@@ -206,7 +202,7 @@ const sendUserInfoResponse = (user, statusCode, res) => {
 	// Create token
 	const token = user.getSignedJwtToken();
 
-	const { role, name, created, email } = user;
+	const { _id, role, name, created, email } = user;
 
 	const options = {
 		expires: new Date(
@@ -224,9 +220,10 @@ const sendUserInfoResponse = (user, statusCode, res) => {
 		.cookie('token', token, options)
 		.json({
 			success: true,
+			id: _id,
 			role,
 			name,
 			created,
-			email
+			email,
 		});
 };

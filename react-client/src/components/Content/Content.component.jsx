@@ -6,7 +6,6 @@ import { Layout, Breadcrumb } from 'antd';
 const { Content } = Layout;
 
 const ContentSection = ({ children }) => {
-
 	return (
 		<>
 			<Content style={{ margin: '0 16px' }}>
@@ -23,6 +22,6 @@ const ContentSection = ({ children }) => {
 
 ContentSection.propTypes = {
 	children: PropTypes.node.isRequired
-}
+};
 
 export default ContentSection;

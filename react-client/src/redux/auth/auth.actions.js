@@ -1,253 +1,158 @@
-import AuthActionTypes from './auth.type.js';
-import axios from '../../utils/axiosInstance.js';
 import { push } from 'connected-react-router';
-import { showAlertMessage } from '../alertMessage/alertMessage.actions.js';
-import { batch } from 'react-redux';
+import AuthActionTypes from './auth.type';
+import axios from '../../utils/axiosInstance';
+import { showAlertMessage } from '../alertMessage/alertMessage.actions';
 
-const logInStart = () => ({
-	type: AuthActionTypes.LOG_IN_START
-});
-
-const logInSuccess = userData => ({
-	type: AuthActionTypes.LOG_IN_SUCCESS,
-	payload: userData
-});
-
-const logInFailure = err => ({
-	type: AuthActionTypes.LOG_IN_FAILURE,
-	payload: err
-});
-
-const logOutStart = () => ({
-	type: AuthActionTypes.LOG_OUT_START
-});
-
-const logOutSuccess = () => ({
-	type: AuthActionTypes.LOG_OUT_SUCCESS
-});
-
-const logOutFailure = error => ({
-	type: AuthActionTypes.LOG_OUT_FAILURE,
-	payload: error
-});
-
+// Get user Action Creators
 const getUserLoggedInStart = () => ({
-	type: AuthActionTypes.USER_LOGGED_IN_START
+  type: AuthActionTypes.USER_LOGGED_IN_START,
 });
 
-const getUserLoggedInSuccess = userData => ({
-	type: AuthActionTypes.USER_LOGGED_IN_SUCCESS,
-	payload: userData
+const getUserLoggedInSuccess = (userData) => ({
+  type: AuthActionTypes.USER_LOGGED_IN_SUCCESS,
+  payload: userData,
 });
 
 const getUserLoggedInFailure = () => ({
-	type: AuthActionTypes.USER_LOGGED_IN_FAILURE
+  type: AuthActionTypes.USER_LOGGED_IN_FAILURE,
 });
 
-export const showDrawer = () => ({
-	type: AuthActionTypes.SHOW_DRAWER
+// Get user Async Function
+export const getUserLoggedInStartAsync = () => async (dispatch) => {
+  getUserLoggedInStart();
+  try {
+    const response = await axios.get('/auth/me');
+
+    const data = await response.data;
+
+    dispatch(getUserLoggedInSuccess(data));
+  } catch (error) {
+    dispatch(getUserLoggedInFailure());
+  }
+};
+
+// Log out Action Creators
+const logOutStart = () => ({
+  type: AuthActionTypes.LOG_OUT_START,
 });
 
-export const hideDrawer = () => ({
-	type: AuthActionTypes.HIDE_DRAWER
+const logOutSuccess = () => ({
+  type: AuthActionTypes.LOG_OUT_SUCCESS,
 });
 
-export const updateUserDetailsStartAsync = (name, email) => {
-	return async dispatch => {
-		dispatch({
-			type: AuthActionTypes.UPDATE_USER_DETAILS_START
-		});
+const logOutFailure = (error) => ({
+  type: AuthActionTypes.LOG_OUT_FAILURE,
+  payload: error,
+});
 
-		dispatch(showAlertMessage('Saving Changes...', 'loading'));
+// Log out async function
+export const logOutStartAsync = () => async (dispatch) => {
+  dispatch(logOutStart());
 
-		try {
-			const response = await axios({
-				method: 'PUT',
-				url: '/auth/updatedetails',
-				data: {
-					name,
-					email
-				}
-			});
+  dispatch(showAlertMessage('Logging out...', 'loading'));
 
-			const data = await response.data;
+  try {
+    await axios.get('/auth/logout');
 
-			dispatch({
-				type: AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS,
-				payload: data
-			});
+    dispatch(logOutSuccess());
 
-			dispatch(showAlertMessage('Changes Saved', 'success'));
-		} catch (error) {
-			const errorResponse = error.response.data || 'Something went wrong';
+    dispatch(push('/bootcamps'));
 
-			dispatch({
-				type: AuthActionTypes.UPDATE_USER_DETAILS_FAILURE,
-				payload: errorResponse
-			});
+    dispatch(showAlertMessage('Logged out', 'success'));
+  } catch (error) {
+    const errorResponse = error.response.data || 'Something went wrong';
 
-			dispatch(showAlertMessage(errorResponse.error, 'error'));
-		}
-	};
+    dispatch(logOutFailure(errorResponse));
+
+    dispatch(showAlertMessage(errorResponse.error, 'error'));
+  }
 };
 
-export const getUserLoggedInStartAsync = () => {
-	return async dispatch => {
-		getUserLoggedInStart();
-		try {
-			const response = await axios.get('/auth/me');
+// Register async function
+export const registerStartAsync = (userData) => async (dispatch) => {
+  dispatch(showAlertMessage('Registering...', 'loading'));
 
-			const data = await response.data;
+  dispatch({
+    type: AuthActionTypes.REGISTER_START,
+  });
 
-			dispatch(getUserLoggedInSuccess(data));
-		} catch (error) {
-			dispatch(getUserLoggedInFailure());
-		}
-	};
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: '/auth/register',
+      data: {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        role: userData.role,
+      },
+    });
+
+    const data = await response.data;
+
+    dispatch({
+      type: AuthActionTypes.REGISTER_SUCCESS,
+      payload: data,
+    });
+
+    dispatch(push('/bootcamps'));
+
+    dispatch(showAlertMessage(`Logged in as ${data.name}`, 'success'));
+  } catch (error) {
+    const errorResponse = error.response.data || 'Something went wrong';
+
+    dispatch({
+      type: AuthActionTypes.REGISTER_FAILURE,
+      payload: errorResponse,
+    });
+
+    dispatch(showAlertMessage(errorResponse.error, 'error'));
+  }
 };
 
-export const logOutStartAsync = () => {
-	return async dispatch => {
-		dispatch(logOutStart());
+// Log in Action Creators
+const logInStart = () => ({
+  type: AuthActionTypes.LOG_IN_START,
+});
 
-		dispatch(showAlertMessage('Logging out...', 'loading'));
+const logInSuccess = (userData) => ({
+  type: AuthActionTypes.LOG_IN_SUCCESS,
+  payload: userData,
+});
 
-		try {
-			await axios.get('/auth/logout');
+const logInFailure = (err) => ({
+  type: AuthActionTypes.LOG_IN_FAILURE,
+  payload: err,
+});
 
-			batch(() => {
-				dispatch(logOutSuccess());
+// Log in async function
+export const logInStartAsync = (userData) => async (dispatch) => {
+  dispatch(logInStart());
 
-				dispatch(push('/bootcamps'));
-			});
+  dispatch(showAlertMessage('Logging in...', 'loading'));
 
-			dispatch(showAlertMessage('Logged out', 'success'));
-		} catch (error) {
-			const errorResponse = error.response.data || 'Something went wrong';
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: '/auth/login',
+      data: {
+        email: userData.email,
+        password: userData.password,
+      },
+    });
 
-			dispatch(logOutFailure(errorResponse));
+    const data = await response.data;
 
-			dispatch(showAlertMessage(errorResponse.error, 'error'));
-		}
-	};
+    dispatch(logInSuccess(data));
+
+    dispatch(push('/bootcamps'));
+
+    dispatch(showAlertMessage(`Logged in as ${data.name}`, 'success'));
+  } catch (error) {
+    const errorResponse = error.response.data || 'Something went wrong';
+
+    dispatch(logInFailure(errorResponse));
+
+    dispatch(showAlertMessage(errorResponse.error, 'error'));
+  }
 };
-
-export const registerStartAsync = userData => {
-	return async dispatch => {
-		dispatch(showAlertMessage('Registering...', 'loading'));
-
-		dispatch({
-			type: AuthActionTypes.REGISTER_START
-		});
-
-		try {
-			const response = await axios({
-				method: 'POST',
-				url: '/auth/register',
-				data: {
-					name: userData.name,
-					email: userData.email,
-					password: userData.password,
-					role: userData.role
-				}
-			});
-
-			const data = await response.data;
-
-			batch(() => {
-				dispatch({
-					type: AuthActionTypes.REGISTER_SUCCESS,
-					payload: data
-				});
-
-				dispatch(push('/bootcamps'));
-			});
-
-			dispatch(showAlertMessage(`Logged in as ${data.name}`, 'success'));
-		} catch (error) {
-			const errorResponse = error.response.data || 'Something went wrong';
-
-			dispatch({
-				type: AuthActionTypes.REGISTER_FAILURE,
-				payload: errorResponse
-			});
-
-			dispatch(showAlertMessage(errorResponse.error, 'error'));
-		}
-	};
-};
-
-export const logInStartAsync = userData => {
-	return async dispatch => {
-		dispatch(logInStart());
-
-		dispatch(showAlertMessage('Logging in...', 'loading'));
-
-		try {
-			const response = await axios({
-				method: 'POST',
-				url: '/auth/login',
-				data: {
-					email: userData.email,
-					password: userData.password
-				}
-			});
-
-			const data = await response.data;
-
-			batch(() => {
-				dispatch(logInSuccess(data));
-
-				dispatch(push('/bootcamps'));
-			});
-
-			dispatch(showAlertMessage(`Logged in as ${data.name}`, 'success'));
-		} catch (error) {
-			const errorResponse = error.response.data || 'Something went wrong';
-
-			dispatch(logInFailure(errorResponse));
-
-			dispatch(showAlertMessage(errorResponse.error, 'error'));
-		}
-	};
-};
-
-// const makeServerRequest = ({
-// 	requestTypes,
-// 	routeTypes,
-// 	alertTypes,
-// 	callApi,
-// 	payload = {}
-// }) => async (dispatch, getState) => {
-
-// 	const [requestType, successType, failureType] = requestTypes;
-
-// 	if(routeTypes.length) {
-// 		const [route] = routeTypes;
-// 	}
-
-// 	if(alertTypes.length) {
-// 		const [setAlert] = alertTypes;
-// 	}
-
-// 	dispatch({
-// 		...payload,
-// 		type: requestType
-// 	});
-
-// 	try {
-// 		const response = await callApi();
-
-// 		dispatch({
-// 			...payload,
-// 			type: successType
-// 		});
-// 	} catch (error) {
-// 		const errorResponse = error.response.data || 'Something went wrong';
-
-// 		dispatch({
-// 			...payload,
-// 			type: failureType
-// 		});
-// 	}
-// };

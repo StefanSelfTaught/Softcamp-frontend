@@ -1,26 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { Card, Col } from 'antd';
-
-import { push } from 'connected-react-router'
-
 import {
 	EditOutlined,
 	EllipsisOutlined,
 	SettingOutlined
 } from '@ant-design/icons';
 
+import selectPathName from '../../redux/router/router.selectors';
+
 const { Meta } = Card;
 
-const BootcampCard = ({ push, router, name, careers, averageCost, photo, id }) => {
+const BootcampCard = ({
+	push,
+	route,
+	name,
+	careers,
+	averageCost,
+	photo,
+	id
+}) => {
 	return (
 		<Col flex="auto">
 			<Card
 				onClick={() => {
-					push(`${router}/${id}`);
+					push(`${route}/${id}`);
 				}}
 				cover={
 					<img
@@ -36,11 +44,11 @@ const BootcampCard = ({ push, router, name, careers, averageCost, photo, id }) =
 					<EllipsisOutlined key="ellipsis" />
 				]}>
 				{/* <Tooltip placement='bottom' title={careers.join(', ')}> */}
-					<Meta
-						style={{ whiteSpace: 'nowrap' }}
-						title={name}
-						description={careers.join(', ')}
-					/>
+				<Meta
+					style={{ whiteSpace: 'nowrap' }}
+					title={name}
+					description={careers.join(', ')}
+				/>
 				{/*</Tooltip>*/}
 				<span style={{ marginTop: '20px', display: 'inline-block' }}>
 					$ {averageCost}
@@ -57,11 +65,11 @@ BootcampCard.proptTypes = {
 	photo: PropTypes.string.isRequired,
 	id: PropTypes.number.isRequired,
 	push: PropTypes.func.isRequired,
-	router: PropTypes.object.isRequired
+	route: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-	router: state.router.location.pathname
-})
+const mapStateToProps = createStructuredSelector({
+	route: selectPathName
+});
 
-export default connect(mapStateToProps, {push})(BootcampCard)
+export default connect(mapStateToProps, { push })(BootcampCard);

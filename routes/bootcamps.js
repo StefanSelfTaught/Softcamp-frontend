@@ -3,6 +3,7 @@ const express = require('express');
 const {
   getBootcamps,
   getBootcamp,
+  getOwnBootcamp,
   createBootcamp,
   updateBootcamp,
   deleteBootcamp,
@@ -33,8 +34,12 @@ router
   .put(protect, authorize('publisher', 'admin'), bootcampPhotoUpload);
 
 router
+  .route('/ownedBootcamps')
+  .get(protect, authorize('publisher', 'admin'), getOwnBootcamp)
+
+router
   .route('/')
-  .get(advancedResults(Bootcamp, 'courses'), getBootcamps)
+  .get(advancedResults(Bootcamp), getBootcamps)
   .post(protect, authorize('publisher', 'admin'), createBootcamp);
 
 router
