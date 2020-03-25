@@ -35,36 +35,39 @@ const App = () => {
       <Drawer />
       <AlertMessage />
       <SideNav />
-      <Layout className="site-layout">
+      <Layout className='site-layout'>
         <Switch>
-          <Route exact path="/">
-            <Redirect to="/bootcamps" />
+          <Route exact path='/'>
+            <Redirect to='/bootcamps' />
           </Route>
 
-          <Route exact path="/bootcamps">
+          <Route exact path='/bootcamps'>
             <BootcampsPage />
           </Route>
 
-          <Route exact path="/manage-bootcamp">
+          <Route exact path='/manage-bootcamp'>
             <ManageBootcampPage />
           </Route>
 
-          <Route path="/register">
+          <Route path='/register'>
             <RegisterPage />
           </Route>
 
-          <Route path="/login">
+          <Route path='/login'>
             <LoginPage />
           </Route>
 
           <Route
-            path="/bootcamps/:bootcampId"
+            path='/bootcamps/:bootcampId'
             component={BootcampDetailsPage}
           />
 
-          <Route path="/reset-password/:token" component={ResetPasswordPage} />
+          <Route
+            path='/reset-password/:token'
+            component={ResetPasswordPage}
+          />
 
-          <Route path="*">
+          <Route path='*'>
             <NotFound />
           </Route>
         </Switch>
@@ -75,5 +78,6 @@ const App = () => {
   );
 };
 
-
-export default connect(null, { fetchbootcampDetailsStartAsync })(App);
+export default connect(null, { fetchbootcampDetailsStartAsync })(
+  App,
+);

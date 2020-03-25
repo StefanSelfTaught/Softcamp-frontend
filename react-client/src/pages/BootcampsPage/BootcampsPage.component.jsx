@@ -12,29 +12,37 @@ import { fetchBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.action
 const { Header } = Layout;
 const { Title } = Typography;
 
-const BootcampsPage = ({ fetchBootcampsStartAsync }) => {
-	useEffect(() => {
-		fetchBootcampsStartAsync();
+const BootcampsPage = () => {
+  useEffect(() => {
+    fetchBootcampsStartAsync();
 
-		console.log('Effect');
-	}, [fetchBootcampsStartAsync]);
+    console.log('Effect');
+  }, [fetchBootcampsStartAsync]);
 
-	return (
-		<>
-			<Header className="site-layout-background" style={{ padding: '0' }}>
-				<Title style={{ margin: '14px 16px', textAlign: 'center' }} level={4}>
-					Browse your dream bootcamps by distance or rating
-				</Title>
-			</Header>
-			<Content>
-				<BootcampCollection />
-			</Content>
-		</>
-	);
+  return (
+    <>
+      <Header
+        className='site-layout-background'
+        style={{ padding: '0' }}
+      >
+        <Title
+          style={{ margin: '14px 16px', textAlign: 'center' }}
+          level={4}
+        >
+          Browse your dream bootcamps by distance or rating
+        </Title>
+      </Header>
+      <Content>
+        <BootcampCollection />
+      </Content>
+    </>
+  );
 };
 
 BootcampCollection.proptTypes = {
-	fetchBootcampsStartAsync: PropTypes.func.isRequired
+  fetchBootcampsStartAsync: PropTypes.func.isRequired,
 };
 
-export default connect(null, { fetchBootcampsStartAsync })(BootcampsPage);
+export default connect(null, { fetchBootcampsStartAsync })(
+  BootcampsPage,
+);

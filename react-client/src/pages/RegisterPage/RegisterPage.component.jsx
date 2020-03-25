@@ -8,19 +8,24 @@ import Register from '../../components/Register/Register.component';
 const { Header } = Layout;
 const { Title } = Typography;
 
-const RegisterPage = () => {
-	return (
-		<>
-			<Header className="site-layout-background" style={{ padding: '0' }}>
-				<Title style={{ margin: '14px 16px', textAlign: 'center' }} level={4}>
-					Register to list your bootcamp or rate, review and favorite bootcamp
-				</Title>
-			</Header>
-			<Content>
-				<Register />
-			</Content>
-		</>
-	);
-};
+const RegisterPage = () => (
+  <>
+    <Header
+      className='site-layout-background'
+      style={{ padding: '0' }}
+    >
+      <Title
+        style={{ margin: '14px 16px', textAlign: 'center' }}
+        level={4}
+      >
+        Register to list your bootcamp or rate, review and
+        favorite bootcamp
+      </Title>
+    </Header>
+    <Content>
+      <Register />
+    </Content>
+  </>
+);
 
 export default RegisterPage;

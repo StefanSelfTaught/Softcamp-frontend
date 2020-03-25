@@ -8,21 +8,18 @@ import { Modal, Form, Input, Button, Alert } from 'antd';
 import {
   hideModal,
   sendForgotPasswordEmailStartAsync,
-  resetForgotPasswordModal
-} from '../../redux/manageUserInfo/manageUserInfo.actions.js';
+  resetForgotPasswordModal,
+} from '../../redux/manageUserInfo/manageUserInfo.actions';
 import {
   selectLoading,
   selectForgotPasswordEmailSent,
-  selectModalShow
-} from '../../redux/manageUserInfo/manageUserInfo.selectors.js';
+  selectModalShow,
+} from '../../redux/manageUserInfo/manageUserInfo.selectors';
 
 const ModalComponent = ({
   modalShow,
-  hideModal,
-  sendForgotPasswordEmailStartAsync,
   loading,
   emailSent,
-  resetForgotPasswordModal
 }) => {
   const [form] = Form.useForm();
 
@@ -49,40 +46,40 @@ const ModalComponent = ({
   return (
     <Modal
       title='Reset your password'
-      destroyOnClose={true}
+      destroyOnClose
       visible={modalShow}
       onCancel={handleCancel}
       footer={
         !emailSent
           ? [
-              <Button key='back' onClick={handleCancel}>
-                Cancel
-              </Button>,
-              <Button
-                loading={loading}
-                onClick={handleSubmitClick}
-                key='submit'
-                type='primary'
-              >
-                {loading ? 'Loading' : 'Submit'}
-              </Button>
-            ]
+            <Button key='back' onClick={handleCancel}>
+              Cancel
+            </Button>,
+            <Button
+              loading={loading}
+              onClick={handleSubmitClick}
+              key='submit'
+              type='primary'
+            >
+              {loading ? 'Loading' : 'Submit'}
+            </Button>,
+          ]
           : [
-              <Button
-                type='primary'
-                key='back'
-                onClick={handleCancel}
-              >
-                Done
-              </Button>
-            ]
+            <Button
+              type='primary'
+              key='back'
+              onClick={handleCancel}
+            >
+              Done
+            </Button>,
+          ]
       }
     >
       {!emailSent ? (
         <Form
           form={form}
           name='forgotPassword'
-          layout={'vertical'}
+          layout='vertical'
           scrollToFirstError
         >
           <Form.Item
@@ -91,12 +88,12 @@ const ModalComponent = ({
             rules={[
               {
                 type: 'email',
-                message: 'The input is not valid email!'
+                message: 'The input is not valid email!',
               },
               {
                 required: true,
-                message: 'Please enter your email!'
-              }
+                message: 'Please enter your email!',
+              },
             ]}
           >
             <Input placeholder='Enter your email' />
@@ -120,22 +117,22 @@ ModalComponent.proptTypes = {
   sendForgotPasswordEmailStartAsync: PropTypes.func.isRequired,
   resetForgotPasswordModal: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  emailSent: PropTypes.bool.isRequired
+  emailSent: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   modalShow: selectModalShow,
   loading: selectLoading,
-  emailSent: selectForgotPasswordEmailSent
+  emailSent: selectForgotPasswordEmailSent,
 });
 
 const mapDispatchToProps = {
   hideModal,
   sendForgotPasswordEmailStartAsync,
-  resetForgotPasswordModal
+  resetForgotPasswordModal,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ModalComponent);

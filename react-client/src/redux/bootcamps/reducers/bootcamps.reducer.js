@@ -34,10 +34,7 @@ const bootcampsReducer = (state = initialState, action) => {
         ...state,
         bootcampsData: {
           ...state.bootcampsData,
-          data: [
-            ...state.bootcampsData.data,
-            payload.data,
-          ],
+          data: [...state.bootcampsData.data, payload.data],
         },
         loading: false,
         error: false,

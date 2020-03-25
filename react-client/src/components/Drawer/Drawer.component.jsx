@@ -5,52 +5,60 @@ import { connect } from 'react-redux';
 import { Drawer, Avatar, Tabs } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import UserDetails from './DrawerContent/UserDetails.component.jsx';
-import ChangePassword from './DrawerContent/ChangePassword.component.jsx';
+import UserDetails from './DrawerContent/UserDetails.component';
+import ChangePassword from './DrawerContent/ChangePassword.component';
 
-import { hideDrawer } from '../../redux/manageUserInfo/manageUserInfo.actions.js';
-import { selectDrawerShow } from '../../redux/manageUserInfo/manageUserInfo.selectors.js';
+import { hideDrawer } from '../../redux/manageUserInfo/manageUserInfo.actions';
+import { selectDrawerShow } from '../../redux/manageUserInfo/manageUserInfo.selectors';
 
 const { TabPane } = Tabs;
 
-const DrawerPanel = ({ hideDrawer, drawerShow }) => {
-	const onClose = () => {
-		hideDrawer();
-	};
+const DrawerPanel = ({ drawerShow }) => {
+  const onClose = () => {
+    hideDrawer();
+  };
 
-	return (
-		<Drawer
-			title={
-				<>
-					<Avatar style={{ marginRight: 12 }} icon={<UserOutlined />} />
-					Manage your account
-				</>
-			}
-			placement="right"
-			closable={true}
-			width={'40%'}
-			destroyOnClose={true}
-			onClose={onClose}
-			visible={drawerShow}>
-			<Tabs defaultActiveKey="1">
-				<TabPane tab="User Details" key="1">
-					<UserDetails closeDrawer={onClose} />
-				</TabPane>
-				<TabPane tab="Change Password" key="2">
-					<ChangePassword closeDrawer={onClose} />
-				</TabPane>
-			</Tabs>
-		</Drawer>
-	);
+  const drawerTitle = (
+    <>
+      <Avatar
+        style={{ marginRight: 12 }}
+        icon={<UserOutlined />}
+      />
+      Manage your account
+    </>
+  );
+
+  return (
+    <Drawer
+      title={drawerTitle}
+      placement='right'
+      closable
+      width='40%'
+      destroyOnClose
+      onClose={onClose}
+      visible={drawerShow}
+    >
+      <Tabs defaultActiveKey='1'>
+        <TabPane tab='User Details' key='1'>
+          <UserDetails closeDrawer={onClose} />
+        </TabPane>
+        <TabPane tab='Change Password' key='2'>
+          <ChangePassword closeDrawer={onClose} />
+        </TabPane>
+      </Tabs>
+    </Drawer>
+  );
 };
 
 DrawerPanel.proptTypes = {
-	hideDrawer: PropTypes.func.isRequired,
-	drawerShow: PropTypes.bool.isRequired
+  hideDrawer: PropTypes.func.isRequired,
+  drawerShow: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-	drawerShow: selectDrawerShow(state)
+  drawerShow: selectDrawerShow(state),
 });
 
-export default connect(mapStateToProps, { hideDrawer })(DrawerPanel);
+export default connect(mapStateToProps, { hideDrawer })(
+  DrawerPanel,
+);

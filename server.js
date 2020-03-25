@@ -30,7 +30,9 @@ const reviews = require('./routes/reviews');
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(
+  cors({ origin: 'http://localhost:3000', credentials: true }),
+);
 
 // Body parser
 app.use(express.json());
@@ -39,7 +41,7 @@ app.use(cookieParser());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev'));
+  app.use(morgan('dev'));
 }
 
 app.use(fileUpload());
@@ -51,8 +53,8 @@ app.use(helmet());
 app.use(xss());
 
 const limiter = rateLimit({
-	windowMs: 10 * 60 * 1000, // 10 min
-	max: 100
+  windowMs: 10 * 60 * 1000, // 10 min
+  max: 100,
 });
 
 app.use(limiter);
@@ -72,10 +74,11 @@ app.use('/api/v1/reviews', reviews);
 app.use(errorHandler);
 
 app.listen(
-	PORT,
-	console.log(
-		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-	)
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+      .yellow.bold,
+  ),
 );
 
 // // Handle unhandled promise rejections

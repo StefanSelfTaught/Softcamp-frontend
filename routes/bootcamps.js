@@ -8,7 +8,7 @@ const {
   updateBootcamp,
   deleteBootcamp,
   getBootcampsInRadius,
-  bootcampPhotoUpload
+  bootcampPhotoUpload,
 } = require('../controllers/bootcamps');
 
 const Bootcamp = require('../models/Bootcamp');
@@ -31,21 +31,33 @@ router.get('/radius/:zipcode/:distance', getBootcampsInRadius);
 
 router
   .route('/:id/photo')
-  .put(protect, authorize('publisher', 'admin'), bootcampPhotoUpload);
+  .put(
+    protect,
+    authorize('publisher', 'admin'),
+    bootcampPhotoUpload,
+  );
 
 router
   .route('/ownedBootcamps')
-  .get(protect, authorize('publisher', 'admin'), getOwnBootcamp)
+  .get(protect, authorize('publisher', 'admin'), getOwnBootcamp);
 
 router
   .route('/')
   .get(advancedResults(Bootcamp), getBootcamps)
-  .post(protect, authorize('publisher', 'admin'), createBootcamp);
+  .post(
+    protect,
+    authorize('publisher', 'admin'),
+    createBootcamp,
+  );
 
 router
   .route('/:id')
   .get(getBootcamp)
   .put(protect, authorize('publisher', 'admin'), updateBootcamp)
-  .delete(protect, authorize('publisher', 'admin'), deleteBootcamp);
+  .delete(
+    protect,
+    authorize('publisher', 'admin'),
+    deleteBootcamp,
+  );
 
 module.exports = router;

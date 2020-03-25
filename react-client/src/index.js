@@ -14,7 +14,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading="Loading" persistor={persistor}>
+    <PersistGate loading='Loading' persistor={persistor}>
       <Router history={history}>
         <App />
       </Router>
