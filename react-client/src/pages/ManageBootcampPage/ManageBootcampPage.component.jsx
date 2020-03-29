@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { Layout, Typography } from 'antd';
 
-import { selectBootcampMatchUser } from '../../redux/bootcamps/bootcamps.selectors';
+import { fetchUserBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
 
 import Content from '../../components/Content/Content.component';
 import ManageBootcamp from '../../components/ManageBootcamp/ManageBootcamp.component';
@@ -13,8 +13,12 @@ import CreateBootcamp from '../../components/ManageBootcamp/CreateBootcamp.compo
 const { Header } = Layout;
 const { Title } = Typography;
 
-const ManageBootcampPage = ({ bootcampOwner }) => {
+const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
   const [create, setCreate] = useState(false);
+
+  useEffect(() => {
+    fetchUserBootcampsStartAsync();
+  }, []);
 
   const handleCreateNow = () => {
     setCreate(true);
@@ -22,22 +26,16 @@ const ManageBootcampPage = ({ bootcampOwner }) => {
 
   return (
     <>
-      <Header
-        className='site-layout-background'
-        style={{ padding: '0' }}
-      >
-        <Title
-          style={{ margin: '14px 16px', textAlign: 'center' }}
-          level={4}
-        >
+      <Header className='site-layout-background' style={{ padding: '0' }}>
+        <Title style={{ margin: '14px 16px', textAlign: 'center' }} level={4}>
           Manage your bootcamp
         </Title>
       </Header>
       <Content>
         {create ? (
           <CreateBootcamp />
-        ) : bootcampOwner ? (
-          <ManageBootcamp />
+        ) : userBootcamp ? (
+          <ManageBootcamp bootcampId={userBootcamp.id} bootcampName={userBootcamp.name} />
         ) : (
           <NoBootcamp handleCreateNow={handleCreateNow} />
         )}
@@ -47,7 +45,9 @@ const ManageBootcampPage = ({ bootcampOwner }) => {
 };
 
 const mapStateToProps = state => ({
-  bootcampOwner: !!selectBootcampMatchUser(state),
+  userBootcamp: state.bootcamps.userBootcamps.bootcampData,
 });
 
-export default connect(mapStateToProps)(ManageBootcampPage);
+export default connect(mapStateToProps, { fetchUserBootcampsStartAsync })(
+  ManageBootcampPage,
+);

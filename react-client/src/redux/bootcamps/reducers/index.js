@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import allBootcampsReducer from './bootcamps.reducer';
+
 import bootcampDetailsReducer from './bootcampDetails.reducer';
+import userBootcampsReducer from './userBootcamps.reducer';
 
 const bootcampsReducer = combineReducers({
-  allBootcamps: allBootcampsReducer,
   bootcampDetails: bootcampDetailsReducer,
+  userBootcamps: userBootcampsReducer,
 });
 
 export default bootcampsReducer;

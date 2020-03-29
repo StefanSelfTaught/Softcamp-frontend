@@ -12,7 +12,7 @@ import { fetchBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.action
 const { Header } = Layout;
 const { Title } = Typography;
 
-const BootcampsPage = () => {
+const BootcampsPage = ({ fetchBootcampsStartAsync }) => {
   useEffect(() => {
     fetchBootcampsStartAsync();
 

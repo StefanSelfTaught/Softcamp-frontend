@@ -30,7 +30,10 @@ const { SubMenu } = Menu;
 const SideNav = ({
   auth,
   route,
+  push,
   isAuthenticated,
+  logOutStartAsync,
+  showDrawer
 }) => {
   const [collapsed, setCollapsed] = useState(false);
 

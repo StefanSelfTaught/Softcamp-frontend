@@ -7,7 +7,7 @@ const geocoder = require('../utils/geocoder');
 // @desc     Get all bootcamps
 // @route    GET /api/v1/bootcamps
 // @access   Public
-exports.getBootcamps = asyncHandler(async (req, res) => {
+exports.getBootcamps = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
 });
 
@@ -25,8 +25,8 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorResponse(
         `Bootcamp not found with the id of ${id}`,
-        404,
-      ),
+        404
+      )
     );
   }
 
@@ -42,16 +42,13 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
   const { id, name } = req.user;
 
-  const bootcamp = await Bootcamp.find({ user: id });
-
-  if (!bootcamp) {
+  if(!req.user) {
     return next(
-      new ErrorResponse(
-        `User ${name} doesn't have any bootcamps created`,
-        404,
-      ),
-    );
+      new ErrorResponse('No user is logged in!', 404)
+    )
   }
+
+  const bootcamp = await Bootcamp.find({ user: id });
 
   if (!bootcamp.length) {
     res.status(200).json({
@@ -59,6 +56,7 @@ exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
       data: bootcamp,
       message: `User ${name} doesn't have any bootcamps`,
     });
+    return;
   }
 
   res.status(200).json({
@@ -83,9 +81,8 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
   if (publishedBootcamp && req.user.role !== 'admin') {
     return next(
       new ErrorResponse(
-        `The user with id ${req.user.id} has already published a bootcamp`,
-        400,
-      ),
+        `The user with id ${req.user.id} has already published a bootcamp`, 400
+      )
     );
   }
 
@@ -160,8 +157,8 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorResponse(
         `User ${req.params.id} is not authorized to update this bootcamp`,
-        401,
-      ),
+        401
+      )
     );
   }
 
@@ -210,7 +207,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 // @desc     Get bootcamps within a radius
 // @route    PUT /api/v1/bootcamps/radius/:zipcode/:distance
 // @access   Private
-exports.getBootcampsInRadius = asyncHandler(async (req, res) => {
+exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params;
 
   // Get lat/long from geocoder

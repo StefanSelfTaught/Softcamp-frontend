@@ -1,6 +1,8 @@
+import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
 import BootcampsActionTypes from '../bootcamps.type';
 
 const initialState = {
+  [DEFAULT_KEY]: null,
   bootcampsData: {
     success: null,
     count: null,
@@ -9,10 +11,11 @@ const initialState = {
   },
   loading: false,
   error: false,
+  lastUpdated: null,
 };
 
 const bootcampsReducer = (state = initialState, action) => {
-  const { payload, type } = action;
+  const { payload, receivedAt, type } = action;
 
   switch (type) {
     case BootcampsActionTypes.FETCH_BOOTCAMPS_START:
@@ -48,9 +51,11 @@ const bootcampsReducer = (state = initialState, action) => {
     case BootcampsActionTypes.FETCH_BOOTCAMPS_SUCCESS:
       return {
         ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
         bootcampsData: payload,
         loading: false,
         error: false,
+        lastUpdated: receivedAt,
       };
     case BootcampsActionTypes.FETCH_BOOTCAMPS_FAILURE:
       return {

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectUserId } from '../auth/auth.selectors';
 
-const bootcampsData = (state) => state.bootcamps.allBootcamps;
+const bootcampsData = (state) => state.allBootcamps;
 const bootcampDetailsData = (state) => state.bootcamps.bootcampDetails;
 
 export const selectBootcampDetails = createSelector(
@@ -12,6 +12,11 @@ export const selectBootcampDetails = createSelector(
 export const selectBootcamps = createSelector(
   bootcampsData,
   (bootcamps) => bootcamps.bootcampsData.data,
+);
+
+export const selectLastUpdated = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.lastUpdated,
 );
 
 export const selectBootcampMatchUser = createSelector(

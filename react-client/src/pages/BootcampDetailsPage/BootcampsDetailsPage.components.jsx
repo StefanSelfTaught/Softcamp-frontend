@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -11,17 +11,11 @@ const BootcampDetailsPage = ({
   match: {
     params: { bootcampId },
   },
-}) => {
-  useEffect(() => {
-    fetchbootcampDetailsStartAsync(bootcampId);
-  }, [fetchbootcampDetailsStartAsync, bootcampId]);
-
-  return (
-    <Content>
-      <BootcampDetails />
-    </Content>
-  );
-};
+}) => (
+  <Content>
+    <BootcampDetails urlParam={bootcampId} />
+  </Content>
+);
 
 BootcampDetailsPage.proptTypes = {
   match: PropTypes.object.isRequired,

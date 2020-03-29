@@ -6,25 +6,25 @@ const initialState = {
   error: false,
 };
 
-const bootcampDetailsReducer = (state = initialState, action) => {
+const userBootcampsReducer = (state = initialState, action) => {
   const { payload, type } = action;
 
   switch (type) {
-    case BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_START:
+    case BootcampsActionTypes.FETCH_USER_BOOTCAMPS_START:
       return {
         ...state,
         bootcampData: null,
         loading: true,
         error: false,
       };
-    case BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_SUCCESS:
+    case BootcampsActionTypes.FETCH_USER_BOOTCAMPS_SUCCESS:
       return {
         ...state,
-        bootcampData: payload.data,
+        bootcampData: payload.data[0],
         loading: false,
         error: false,
       };
-    case BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_FAILURE:
+    case BootcampsActionTypes.FETCH_USER_BOOTCAMPS_FAILURE:
       return {
         ...state,
         bootcampData: null,
@@ -36,4 +36,4 @@ const bootcampDetailsReducer = (state = initialState, action) => {
   }
 };
 
-export default bootcampDetailsReducer;
+export default userBootcampsReducer;

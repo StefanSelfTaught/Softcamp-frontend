@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import './App.css';
 
@@ -20,64 +19,51 @@ import BootcampDetailsPage from './pages/BootcampDetailsPage/BootcampsDetailsPag
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPassword.component';
 import ManageBootcampPage from './pages/ManageBootcampPage/ManageBootcampPage.component';
 
-import { fetchbootcampDetailsStartAsync } from './redux/bootcamps/bootcamps.actions';
+const App = () => (
+  <Layout style={{ minHeight: '100vh' }}>
+    <Modal />
+    <Drawer />
+    <AlertMessage />
+    <SideNav />
+    <Layout className='site-layout'>
+      <Switch>
+        <Route exact path='/'>
+          <Redirect to='/bootcamps' />
+        </Route>
 
-const App = () => {
-  // Get logged in user if exists
+        <Route exact path='/bootcamps'>
+          <BootcampsPage />
+        </Route>
 
-  React.useEffect(() => {
-    fetchbootcampDetailsStartAsync();
-  }, [fetchbootcampDetailsStartAsync]);
+        <Route exact path='/manage-bootcamp'>
+          <ManageBootcampPage />
+        </Route>
 
-  return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Modal />
-      <Drawer />
-      <AlertMessage />
-      <SideNav />
-      <Layout className='site-layout'>
-        <Switch>
-          <Route exact path='/'>
-            <Redirect to='/bootcamps' />
-          </Route>
+        <Route path='/register'>
+          <RegisterPage />
+        </Route>
 
-          <Route exact path='/bootcamps'>
-            <BootcampsPage />
-          </Route>
+        <Route path='/login'>
+          <LoginPage />
+        </Route>
 
-          <Route exact path='/manage-bootcamp'>
-            <ManageBootcampPage />
-          </Route>
+        <Route
+          path='/bootcamps/:bootcampId'
+          component={BootcampDetailsPage}
+        />
 
-          <Route path='/register'>
-            <RegisterPage />
-          </Route>
+        <Route
+          path='/reset-password/:token'
+          component={ResetPasswordPage}
+        />
 
-          <Route path='/login'>
-            <LoginPage />
-          </Route>
+        <Route path='*'>
+          <NotFound />
+        </Route>
+      </Switch>
 
-          <Route
-            path='/bootcamps/:bootcampId'
-            component={BootcampDetailsPage}
-          />
-
-          <Route
-            path='/reset-password/:token'
-            component={ResetPasswordPage}
-          />
-
-          <Route path='*'>
-            <NotFound />
-          </Route>
-        </Switch>
-
-        <Footer />
-      </Layout>
+      <Footer />
     </Layout>
-  );
-};
-
-export default connect(null, { fetchbootcampDetailsStartAsync })(
-  App,
+  </Layout>
 );
+export default App;

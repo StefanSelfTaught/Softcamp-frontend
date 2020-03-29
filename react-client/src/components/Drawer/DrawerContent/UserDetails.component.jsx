@@ -9,17 +9,16 @@ import { updateUserDetailsStartAsync } from '../../../redux/manageUserInfo/manag
 import { selectUserData } from '../../../redux/auth/auth.selectors';
 import { selectLoading } from '../../../redux/manageUserInfo/manageUserInfo.selectors';
 
-const UserDetails = ({ closeDrawer, userData, loading }) => {
+const UserDetails = ({ closeDrawer, userData, loading, updateUserDetailsStartAsync }) => {
   const [form] = Form.useForm();
 
   const { email, name, role, created } = userData;
 
-  const onFinishHandle = () => {
+  const onFinishHandle = ({ name, email }) => {
     updateUserDetailsStartAsync(name, email);
   };
 
   useEffect(() => {
-    console.log('UserDetails.component.jsx Effect!');
     form.setFieldsValue({
       email,
       name,

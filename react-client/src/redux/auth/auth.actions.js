@@ -106,7 +106,7 @@ export const registerStartAsync = (userData) => async (dispatch) => {
       payload: errorResponse,
     });
 
-    dispatch(showAlertMessage(errorResponse.error, 'error'));
+    dispatch(showAlertMessage('Bro', 'error'));
   }
 };
 

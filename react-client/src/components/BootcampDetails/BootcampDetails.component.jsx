@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { Layout, Skeleton } from 'antd';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+
+import { fetchbootcampDetailsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
 
 import {
   selectBootcampDetails,
@@ -13,35 +16,46 @@ import {
 
 const { Header } = Layout;
 
-const BootcampDetails = ({ bootcamp, loading }) => {
-  const {
-    id,
-    name,
-    description,
-    email,
-    phone,
-    website,
-  } = bootcamp;
+const BootcampDetails = ({
+  bootcamp,
+  loading,
+  fetchbootcampDetailsStartAsync,
+  urlParam,
+}) => {
+  useEffect(() => {
+    fetchbootcampDetailsStartAsync(urlParam);
+  }, [fetchbootcampDetailsStartAsync, urlParam]);
 
-  return loading ? (
+  return bootcamp === null || loading ? (
     <Skeleton active paragraph={{ rows: 6 }} />
   ) : (
     <>
-      <Header
-        className='site-layout-background'
-        style={{ padding: '0' }}
-      >
-        <p>{name}</p>
+      <Header className='site-layout-background' style={{ padding: '0' }}>
+        <p>{bootcamp.name}</p>
       </Header>
       <ul>
-        <li>Id: {id}</li>
-        <li>Name: {name}</li>
-        <li>Description: {description}</li>
-        <li>Email: {email}</li>
-        <li>Name: {name}</li>
-        <li>Phone: {phone}</li>
-        <li>Website: {website}</li>
+        <li>Id: {bootcamp.id}</li>
+        <li>Name: {bootcamp.name}</li>
+        <li>Description: {bootcamp.description}</li>
+        <li>Email: {bootcamp.email}</li>
+        <li>Name: {bootcamp.name}</li>
+        <li>Phone: {bootcamp.phone}</li>
+        <li>Website: {bootcamp.website}</li>
       </ul>
+      <Map
+        center={[bootcamp.location.coordinates[1], bootcamp.location.coordinates[0]]}
+        zoom={12}
+      >
+        <TileLayer
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Marker
+          position={[bootcamp.location.coordinates[1], bootcamp.location.coordinates[0]]}
+        >
+          <Popup>{bootcamp.name}</Popup>
+        </Marker>
+      </Map>
     </>
   );
 };
@@ -57,4 +71,6 @@ const mapStateToProps = createStructuredSelector({
   error: selectBootcampDetailsError,
 });
 
-export default connect(mapStateToProps)(BootcampDetails);
+export default connect(mapStateToProps, {
+  fetchbootcampDetailsStartAsync,
+})(BootcampDetails);

@@ -12,38 +12,41 @@ import {
   selectShowAlert,
 } from '../../redux/alertMessage/alertMessage.selectors';
 
-const key = 'key';
-
 message.config({
-  maxCount: 2,
+  maxCount: 1,
 });
 
 const AlertMessage = ({
   showAlert,
   alertMessage,
   alertType,
+  onCloseAlertMessage,
 }) => {
   useEffect(() => {
     if (showAlert) {
       switch (alertType) {
         case 'loading':
-          message.loading({ content: `${alertMessage}`, key });
+          message.loading({ content: `${alertMessage}` });
           break;
         case 'success':
           message
-            .success({ content: `${alertMessage}`, key })
-            .then(() => onCloseAlertMessage());
+            .success({ content: `${alertMessage}` })
+            .then(() => {
+              onCloseAlertMessage();
+            });
           break;
         case 'error':
           message
-            .error({ content: `${alertMessage}`, key })
-            .then(() => onCloseAlertMessage());
+            .error({ content: `${alertMessage}` })
+            .then(() => {
+              onCloseAlertMessage();
+            });
           break;
         default:
           return null;
       }
     }
-  }, []);
+  }, [showAlert, alertMessage, alertType, onCloseAlertMessage]);
 
   return null;
 };

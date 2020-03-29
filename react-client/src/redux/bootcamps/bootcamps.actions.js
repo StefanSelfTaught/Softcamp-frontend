@@ -1,4 +1,5 @@
 import { push } from 'connected-react-router';
+import { checkCacheValid } from 'redux-cache';
 import BootcampsActionTypes from './bootcamps.type';
 import axios from '../../utils/axiosInstance';
 import { showAlertMessage } from '../alertMessage/alertMessage.actions';
@@ -6,8 +7,12 @@ import { selectBootcampDetails } from './bootcamps.selectors';
 
 export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState) => {
   // Comment
-  if (selectBootcampDetails(getState())._id === id) {
-    return Promise.resolve();
+  const bootcamp = selectBootcampDetails(getState());
+
+  if (bootcamp) {
+    if (bootcamp._id === id) {
+      return Promise.resolve();
+    }
   }
 
   dispatch({
@@ -30,8 +35,6 @@ export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState)
       payload: errorResponse,
     });
   }
-
-  return true;
 };
 
 
@@ -42,6 +45,7 @@ const fetchBootcampsStart = () => ({
 const fetchBootcampsSuccess = (bootcamps) => ({
   type: BootcampsActionTypes.FETCH_BOOTCAMPS_SUCCESS,
   payload: bootcamps,
+  receivedAt: Date.now(),
 });
 
 const fetchBootcampsFailure = (error) => ({
@@ -49,10 +53,14 @@ const fetchBootcampsFailure = (error) => ({
   payload: error,
 });
 
-export const fetchBootcampsStartAsync = () => async dispatch => {
+export const fetchBootcampsStartAsync = () => async (dispatch, getState) => {
   // if(selectBootcamps(getState()).length) {
   // return Promise.resolve();
   // }
+
+  const isCacheValid = checkCacheValid(getState, 'allBootcamps');
+
+  if (isCacheValid) return Promise.resolve();
 
   dispatch(fetchBootcampsStart());
 
@@ -106,6 +114,39 @@ export const createBootcampStartAsync = (bootcampData) => async dispatch => {
     const errorResponse = error.response.data || 'Something went wrong';
 
     dispatch(createBootcampFailure(errorResponse));
+
+    dispatch(showAlertMessage(errorResponse, 'error'));
+  }
+};
+
+
+const fetchUserBootcampsStart = () => ({
+  type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_START,
+});
+
+const fetchUserBootcampsStartSuccess = (bootcamps) => ({
+  type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_SUCCESS,
+  payload: bootcamps,
+});
+
+const fetchUserBootcampsStartFailure = (error) => ({
+  type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_FAILURE,
+  payload: error,
+});
+
+export const fetchUserBootcampsStartAsync = () => async dispatch => {
+  dispatch(fetchUserBootcampsStart());
+
+  try {
+    const response = await axios.get('/bootcamps/ownedBootcamps');
+
+    const data = await response.data;
+
+    dispatch(fetchUserBootcampsStartSuccess(data));
+  } catch (error) {
+    const errorResponse = error.response.data || 'Something went wrong';
+
+    dispatch(fetchUserBootcampsStartFailure(errorResponse));
 
     dispatch(showAlertMessage(errorResponse, 'error'));
   }

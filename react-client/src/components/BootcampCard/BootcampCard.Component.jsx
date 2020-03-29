@@ -22,6 +22,7 @@ const BootcampCard = ({
   averageCost,
   photo,
   id,
+  push,
 }) => (
   <Col flex='auto'>
     <Card

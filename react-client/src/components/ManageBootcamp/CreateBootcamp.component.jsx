@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlgoliaPlaces from 'algolia-places-react';
 
@@ -23,6 +24,7 @@ const { Dragger } = Upload;
 
 const CreateBootcamp = ({
   loading,
+  createBootcampStartAsync,
 }) => {
   const [form] = Form.useForm();
 
@@ -360,6 +362,11 @@ const CreateBootcamp = ({
       </Button>
     </Form>
   );
+};
+
+CreateBootcamp.proptTypes = {
+  createBootcampStartAsync: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

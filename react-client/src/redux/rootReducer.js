@@ -8,6 +8,7 @@ import bootcampsReducer from './bootcamps/reducers/index';
 import authReducer from './auth/auth.reducer';
 import alertMessageReducer from './alertMessage/alertMessage.reducer';
 import manageUserInfoReducer from './manageUserInfo/manageUserInfo.reducer';
+import allBootcampsReducer from './bootcamps/reducers/bootcamps.reducer';
 
 export const history = createBrowserHistory();
 
@@ -21,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   router: connectRouter(history),
   bootcamps: bootcampsReducer,
+  allBootcamps: allBootcampsReducer,
   auth: authReducer,
   alertMessage: alertMessageReducer,
   manageUserInfo: manageUserInfoReducer,

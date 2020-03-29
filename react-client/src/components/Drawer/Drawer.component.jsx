@@ -13,7 +13,7 @@ import { selectDrawerShow } from '../../redux/manageUserInfo/manageUserInfo.sele
 
 const { TabPane } = Tabs;
 
-const DrawerPanel = ({ drawerShow }) => {
+const DrawerPanel = ({ drawerShow, hideDrawer }) => {
   const onClose = () => {
     hideDrawer();
   };

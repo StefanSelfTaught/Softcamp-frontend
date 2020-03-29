@@ -38,7 +38,7 @@ const tailFormItemLayout = {
   },
 };
 
-const Register = ({ loading }) => {
+const Register = ({ loading, registerStartAsync }) => {
   const [form] = Form.useForm();
 
   const onFinish = values => {

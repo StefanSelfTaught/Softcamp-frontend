@@ -1,9 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const ManageBootcamp = () => (
-  <div>
-    <h1>Im the ManageBootcamp component</h1>
-  </div>
-);
+import { Button } from 'antd';
+
+import axios from '../../utils/axiosInstance';
+
+const ManageBootcamp = ({ bootcampId, bootcampName }) => {
+	const handleDelete = async () => {
+		await axios.delete(`/bootcamps/${bootcampId}`)	
+	};
+
+	return (
+		<>
+			<h2>{bootcampName}</h2>
+			<Button onClick={handleDelete} type="primary" danger>
+				Delete Bootcamp
+			</Button>
+		</>
+	);
+};
 
 export default ManageBootcamp;

@@ -71,8 +71,6 @@ export const updateUserDetailsStartAsync = (name, email) => async (dispatch, get
 
     dispatch(showAlertMessage(errorResponse.error, 'error'));
   }
-
-  return true;
 };
 
 

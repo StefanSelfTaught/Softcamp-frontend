@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { push } from 'connected-react-router';
 
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -12,7 +12,12 @@ import { logInStartAsync } from '../../redux/auth/auth.actions';
 import { showModal } from '../../redux/manageUserInfo/manageUserInfo.actions';
 import { selectLoading } from '../../redux/auth/auth.selectors';
 
-const Login = ({ loading }) => {
+const Login = ({
+  loading,
+  logInStartAsync,
+  showModal,
+  push,
+}) => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
@@ -83,10 +88,24 @@ const Login = ({ loading }) => {
             justifyContent: 'space-between',
           }}
         >
-          <Link to='/register'>Or register now!</Link>
           <Button
             type='link'
-            style={{ color: '#25b864', cursor: 'pointer' }}
+            style={{
+              color: '#25b864',
+              cursor: 'pointer',
+              padding: 0,
+            }}
+            onClick={() => push('/register')}
+          >
+            Or register now!
+          </Button>
+          <Button
+            type='link'
+            style={{
+              color: '#25b864',
+              cursor: 'pointer',
+              padding: 0,
+            }}
             onClick={() => showModal()}
           >
             Forgot password
@@ -101,13 +120,20 @@ Login.proptTypes = {
   loading: PropTypes.bool.isRequired,
   logInStartAsync: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   loading: selectLoading(state),
 });
 
-export default connect(mapStateToProps, {
+const mapDispatchToProps = {
   logInStartAsync,
   showModal,
-})(Login);
+  push,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

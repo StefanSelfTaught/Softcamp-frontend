@@ -8,7 +8,7 @@ import { Form, Button, Col, Row, Input } from 'antd';
 import { selectLoading } from '../../../redux/manageUserInfo/manageUserInfo.selectors';
 import { updateUserPasswordStartAsync } from '../../../redux/manageUserInfo/manageUserInfo.actions';
 
-const ChangePassword = ({ closeDrawer, loading }) => {
+const ChangePassword = ({ closeDrawer, loading, updateUserPasswordStartAsync }) => {
   const [form] = Form.useForm();
 
   const onFinishHandle = ({ currentPassword, newPassword }) => {
