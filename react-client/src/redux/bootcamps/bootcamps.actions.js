@@ -148,6 +148,6 @@ export const fetchUserBootcampsStartAsync = () => async dispatch => {
 
     dispatch(fetchUserBootcampsStartFailure(errorResponse));
 
-    dispatch(showAlertMessage(errorResponse, 'error'));
+    dispatch(showAlertMessage(errorResponse.error, 'error'));
   }
 };

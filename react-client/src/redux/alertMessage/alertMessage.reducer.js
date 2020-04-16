@@ -1,3 +1,4 @@
+import produce from 'immer';
 import AlertMessageActionTypes from './alertMessage.types';
 
 const initialState = {
@@ -6,27 +7,28 @@ const initialState = {
   message: [],
 };
 
-const alertMessageReducer = (state = initialState, action) => {
-  const { type, message, alertType } = action;
+const alertMessageReducer = produce(
+  (draftState, action) => {
+    const { type, message, alertType } = action;
 
-  switch (type) {
-    case AlertMessageActionTypes.SHOW_ALERT_MESSAGE:
-      return {
-        ...state,
-        showAlert: true,
-        alertType,
-        message: [message],
-      };
-    case AlertMessageActionTypes.ON_CLOSE_ALERT_MESSAGE:
-      return {
-        ...state,
-        showAlert: false,
-        alertType: null,
-        message: [],
-      };
-    default:
-      return state;
-  }
-};
+    switch (type) {
+      case AlertMessageActionTypes.SHOW_ALERT_MESSAGE:
+        draftState.showAlert = true;
+        draftState.alertType = alertType;
+        draftState.message = [message];
+        return;
+      case AlertMessageActionTypes.ON_CLOSE_ALERT_MESSAGE:
+        draftState.showAlert = false;
+        draftState.alertType = null;
+        draftState.message = [];
+        return;
+      default:
+        return draftState;
+    }
+  },
+  {
+    ...initialState,
+  },
+);
 
 export default alertMessageReducer;

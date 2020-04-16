@@ -9,14 +9,15 @@ import { ConnectedRouter as Router } from 'connected-react-router';
 import { store, persistor, browserHistory as history } from './redux/store';
 import App from './App';
 
-
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading='Loading' persistor={persistor}>
       <Router history={history}>
+        { /* <React.StrictMode> */ }
         <App />
+        { /* </React.StrictMode> */ }
       </Router>
     </PersistGate>
   </Provider>,

@@ -4,12 +4,8 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { Card, Col } from 'antd';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import { Card, Col, Skeleton } from 'antd';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
 import selectPathName from '../../redux/router/router.selectors';
 
@@ -23,9 +19,11 @@ const BootcampCard = ({
   photo,
   id,
   push,
+  loading,
 }) => (
   <Col flex='auto'>
     <Card
+      hoverable
       onClick={() => {
         push(`${route}/${id}`);
       }}
@@ -33,7 +31,11 @@ const BootcampCard = ({
         <img
           alt={name}
           style={{ objectFit: 'cover', width: 250, height: 160 }}
-          src={`http://localhost:5000/uploads/${photo}`}
+          src={
+            loading
+              ? 'http://localhost:5000/uploads/no-photo.jpg'
+              : `http://localhost:5000/uploads/${photo}`
+          }
         />
       }
       style={{ width: 250, marginBottom: 50 }}
@@ -44,17 +46,17 @@ const BootcampCard = ({
       ]}
     >
       {/* <Tooltip placement='bottom' title={careers.join(', ')}> */}
-      <Meta
-        style={{ whiteSpace: 'nowrap' }}
-        title={name}
-        description={careers.join(', ')}
-      />
-      {/* </Tooltip> */}
-      <span
-        style={{ marginTop: '20px', display: 'inline-block' }}
-      >
-        $ {averageCost}
-      </span>
+      <Skeleton active loading={loading}>
+        <Meta
+          style={{ whiteSpace: 'nowrap' }}
+          title={name}
+          description={careers.join(', ')}
+        />
+        {/* </Tooltip> */}
+        <span style={{ marginTop: '20px', display: 'inline-block' }}>
+          $ {averageCost}
+        </span>
+      </Skeleton>
     </Card>
   </Col>
 );

@@ -3,12 +3,15 @@ import { connectRouter } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createBrowserHistory } from 'history';
+import { setAutoFreeze } from 'immer';
 
 import bootcampsReducer from './bootcamps/reducers/index';
 import authReducer from './auth/auth.reducer';
 import alertMessageReducer from './alertMessage/alertMessage.reducer';
 import manageUserInfoReducer from './manageUserInfo/manageUserInfo.reducer';
 import allBootcampsReducer from './bootcamps/reducers/bootcamps.reducer';
+
+setAutoFreeze(false);
 
 export const history = createBrowserHistory();
 

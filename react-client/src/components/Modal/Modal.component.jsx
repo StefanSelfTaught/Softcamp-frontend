@@ -22,7 +22,7 @@ const ModalComponent = ({
   emailSent,
   hideModal,
   sendForgotPasswordEmailStartAsync,
-  resetForgotPasswordModal
+  resetForgotPasswordModal,
 }) => {
   const [form] = Form.useForm();
 

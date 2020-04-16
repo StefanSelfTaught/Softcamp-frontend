@@ -47,15 +47,9 @@ const App = () => (
           <LoginPage />
         </Route>
 
-        <Route
-          path='/bootcamps/:bootcampId'
-          component={BootcampDetailsPage}
-        />
+        <Route path='/bootcamps/:bootcampId' component={BootcampDetailsPage} />
 
-        <Route
-          path='/reset-password/:token'
-          component={ResetPasswordPage}
-        />
+        <Route path='/reset-password/:token' component={ResetPasswordPage} />
 
         <Route path='*'>
           <NotFound />
@@ -66,4 +60,5 @@ const App = () => (
     </Layout>
   </Layout>
 );
+
 export default App;

@@ -7,7 +7,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route    GET /api/v1/reviews
 // @route    GET /api/v1/reviews/:bootcampId/reviws
 // @access   Public
-exports.getReviews = asyncHandler(async (req, res, next) => {
+module.exports.getReviews = asyncHandler(async (req, res, next) => {
   if (req.params.bootcampId) {
     const reviews = await Review.find({
       bootcamp: req.params.bootcampId,
@@ -26,7 +26,7 @@ exports.getReviews = asyncHandler(async (req, res, next) => {
 // @desc     Get single review
 // @route    GET /api/v1/reviews/:id
 // @access   Public
-exports.getReview = asyncHandler(async (req, res, next) => {
+module.exports.getReview = asyncHandler(async (req, res, next) => {
   const review = await Review.findById(req.params.id)
     .populate({
       path: 'bootcamp',
@@ -55,7 +55,7 @@ exports.getReview = asyncHandler(async (req, res, next) => {
 // @desc     Add review
 // @route    POST /api/v1/bootcamps/:bootcampId/reviews
 // @access   Private
-exports.addReview = asyncHandler(async (req, res, next) => {
+module.exports.addReview = asyncHandler(async (req, res, next) => {
   req.body.bootcamp = req.params.bootcampId;
   req.body.user = req.user.id;
 
@@ -83,7 +83,7 @@ exports.addReview = asyncHandler(async (req, res, next) => {
 // @desc     Update review
 // @route    PUT /api/v1/reviews/:id
 // @access   Private
-exports.updateReview = asyncHandler(async (req, res, next) => {
+module.exports.updateReview = asyncHandler(async (req, res, next) => {
   let review = await Review.findById(req.params.id);
 
   if (!review) {
@@ -122,7 +122,7 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
 // @desc     Delete review
 // @route    DELETE /api/v1/reviews/:id
 // @access   Private
-exports.deleteReview = asyncHandler(async (req, res, next) => {
+module.exports.deleteReview = asyncHandler(async (req, res, next) => {
   const review = await Review.findById(req.params.id);
 
   if (!review) {

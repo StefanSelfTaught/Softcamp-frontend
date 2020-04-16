@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { invalidateCache } from 'redux-cache';
 
-import { Row, Skeleton, Button } from 'antd';
+import { Row, Button } from 'antd';
 
-import withSkeletonLoading from '../HOC/withSkeletonLoading.component';
 import BootcampCard from '../BootcampCard/BootcampCard.Component';
+import CardSkeleton from '../CardSkeleton/CardSkeleton.component';
+import Collapse from '../Collapse/Collapse.component';
 
 import {
   selectBootcamps,
@@ -16,8 +17,6 @@ import {
   selectLastUpdated,
 } from '../../redux/bootcamps/bootcamps.selectors';
 import { fetchBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
-
-const BootcampCardLoading = withSkeletonLoading(BootcampCard);
 
 const BootcampCollection = ({
   bootcamps,
@@ -28,44 +27,43 @@ const BootcampCollection = ({
   invalidateCache,
 }) => (
   <>
-      <p style={{ marginBottom: 25 }}>
-        {lastUpdated &&
-          `Last updated at ${new Date(lastUpdated).toLocaleTimeString()}`}
-        .
-        <Button
-          style={{ height: 25, padding: '0 15px', marginLeft: 15 }}
-          onClick={() => {
-            invalidateCache('allBootcamps');
-            fetchBootcampsStartAsync();
-          }}
-          loading={loading}
-          type='dashed'
-        >
-          {loading ? 'Refreshing' : 'Refresh'}
-        </Button>
-      </p>
-      <Row
-        gutter={{
-          xs: 8,
-          sm: 16,
-          md: 24,
-          lg: 32,
+    <p style={{ marginBottom: 25 }}>
+      {lastUpdated && `Last updataed at ${new Date(lastUpdated).toLocaleTimeString()}`}
+      <Button
+        size='small'
+        style={{ padding: '0 15px', marginLeft: 15 }}
+        onClick={() => {
+          invalidateCache('allBootcamps');
+          fetchBootcampsStartAsync();
         }}
-        justify='center'
+        loading={loading}
+        type='dashed'
       >
-        {!error ? (
-          loading ? (
-            <Skeleton active paragraph={{ rows: 10 }} />
-          ) : (
-            bootcamps.map(({ _id, ...props }) => (
-              <BootcampCardLoading loading={loading} key={_id} {...props} />
-            ))
-          )
+        {loading ? 'Loading' : 'Refresh'}
+      </Button>
+    </p>
+    <Collapse />
+    <Row
+      gutter={{
+        xs: 8,
+        sm: 16,
+        md: 24,
+        lg: 32,
+      }}
+      justify='center'
+      style={loading ? { opacity: 0.4 } : { opacity: 1 }}
+    >
+      {!error ? (
+        loading ? (
+          [...Array(6).keys()].map((skeletonKey) => <CardSkeleton key={skeletonKey} />)
         ) : (
-          <h1>Network Error</h1>
-        )}
-      </Row>
-    </>
+          bootcamps.map(({ _id, ...props }) => <BootcampCard key={_id} {...props} />)
+        )
+      ) : (
+        <h1>Network Error</h1>
+      )}
+    </Row>
+  </>
 );
 
 BootcampCollection.proptTypes = {
@@ -83,6 +81,7 @@ const mapStateToProps = createStructuredSelector({
   lastUpdated: selectLastUpdated,
 });
 
-export default connect(mapStateToProps, { fetchBootcampsStartAsync, invalidateCache })(
-  BootcampCollection,
-);
+export default connect(mapStateToProps, {
+  fetchBootcampsStartAsync,
+  invalidateCache,
+})(BootcampCollection);

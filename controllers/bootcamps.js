@@ -7,14 +7,14 @@ const geocoder = require('../utils/geocoder');
 // @desc     Get all bootcamps
 // @route    GET /api/v1/bootcamps
 // @access   Public
-exports.getBootcamps = asyncHandler(async (req, res, next) => {
+module.exports.getBootcamps = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
 });
 
 // @desc     Get a signle bootcamp
 // @route    GET /api/v1/bootcamps/:id
 // @access   Public
-exports.getBootcamp = asyncHandler(async (req, res, next) => {
+module.exports.getBootcamp = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   const bootcamp = await Bootcamp.findById(id).populate(
@@ -39,7 +39,7 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 // @desc     Get bootcamp own by user
 // @route    GET /api/v1/bootcamps/ownedBootcamps
 // @access   Private
-exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
+module.exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
   const { id, name } = req.user;
 
   if(!req.user) {
@@ -68,7 +68,7 @@ exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
 // @desc     Create new bootcamp
 // @route    POST /api/v1/bootcamps
 // @access   Private
-exports.createBootcamp = asyncHandler(async (req, res, next) => {
+module.exports.createBootcamp = asyncHandler(async (req, res, next) => {
   // Add user to req.body
   const bootcampData = JSON.parse(req.body.bootcampData);
 
@@ -135,7 +135,7 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
 // @desc     Update bootcamp
 // @route    PUT /api/v1/bootcamps/:id
 // @access   Private
-exports.updateBootcamp = asyncHandler(async (req, res, next) => {
+module.exports.updateBootcamp = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   let bootcamp = await Bootcamp.findById(id);
@@ -173,7 +173,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 // @desc     Delete bootcamp
 // @route    PUT /api/v1/bootcamps/:id
 // @access   Private
-exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
+module.exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   const bootcamp = await Bootcamp.findById(id);
@@ -207,7 +207,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 // @desc     Get bootcamps within a radius
 // @route    PUT /api/v1/bootcamps/radius/:zipcode/:distance
 // @access   Private
-exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
+module.exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params;
 
   // Get lat/long from geocoder
@@ -236,7 +236,7 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 // @desc     Upload photo for bootcamp
 // @route    PUT /api/v1/bootcamps/:id/photo
 // @access   Private
-exports.bootcampPhotoUpload = asyncHandler(
+module.exports.bootcampPhotoUpload = asyncHandler(
   async (req, res, next) => {
     const { id } = req.params;
 

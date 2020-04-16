@@ -19,16 +19,14 @@ const BootcampsPage = ({ fetchBootcampsStartAsync }) => {
     console.log('Effect');
   }, [fetchBootcampsStartAsync]);
 
+  useEffect(() => {
+    console.log('Effect2');
+  }, []);
+
   return (
     <>
-      <Header
-        className='site-layout-background'
-        style={{ padding: '0' }}
-      >
-        <Title
-          style={{ margin: '14px 16px', textAlign: 'center' }}
-          level={4}
-        >
+      <Header className='site-layout-background' style={{ padding: '0' }}>
+        <Title style={{ margin: '14px 16px', textAlign: 'center' }} level={4}>
           Browse your dream bootcamps by distance or rating
         </Title>
       </Header>
@@ -43,6 +41,4 @@ BootcampCollection.proptTypes = {
   fetchBootcampsStartAsync: PropTypes.func.isRequired,
 };
 
-export default connect(null, { fetchBootcampsStartAsync })(
-  BootcampsPage,
-);
+export default connect(null, { fetchBootcampsStartAsync })(BootcampsPage);

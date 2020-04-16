@@ -10,6 +10,7 @@
     "connected-react-router": "^6.8.0",
     "customize-cra": "^0.9.1",
     "history": "^4.10.1",
+    "immer": "^6.0.3",
     "leaflet": "^1.6.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",

@@ -1,22 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
+
 import AlgoliaPlaces from 'algolia-places-react';
-
-import {
-  Form,
-  Button,
-  Col,
-  Row,
-  Input,
-  Select,
-  Checkbox,
-  Upload,
-} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Col, Form, Input, Row, Select, Upload } from 'antd';
 
-import { selectBootcampsLoading } from '../../redux/bootcamps/bootcamps.selectors';
 import { createBootcampStartAsync } from '../../redux/bootcamps/bootcamps.actions';
+import { selectBootcampsLoading } from '../../redux/bootcamps/bootcamps.selectors';
 
 const { Option } = Select;
 const { TextArea } = Input;

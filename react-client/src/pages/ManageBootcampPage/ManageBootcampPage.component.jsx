@@ -18,7 +18,7 @@ const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
 
   useEffect(() => {
     fetchUserBootcampsStartAsync();
-  }, []);
+  }, [fetchUserBootcampsStartAsync]);
 
   const handleCreateNow = () => {
     setCreate(true);

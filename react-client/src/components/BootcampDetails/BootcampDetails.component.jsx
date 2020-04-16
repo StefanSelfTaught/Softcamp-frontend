@@ -27,7 +27,7 @@ const BootcampDetails = ({
   }, [fetchbootcampDetailsStartAsync, urlParam]);
 
   return bootcamp === null || loading ? (
-    <Skeleton active paragraph={{ rows: 6 }} />
+    <Skeleton active paragraph={{ rows: 10 }} />
   ) : (
     <>
       <Header className='site-layout-background' style={{ padding: '0' }}>
