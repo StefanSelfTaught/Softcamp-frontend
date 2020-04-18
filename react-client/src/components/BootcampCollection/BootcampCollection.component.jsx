@@ -28,7 +28,7 @@ const BootcampCollection = ({
 }) => (
   <>
     <p style={{ marginBottom: 25 }}>
-      {lastUpdated && `Last updataed at ${new Date(lastUpdated).toLocaleTimeString()}`}
+      {lastUpdated && `Last updated at ${new Date(lastUpdated).toLocaleTimeString()}`}
       <Button
         size='small'
         style={{ padding: '0 15px', marginLeft: 15 }}
@@ -55,9 +55,13 @@ const BootcampCollection = ({
     >
       {!error ? (
         loading ? (
-          [...Array(6).keys()].map((skeletonKey) => <CardSkeleton key={skeletonKey} />)
-        ) : (
+          [...Array(6).keys()].map((skeletonKey) => (
+            <CardSkeleton key={skeletonKey} />
+          ))
+        ) : bootcamps.length ? (
           bootcamps.map(({ _id, ...props }) => <BootcampCard key={_id} {...props} />)
+        ) : (
+          <h1>No bootcamps founded!</h1>
         )
       ) : (
         <h1>Network Error</h1>

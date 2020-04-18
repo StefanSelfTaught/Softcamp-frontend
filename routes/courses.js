@@ -19,10 +19,7 @@ const router = express.Router({ mergeParams: true });
 router
   .route('/')
   .get(
-    advancedResults(Course, {
-      path: 'bootcamp',
-      select: 'name description',
-    }),
+    advancedResults(Course),
     getCourses,
   )
   .post(protect, authorize('publisher', 'admin'), addCourse);

@@ -53,21 +53,53 @@ const fetchBootcampsFailure = (error) => ({
   payload: error,
 });
 
-export const fetchBootcampsStartAsync = () => async (dispatch, getState) => {
+export const fetchBootcampsStartAsync = (filters = null) => async (dispatch) => {
   // if(selectBootcamps(getState()).length) {
   // return Promise.resolve();
   // }
 
-  const isCacheValid = checkCacheValid(getState, 'allBootcamps');
+  // if (!filters) {
+  //   const isCacheValid = checkCacheValid(getState, 'allBootcamps');
 
-  if (isCacheValid) return Promise.resolve();
+  //   if (isCacheValid) return Promise.resolve();
+  // }
 
   dispatch(fetchBootcampsStart());
 
-  try {
-    const selectFields = 'select=name,careers,averageCost,photo,id,user';
+  const baseUrl = '/bootcamps?select=name,careers,averageCost,photo,id,user';
+  let urlFilters;
+  // const testUrl = baseUrl;
 
-    const response = await axios.get(`/bootcamps?${selectFields}`);
+  try {
+    if (filters) {
+      const { prices: [firstPrice, secondPrice], courses, otherFilters } = filters;
+
+      if (courses) {
+        courses.forEach(course => {
+          urlFilters += `&careers[in]=${course}`;
+        });
+      }
+
+      if (otherFilters) {
+        otherFilters.forEach(otherFilter => {
+          urlFilters += `&${otherFilter}=${otherFilters.includes(otherFilter)}`;
+        });
+      }
+
+      if (firstPrice) {
+        urlFilters += `&averageCost[gte]=${firstPrice}&averageCost[lte]=${secondPrice}`;
+      }
+
+      const finalUrl = baseUrl + urlFilters.replace('undefined', '');
+
+      const response = await axios.get(finalUrl);
+      const data = await response.data;
+
+      dispatch(fetchBootcampsSuccess(data));
+      return;
+    }
+
+    const response = await axios.get(baseUrl);
     const data = await response.data;
 
     dispatch(fetchBootcampsSuccess(data));
