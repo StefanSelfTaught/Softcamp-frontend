@@ -1,0 +1,8 @@
+.ant-skeleton-avatar {
+	width: 100% !important;
+	height: 120px !important;
+}
+
+.ant-spin-blur::after {
+	opacity: 0.2 !important;
+}

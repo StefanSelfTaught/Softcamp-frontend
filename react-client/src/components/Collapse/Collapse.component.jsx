@@ -85,7 +85,7 @@ const CollapseComponent = ({ fetchBootcampsStartAsync }) => {
                   formatter={(value) => `$ ${value}`}
                   parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                   min={1000}
-                  max={10000}
+                  max={15000}
                   value={firstPrice}
                   step={1000}
                   onChange={(value) => setFirstPrice(value || 0)}

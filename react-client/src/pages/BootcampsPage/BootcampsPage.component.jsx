@@ -15,13 +15,7 @@ const { Title } = Typography;
 const BootcampsPage = ({ fetchBootcampsStartAsync }) => {
   useEffect(() => {
     fetchBootcampsStartAsync();
-
-    console.log('Effect');
   }, [fetchBootcampsStartAsync]);
-
-  useEffect(() => {
-    console.log('Effect2');
-  }, []);
 
   return (
     <>

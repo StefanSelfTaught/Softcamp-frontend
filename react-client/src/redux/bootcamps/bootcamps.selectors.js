@@ -14,6 +14,11 @@ export const selectBootcamps = createSelector(
   (bootcamps) => bootcamps.bootcampsData.data,
 );
 
+export const selectFiltersApplied = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.filtersApplied,
+);
+
 export const selectLastUpdated = createSelector(
   bootcampsData,
   (bootcamps) => bootcamps.lastUpdated,

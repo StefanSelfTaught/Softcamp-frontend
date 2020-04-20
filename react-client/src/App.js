@@ -1,64 +1,67 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
-import './App.css';
-
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 
 import SideNav from './components/SideNav/SideNav.component';
 import Footer from './components/Footer/Footer.component';
-import AlertMessage from './components/AlertMessage/AlertMessage.component';
-import Drawer from './components/Drawer/Drawer.component';
-import Modal from './components/Modal/Modal.component';
-import NotFound from './components/NotFound/NotFound.component';
 
+import './App.css';
 import BootcampsPage from './pages/BootcampsPage/BootcampsPage.component';
-import LoginPage from './pages/LoginPage/LoginPage.component';
-import RegisterPage from './pages/RegisterPage/RegisterPage.component';
-import BootcampDetailsPage from './pages/BootcampDetailsPage/BootcampsDetailsPage.components';
-import ResetPasswordPage from './pages/ResetPasswordPage/ResetPassword.component';
-import ManageBootcampPage from './pages/ManageBootcampPage/ManageBootcampPage.component';
+
+const AlertMessage = lazy(() => import('./components/AlertMessage/AlertMessage.component'));
+const Drawer = lazy(() => import('./components/Drawer/Drawer.component'));
+const Modal = lazy(() => import('./components/Modal/Modal.component'));
+const LoginPage = lazy(() => import('./pages/LoginPage/LoginPage.component'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage.component'));
+const BootcampDetailsPage = lazy(() =>
+	import('./pages/BootcampDetailsPage/BootcampsDetailsPage.components')
+);
+const ResetPasswordPage = lazy(() =>
+	import('./pages/ResetPasswordPage/ResetPassword.component')
+);
+const ManageBootcampPage = lazy(() =>
+	import('./pages/ManageBootcampPage/ManageBootcampPage.component')
+);
 
 const App = () => (
-  <Layout style={{ minHeight: '100vh' }}>
-    <Modal />
-    <Drawer />
-    <AlertMessage />
-    <SideNav />
-    <Layout className='site-layout'>
-      <Switch>
-        <Route exact path='/'>
-          <Redirect to='/bootcamps' />
-        </Route>
+	<Layout style={{ minHeight: '100vh' }}>
+		<Suspense fallback={''}>
+			<Modal />
+			<Drawer />
+			<AlertMessage />
+		</Suspense>
+		<SideNav />
+		<Layout className='site-layout'>
+			<Switch>
+				<Route exact path='/'>
+					<Redirect to='/bootcamps' />
+				</Route>
 
-        <Route exact path='/bootcamps'>
-          <BootcampsPage />
-        </Route>
+				<Route exact path='/bootcamps' component={BootcampsPage} />
 
-        <Route exact path='/manage-bootcamp'>
-          <ManageBootcampPage />
-        </Route>
+				<Suspense fallback={<Spin size='large' tip='Loading...' />}>
+					<Route exact path='/manage-bootcamp' component={ManageBootcampPage} />
 
-        <Route path='/register'>
-          <RegisterPage />
-        </Route>
+					<Route path='/register' component={RegisterPage} />
 
-        <Route path='/login'>
-          <LoginPage />
-        </Route>
+					<Route path='/login' component={LoginPage} />
 
-        <Route path='/bootcamps/:bootcampId' component={BootcampDetailsPage} />
+					<Route path='/bootcamps/:bootcampId' component={BootcampDetailsPage} />
 
-        <Route path='/reset-password/:token' component={ResetPasswordPage} />
+					<Route path='/reset-password/:token' component={ResetPasswordPage} />
+				</Suspense>
 
-        <Route path='*'>
-          <NotFound />
-        </Route>
-      </Switch>
+				{/* 
+            <Route path='*'>
+              <NotFound />
+            </Route> 
+          */}
+			</Switch>
 
-      <Footer />
-    </Layout>
-  </Layout>
+			<Footer />
+		</Layout>
+	</Layout>
 );
 
 export default App;

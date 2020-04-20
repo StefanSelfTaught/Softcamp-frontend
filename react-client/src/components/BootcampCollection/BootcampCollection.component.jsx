@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { invalidateCache } from 'redux-cache';
 
-import { Row, Button } from 'antd';
+import { Row, Button, Spin } from 'antd';
 
 import BootcampCard from '../BootcampCard/BootcampCard.Component';
 import CardSkeleton from '../CardSkeleton/CardSkeleton.component';
@@ -24,7 +23,6 @@ const BootcampCollection = ({
   error,
   lastUpdated,
   fetchBootcampsStartAsync,
-  invalidateCache,
 }) => (
   <>
     <p style={{ marginBottom: 25 }}>
@@ -33,8 +31,7 @@ const BootcampCollection = ({
         size='small'
         style={{ padding: '0 15px', marginLeft: 15 }}
         onClick={() => {
-          invalidateCache('allBootcamps');
-          fetchBootcampsStartAsync();
+          fetchBootcampsStartAsync(null, true);
         }}
         loading={loading}
         type='dashed'
@@ -43,30 +40,31 @@ const BootcampCollection = ({
       </Button>
     </p>
     <Collapse />
-    <Row
-      gutter={{
-        xs: 8,
-        sm: 16,
-        md: 24,
-        lg: 32,
-      }}
-      justify='center'
-      style={loading ? { opacity: 0.4 } : { opacity: 1 }}
-    >
-      {!error ? (
-        loading ? (
-          [...Array(6).keys()].map((skeletonKey) => (
-            <CardSkeleton key={skeletonKey} />
-          ))
-        ) : bootcamps.length ? (
-          bootcamps.map(({ _id, ...props }) => <BootcampCard key={_id} {...props} />)
+    <Spin size='large' tip='Loading...' spinning={loading}>
+      <Row
+        gutter={{
+          xs: 8,
+          sm: 16,
+          md: 24,
+          lg: 32,
+        }}
+        justify='center'
+      >
+        {!error ? (
+          loading && !bootcamps.length ? (
+            [...Array(6).keys()].map((skeletonKey) => (
+              <CardSkeleton key={skeletonKey} />
+            ))
+          ) : bootcamps.length ? (
+            bootcamps.map(({ _id, ...props }) => <BootcampCard key={_id} {...props} />)
+          ) : (
+            !lastUpdated ? null : <h1>No Bootcamps Founded!</h1>
+          )
         ) : (
-          <h1>No bootcamps founded!</h1>
-        )
-      ) : (
-        <h1>Network Error</h1>
-      )}
-    </Row>
+          <h1>Network Error</h1>
+        )}
+      </Row>
+    </Spin>
   </>
 );
 
@@ -87,5 +85,4 @@ const mapStateToProps = createStructuredSelector({
 
 export default connect(mapStateToProps, {
   fetchBootcampsStartAsync,
-  invalidateCache,
 })(BootcampCollection);

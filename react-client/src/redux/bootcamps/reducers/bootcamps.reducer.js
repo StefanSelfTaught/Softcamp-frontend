@@ -10,6 +10,7 @@ const initialState = {
     pagination: null,
     data: [],
   },
+  filtersApplied: false,
   loading: false,
   error: false,
   lastUpdated: null,
@@ -17,12 +18,13 @@ const initialState = {
 
 const bootcampsReducer = produce(
   (draftState, action) => {
-    const { payload, receivedAt, type } = action;
+    const { payload, receivedAt, type, withFilters } = action;
 
     switch (type) {
       case BootcampsActionTypes.FETCH_BOOTCAMPS_START:
         draftState.loading = true;
         draftState.error = false;
+        draftState.filtersApplied = withFilters;
         return;
       case BootcampsActionTypes.CREATE_BOOTCAMP_START:
         draftState.loading = true;

@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { Card, Col } from 'antd';
+import { Card, Col, Skeleton } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+
+import './CardSkeleton.styles.css';
 
 const { Meta } = Card;
 
@@ -10,11 +12,7 @@ const CardSkeleton = () => (
     <Card
       loading
       cover={
-        <img
-          alt='bro'
-          style={{ objectFit: 'cover', width: 250, height: 160 }}
-          src='http://localhost:5000/uploads/no-photo.jpg'
-        />
+        <Skeleton.Avatar active shape='square' />
       }
       style={{ width: 250, marginBottom: 50 }}
       actions={[

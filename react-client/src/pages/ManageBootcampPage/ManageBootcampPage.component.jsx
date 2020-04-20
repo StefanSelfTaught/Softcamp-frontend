@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import { Layout, Typography } from 'antd';
 
-import { fetchUserBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
-
 import Content from '../../components/Content/Content.component';
 import ManageBootcamp from '../../components/ManageBootcamp/ManageBootcamp.component';
 import NoBootcamp from '../../components/ManageBootcamp/NoBootcamp.component';
 import CreateBootcamp from '../../components/ManageBootcamp/CreateBootcamp.component';
+
+import { fetchUserBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -44,10 +44,10 @@ const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userBootcamp: state.bootcamps.userBootcamps.bootcampData,
 });
 
 export default connect(mapStateToProps, { fetchUserBootcampsStartAsync })(
-  ManageBootcampPage,
+  ManageBootcampPage
 );

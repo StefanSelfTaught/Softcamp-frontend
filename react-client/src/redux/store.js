@@ -20,6 +20,10 @@ export const store = createStore(
   composeEnhancers(applyMiddleware(...middlewares), cacheEnhancer({ log: true })),
 );
 
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./rootReducer', () => store.replaceReducer(rootReducer));
+}
+
 export const persistor = persistStore(store);
 
 export default { persistor, store };

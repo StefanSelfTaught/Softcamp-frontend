@@ -1,9 +1,12 @@
 import { push } from 'connected-react-router';
-import { checkCacheValid } from 'redux-cache';
 import BootcampsActionTypes from './bootcamps.type';
 import axios from '../../utils/axiosInstance';
 import { showAlertMessage } from '../alertMessage/alertMessage.actions';
-import { selectBootcampDetails } from './bootcamps.selectors';
+import {
+  selectBootcampDetails,
+  selectBootcamps,
+  selectFiltersApplied,
+} from './bootcamps.selectors';
 
 export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState) => {
   // Comment
@@ -37,9 +40,9 @@ export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState)
   }
 };
 
-
-const fetchBootcampsStart = () => ({
+const fetchBootcampsStart = (withFilters) => ({
   type: BootcampsActionTypes.FETCH_BOOTCAMPS_START,
+  withFilters,
 });
 
 const fetchBootcampsSuccess = (bootcamps) => ({
@@ -53,35 +56,40 @@ const fetchBootcampsFailure = (error) => ({
   payload: error,
 });
 
-export const fetchBootcampsStartAsync = (filters = null) => async (dispatch) => {
-  // if(selectBootcamps(getState()).length) {
-  // return Promise.resolve();
-  // }
+export const fetchBootcampsStartAsync = (filters = null, forceRefresh = null) => async (
+  dispatch,
+  getState,
+) => {
+  if (
+    selectBootcamps(getState()).length
+    && !selectFiltersApplied(getState())
+    && !filters
+    && !forceRefresh
+  ) {
+    return Promise.resolve();
+  }
 
-  // if (!filters) {
-  //   const isCacheValid = checkCacheValid(getState, 'allBootcamps');
-
-  //   if (isCacheValid) return Promise.resolve();
-  // }
-
-  dispatch(fetchBootcampsStart());
+  dispatch(fetchBootcampsStart(!!filters));
 
   const baseUrl = '/bootcamps?select=name,careers,averageCost,photo,id,user';
   let urlFilters;
-  // const testUrl = baseUrl;
 
   try {
     if (filters) {
-      const { prices: [firstPrice, secondPrice], courses, otherFilters } = filters;
+      const {
+        prices: [firstPrice, secondPrice],
+        courses,
+        otherFilters,
+      } = filters;
 
       if (courses) {
-        courses.forEach(course => {
+        courses.forEach((course) => {
           urlFilters += `&careers[in]=${course}`;
         });
       }
 
       if (otherFilters) {
-        otherFilters.forEach(otherFilter => {
+        otherFilters.forEach((otherFilter) => {
           urlFilters += `&${otherFilter}=${otherFilters.includes(otherFilter)}`;
         });
       }
@@ -110,7 +118,6 @@ export const fetchBootcampsStartAsync = (filters = null) => async (dispatch) => 
   }
 };
 
-
 const createBootcampStart = () => ({
   type: BootcampsActionTypes.CREATE_BOOTCAMP_START,
 });
@@ -125,7 +132,7 @@ const createBootcampFailure = (error) => ({
   payload: error,
 });
 
-export const createBootcampStartAsync = (bootcampData) => async dispatch => {
+export const createBootcampStartAsync = (bootcampData) => async (dispatch) => {
   dispatch(createBootcampStart());
 
   dispatch(showAlertMessage('Creating Bootcamp...', 'loading'));
@@ -151,7 +158,6 @@ export const createBootcampStartAsync = (bootcampData) => async dispatch => {
   }
 };
 
-
 const fetchUserBootcampsStart = () => ({
   type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_START,
 });
@@ -166,7 +172,7 @@ const fetchUserBootcampsStartFailure = (error) => ({
   payload: error,
 });
 
-export const fetchUserBootcampsStartAsync = () => async dispatch => {
+export const fetchUserBootcampsStartAsync = () => async (dispatch) => {
   dispatch(fetchUserBootcampsStart());
 
   try {
