@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 
 import { Layout, Typography } from 'antd';
 
-import Content from '../../components/Content/Content.component';
-import BootcampCollection from '../../components/BootcampCollection/BootcampCollection.component';
+import Content from 'components/Content/Content.component';
+import BootcampCollection from 'components/BootcampCollection/BootcampCollection.component';
 
-import { fetchBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
+import { fetchBootcampsStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
 const { Header } = Layout;
 const { Title } = Typography;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button } from 'antd';
 
-import axios from '../../utils/axiosInstance';
+import axios from 'utils/axiosInstance';
 
 const ManageBootcamp = ({ bootcampId, bootcampName }) => {
   const handleDelete = async () => {

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Layout, Typography } from 'antd';
 
-import Content from '../../components/Content/Content.component';
-import Register from '../../components/Register/Register.component';
+import Content from 'components/Content/Content.component';
+import Register from 'components/Register/Register.component';
 
 const { Header } = Layout;
 const { Title } = Typography;

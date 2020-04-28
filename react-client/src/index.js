@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter as Router } from 'connected-react-router';
 
-import { store, persistor, browserHistory as history } from './redux/store';
-import App from './App';
-import './index.css';
+import { store, persistor, browserHistory as history } from 'redux/store';
+import App from 'App';
+import 'index.css';
 
 import * as serviceWorker from './serviceWorker';
 

@@ -9,12 +9,12 @@ import {
   hideModal,
   sendForgotPasswordEmailStartAsync,
   resetForgotPasswordModal,
-} from '../../redux/manageUserInfo/manageUserInfo.actions';
+} from 'redux/manageUserInfo/manageUserInfo.actions';
 import {
   selectLoading,
   selectForgotPasswordEmailSent,
   selectModalShow,
-} from '../../redux/manageUserInfo/manageUserInfo.selectors';
+} from 'redux/manageUserInfo/manageUserInfo.selectors';
 
 const ModalComponent = ({
   modalShow,

@@ -12,17 +12,18 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 
-import logo from '../../assets/logo1.png';
-import logo2 from '../../assets/logo2.png';
-import './SideNav.styles.css';
+import logo from 'assets/logo1.png';
+import logo2 from 'assets/logo2.png';
+import 'components/SideNav/SideNav.styles.css';
 
-import { logOutStartAsync } from '../../redux/auth/auth.actions';
-import { showDrawer } from '../../redux/manageUserInfo/manageUserInfo.actions';
+import useLocalStorage from 'hooks/useLocalStorage.hook';
+import { logOutStartAsync } from 'redux/auth/auth.actions';
+import { showDrawer } from 'redux/manageUserInfo/manageUserInfo.actions';
 import {
   selectUserData,
   selectIsAuthenticated,
-} from '../../redux/auth/auth.selectors';
-import selectPathName from '../../redux/router/router.selectors';
+} from 'redux/auth/auth.selectors';
+import selectPathName from 'redux/router/router.selectors';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -33,9 +34,9 @@ const SideNav = ({
   push,
   isAuthenticated,
   logOutStartAsync,
-  showDrawer
+  showDrawer,
 }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useLocalStorage('sideNavCollapse', false);
 
   // Try to use location hook from react-router-dom
 

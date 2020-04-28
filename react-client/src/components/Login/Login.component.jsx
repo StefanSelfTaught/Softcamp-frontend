@@ -6,11 +6,11 @@ import { push } from 'connected-react-router';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-import './Login.styles.css';
+import 'components/Login/Login.styles.css';
 
-import { logInStartAsync } from '../../redux/auth/auth.actions';
-import { showModal } from '../../redux/manageUserInfo/manageUserInfo.actions';
-import { selectLoading } from '../../redux/auth/auth.selectors';
+import { logInStartAsync } from 'redux/auth/auth.actions';
+import { showModal } from 'redux/manageUserInfo/manageUserInfo.actions';
+import { selectLoading } from 'redux/auth/auth.selectors';
 
 const Login = ({
   loading,

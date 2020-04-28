@@ -1,14 +1,19 @@
 import produce from 'immer';
-import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
-import BootcampsActionTypes from '../bootcamps.type';
+import BootcampsActionTypes from 'redux/bootcamps/bootcamps.type';
 
 const initialState = {
-  [DEFAULT_KEY]: null, // cache key
   bootcampsData: {
     success: null,
     count: null,
     pagination: null,
     data: [],
+  },
+  sorting: '-createdAt',
+  filters: {
+  	averagePriceState: true,
+    averagePrice: [],
+    careers: [],
+    otherFilters: [],
   },
   filtersApplied: false,
   loading: false,
@@ -21,6 +26,22 @@ const bootcampsReducer = produce(
     const { payload, receivedAt, type, withFilters } = action;
 
     switch (type) {
+      case BootcampsActionTypes.SET_AVERAGE_PRICE_FILTER:
+        draftState.filters.averagePrice[0] = payload.firstPrice;
+        draftState.filters.averagePrice[1] = payload.secondPrice;
+        return;
+     	case BootcampsActionTypes.TOGGLE_AVERAGE_PRICE_FILTER:
+     		draftState.filters.averagePriceState = payload;
+     		return;
+      case BootcampsActionTypes.SET_CAREERS_FILTER:
+        draftState.filters.careers = payload;
+        return;
+      case BootcampsActionTypes.SET_OTHER_FILTERS:
+        draftState.filters.otherFilters = payload;
+        return;
+      case BootcampsActionTypes.SORT_BOOTCAMPS:
+        draftState.sorting = payload;
+        return;
       case BootcampsActionTypes.FETCH_BOOTCAMPS_START:
         draftState.loading = true;
         draftState.error = false;
@@ -43,7 +64,6 @@ const bootcampsReducer = produce(
         draftState.error = payload;
         return;
       case BootcampsActionTypes.FETCH_BOOTCAMPS_SUCCESS:
-        draftState[DEFAULT_KEY] = generateCacheTTL();
         draftState.bootcampsData = payload;
         draftState.loading = false;
         draftState.error = false;

@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Content from '../../components/Content/Content.component';
+import Content from 'components/Content/Content.component';
+import BootcampDetails from 'components/BootcampDetails/BootcampDetails.component';
 
-import { fetchbootcampDetailsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
-
-import BootcampDetails from '../../components/BootcampDetails/BootcampDetails.component';
+import { fetchbootcampDetailsStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
 const BootcampDetailsPage = ({
   match: {

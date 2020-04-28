@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 
 import { Form, Button, Input } from 'antd';
 
-import { resetPasswordStartAsync } from '../../redux/manageUserInfo/manageUserInfo.actions';
-import { selectLoading } from '../../redux/manageUserInfo/manageUserInfo.selectors';
+import { resetPasswordStartAsync } from 'redux/manageUserInfo/manageUserInfo.actions';
+import { selectLoading } from 'redux/manageUserInfo/manageUserInfo.selectors';
 
 const ResetPassword = ({ loading, resetPasswordStartAsync }) => {
   const { token } = useParams();

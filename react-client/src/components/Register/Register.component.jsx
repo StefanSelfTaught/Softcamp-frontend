@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import { Form, Input, Radio, Button } from 'antd';
 
-import { registerStartAsync } from '../../redux/auth/auth.actions';
-import { selectLoading } from '../../redux/auth/auth.selectors';
+import { registerStartAsync } from 'redux/auth/auth.actions';
+import { selectLoading } from 'redux/auth/auth.selectors';
 
 const formItemLayout = {
   labelCol: {

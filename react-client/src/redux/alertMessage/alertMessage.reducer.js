@@ -1,5 +1,5 @@
 import produce from 'immer';
-import AlertMessageActionTypes from './alertMessage.types';
+import AlertMessageActionTypes from 'redux/alertMessage/alertMessage.types';
 
 const initialState = {
   showAlert: false,

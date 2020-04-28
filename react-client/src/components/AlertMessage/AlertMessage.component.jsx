@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 import { message } from 'antd';
 
-import { onCloseAlertMessage } from '../../redux/alertMessage/alertMessage.actions';
+import { onCloseAlertMessage } from 'redux/alertMessage/alertMessage.actions';
 import {
   selectAlertType,
   selectMessage,
   selectShowAlert,
-} from '../../redux/alertMessage/alertMessage.selectors';
+} from 'redux/alertMessage/alertMessage.selectors';
 
 message.config({
   maxCount: 1,

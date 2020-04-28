@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import { Form, Button, Col, Row, Input } from 'antd';
 
-import { updateUserDetailsStartAsync } from '../../../redux/manageUserInfo/manageUserInfo.actions';
-import { selectUserData } from '../../../redux/auth/auth.selectors';
-import { selectLoading } from '../../../redux/manageUserInfo/manageUserInfo.selectors';
+import { updateUserDetailsStartAsync } from 'redux/manageUserInfo/manageUserInfo.actions';
+import { selectUserData } from 'redux/auth/auth.selectors';
+import { selectLoading } from 'redux/manageUserInfo/manageUserInfo.selectors';
 
 const UserDetails = ({ closeDrawer, userData, loading, updateUserDetailsStartAsync }) => {
   const [form] = Form.useForm();

@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { Layout, Typography } from 'antd';
 
-import Content from '../../components/Content/Content.component';
-import ManageBootcamp from '../../components/ManageBootcamp/ManageBootcamp.component';
-import NoBootcamp from '../../components/ManageBootcamp/NoBootcamp.component';
-import CreateBootcamp from '../../components/ManageBootcamp/CreateBootcamp.component';
+import useLocalStorage from 'hooks/useLocalStorage.hook';
 
-import { fetchUserBootcampsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
+import Content from 'components/Content/Content.component';
+import ManageBootcamp from 'components/ManageBootcamp/ManageBootcamp.component';
+import NoBootcamp from 'components/ManageBootcamp/NoBootcamp.component';
+import CreateBootcamp from 'components/ManageBootcamp/CreateBootcamp.component';
+
+import { fetchUserBootcampsStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
 const { Header } = Layout;
 const { Title } = Typography;
 
 const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
-  const [create, setCreate] = useState(false);
+  const [create, setCreate] = useLocalStorage('createBootcampState', false);
 
   useEffect(() => {
     fetchUserBootcampsStartAsync();
@@ -33,9 +35,12 @@ const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
       </Header>
       <Content>
         {create ? (
-          <CreateBootcamp />
+          <CreateBootcamp setCreate={setCreate} />
         ) : userBootcamp ? (
-          <ManageBootcamp bootcampId={userBootcamp.id} bootcampName={userBootcamp.name} />
+          <ManageBootcamp
+            bootcampId={userBootcamp.id}
+            bootcampName={userBootcamp.name}
+          />
         ) : (
           <NoBootcamp handleCreateNow={handleCreateNow} />
         )}
@@ -49,5 +54,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { fetchUserBootcampsStartAsync })(
-  ManageBootcampPage
+  ManageBootcampPage,
 );

@@ -1,7 +1,7 @@
 import { push } from 'connected-react-router';
-import AuthActionTypes from './auth.type';
-import axios from '../../utils/axiosInstance';
-import { showAlertMessage } from '../alertMessage/alertMessage.actions';
+import AuthActionTypes from 'redux/auth/auth.type';
+import axios from 'utils/axiosInstance';
+import { showAlertMessage } from 'redux/alertMessage/alertMessage.actions';
 
 // Get user Action Creators
 const getUserLoggedInStart = () => ({

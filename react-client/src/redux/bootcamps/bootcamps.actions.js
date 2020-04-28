@@ -1,12 +1,41 @@
 import { push } from 'connected-react-router';
-import BootcampsActionTypes from './bootcamps.type';
-import axios from '../../utils/axiosInstance';
-import { showAlertMessage } from '../alertMessage/alertMessage.actions';
+import BootcampsActionTypes from 'redux/bootcamps/bootcamps.type';
+import axios from 'utils/axiosInstance';
+import { showAlertMessage } from 'redux/alertMessage/alertMessage.actions';
 import {
   selectBootcampDetails,
   selectBootcamps,
   selectFiltersApplied,
-} from './bootcamps.selectors';
+  selectBootcampsLoading,
+} from 'redux/bootcamps/bootcamps.selectors';
+
+export const setAveragePriceFilter = (firstPrice, secondPrice) => ({
+  type: BootcampsActionTypes.SET_AVERAGE_PRICE_FILTER,
+  payload: {
+    firstPrice,
+    secondPrice,
+  },
+});
+
+export const toggleAveragePriceFilter = (value) => ({
+  type: BootcampsActionTypes.TOGGLE_AVERAGE_PRICE_FILTER,
+  payload: value,
+});
+
+export const setCareersFilter = (filterData) => ({
+  type: BootcampsActionTypes.SET_CAREERS_FILTER,
+  payload: filterData,
+});
+
+export const setOtherFilters = (filterData) => ({
+  type: BootcampsActionTypes.SET_OTHER_FILTERS,
+  payload: filterData,
+});
+
+export const sortBootcamps = (sortBy) => ({
+  type: BootcampsActionTypes.SORT_BOOTCAMPS,
+  payload: sortBy,
+});
 
 export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState) => {
   // Comment
@@ -56,34 +85,39 @@ const fetchBootcampsFailure = (error) => ({
   payload: error,
 });
 
-export const fetchBootcampsStartAsync = (filters = null, forceRefresh = null) => async (
-  dispatch,
-  getState,
-) => {
+export const fetchBootcampsStartAsync = (
+  filters = null,
+  sort = '-createdAt',
+  forceRefresh = null,
+) => async (dispatch, getState) => {
   if (
     selectBootcamps(getState()).length
-    && !selectFiltersApplied(getState())
-    && !filters
     && !forceRefresh
+    && !filters
   ) {
+    return Promise.resolve();
+  }
+
+  if (selectBootcampsLoading(getState())) {
     return Promise.resolve();
   }
 
   dispatch(fetchBootcampsStart(!!filters));
 
-  const baseUrl = '/bootcamps?select=name,careers,averageCost,photo,id,user';
-  let urlFilters;
+  const baseUrl = `/bootcamps?select=name,careers,averageCost,photo,id,user&sort=${sort}`;
+
+  let urlFilters = '';
 
   try {
     if (filters) {
       const {
         prices: [firstPrice, secondPrice],
-        courses,
+        careers,
         otherFilters,
       } = filters;
 
-      if (courses) {
-        courses.forEach((course) => {
+      if (careers) {
+        careers.forEach((course) => {
           urlFilters += `&careers[in]=${course}`;
         });
       }

@@ -1,4 +1,4 @@
-import AlertMessageActionTypes from './alertMessage.types';
+import AlertMessageActionTypes from 'redux/alertMessage/alertMessage.types';
 
 export const showAlertMessage = (message, alertType) => ({
   type: AlertMessageActionTypes.SHOW_ALERT_MESSAGE,

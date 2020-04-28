@@ -1,8 +1,8 @@
 import { push } from 'connected-react-router';
-import ManageUserInfoActionsTypes from './manageUserInfo.types';
-import axios from '../../utils/axiosInstance';
-import { showAlertMessage } from '../alertMessage/alertMessage.actions';
-import { selectUserData } from '../auth/auth.selectors';
+import ManageUserInfoActionsTypes from 'redux/manageUserInfo/manageUserInfo.types';
+import axios from 'utils/axiosInstance';
+import { showAlertMessage } from 'redux/alertMessage/alertMessage.actions';
+import { selectUserData } from 'redux/auth/auth.selectors';
 
 // Drawer Action Creators
 export const showDrawer = () => ({

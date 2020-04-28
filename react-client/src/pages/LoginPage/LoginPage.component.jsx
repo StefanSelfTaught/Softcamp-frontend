@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Layout, Typography } from 'antd';
 
-import Content from '../../components/Content/Content.component';
-import Login from '../../components/Login/Login.component';
+import Content from 'components/Content/Content.component';
+import Login from 'components/Login/Login.component';
 
 const { Header } = Layout;
 const { Title } = Typography;

@@ -6,13 +6,13 @@ import { createStructuredSelector } from 'reselect';
 import { Layout, Skeleton } from 'antd';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
-import { fetchbootcampDetailsStartAsync } from '../../redux/bootcamps/bootcamps.actions';
+import { fetchbootcampDetailsStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
 import {
   selectBootcampDetails,
   selectBootcampDetailsLoading,
   selectBootcampDetailsError,
-} from '../../redux/bootcamps/bootcamps.selectors';
+} from 'redux/bootcamps/bootcamps.selectors';
 
 const { Header } = Layout;
 

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Layout, Typography } from 'antd';
 
-import Content from '../../components/Content/Content.component';
-import ResetPassword from '../../components/ResetPassword/ResetPassword.component';
+import Content from 'components/Content/Content.component';
+import ResetPassword from 'components/ResetPassword/ResetPassword.component';
 
 const { Header } = Layout;
 const { Title } = Typography;

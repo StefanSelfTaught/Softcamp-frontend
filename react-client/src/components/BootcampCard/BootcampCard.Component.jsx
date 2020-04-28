@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { Card, Col } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
-import selectPathName from '../../redux/router/router.selectors';
+import selectPathName from 'redux/router/router.selectors';
 
 const { Meta } = Card;
 

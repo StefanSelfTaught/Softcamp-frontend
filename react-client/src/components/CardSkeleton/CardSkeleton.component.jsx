@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, Col, Skeleton } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
-import './CardSkeleton.styles.css';
+import 'components/CardSkeleton/CardSkeleton.styles.css';
 
 const { Meta } = Card;
 

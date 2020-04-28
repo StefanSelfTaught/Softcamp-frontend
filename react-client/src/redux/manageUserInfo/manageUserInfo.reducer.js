@@ -1,4 +1,4 @@
-import ManageUserInfoActionsTypes from './manageUserInfo.types';
+import ManageUserInfoActionsTypes from 'redux/manageUserInfo/manageUserInfo.types';
 
 const initialState = {
   forgotPasswordEmailSent: false,

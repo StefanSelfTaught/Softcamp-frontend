@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { Drawer, Avatar, Tabs } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import UserDetails from './DrawerContent/UserDetails.component';
-import ChangePassword from './DrawerContent/ChangePassword.component';
+import UserDetails from 'components/Drawer/DrawerContent/UserDetails.component';
+import ChangePassword from 'components/Drawer/DrawerContent/ChangePassword.component';
 
-import { hideDrawer } from '../../redux/manageUserInfo/manageUserInfo.actions';
-import { selectDrawerShow } from '../../redux/manageUserInfo/manageUserInfo.selectors';
+import { hideDrawer } from 'redux/manageUserInfo/manageUserInfo.actions';
+import { selectDrawerShow } from 'redux/manageUserInfo/manageUserInfo.selectors';
 
 const { TabPane } = Tabs;
 

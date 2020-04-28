@@ -3,25 +3,25 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 
 import { Layout, Spin } from 'antd';
 
-import SideNav from './components/SideNav/SideNav.component';
-import Footer from './components/Footer/Footer.component';
+import SideNav from 'components/SideNav/SideNav.component';
+import Footer from 'components/Footer/Footer.component';
 
-import './App.css';
-import BootcampsPage from './pages/BootcampsPage/BootcampsPage.component';
+import 'App.css';
+import BootcampsPage from 'pages/BootcampsPage/BootcampsPage.component';
 
-const AlertMessage = lazy(() => import('./components/AlertMessage/AlertMessage.component'));
-const Drawer = lazy(() => import('./components/Drawer/Drawer.component'));
-const Modal = lazy(() => import('./components/Modal/Modal.component'));
-const LoginPage = lazy(() => import('./pages/LoginPage/LoginPage.component'));
-const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage.component'));
+const AlertMessage = lazy(() => import('components/AlertMessage/AlertMessage.component'));
+const Drawer = lazy(() => import('components/Drawer/Drawer.component'));
+const Modal = lazy(() => import('components/Modal/Modal.component'));
+const LoginPage = lazy(() => import('pages/LoginPage/LoginPage.component'));
+const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage.component'));
 const BootcampDetailsPage = lazy(() =>
-	import('./pages/BootcampDetailsPage/BootcampsDetailsPage.components')
+	import('pages/BootcampDetailsPage/BootcampsDetailsPage.components')
 );
 const ResetPasswordPage = lazy(() =>
-	import('./pages/ResetPasswordPage/ResetPassword.component')
+	import('pages/ResetPasswordPage/ResetPassword.component')
 );
 const ManageBootcampPage = lazy(() =>
-	import('./pages/ManageBootcampPage/ManageBootcampPage.component')
+	import('pages/ManageBootcampPage/ManageBootcampPage.component')
 );
 
 const App = () => (

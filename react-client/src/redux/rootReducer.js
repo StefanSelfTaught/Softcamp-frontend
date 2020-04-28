@@ -5,11 +5,10 @@ import storage from 'redux-persist/lib/storage';
 import { createBrowserHistory } from 'history';
 import { setAutoFreeze } from 'immer';
 
-import bootcampsReducer from './bootcamps/reducers/index';
-import authReducer from './auth/auth.reducer';
-import alertMessageReducer from './alertMessage/alertMessage.reducer';
-import manageUserInfoReducer from './manageUserInfo/manageUserInfo.reducer';
-import allBootcampsReducer from './bootcamps/reducers/bootcamps.reducer';
+import bootcampsReducer from 'redux/bootcamps/reducers/index';
+import authReducer from 'redux/auth/auth.reducer';
+import alertMessageReducer from 'redux/alertMessage/alertMessage.reducer';
+import manageUserInfoReducer from 'redux/manageUserInfo/manageUserInfo.reducer';
 
 setAutoFreeze(false);
 
@@ -25,7 +24,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
   router: connectRouter(history),
   bootcamps: bootcampsReducer,
-  allBootcamps: allBootcampsReducer,
   auth: authReducer,
   alertMessage: alertMessageReducer,
   manageUserInfo: manageUserInfoReducer,

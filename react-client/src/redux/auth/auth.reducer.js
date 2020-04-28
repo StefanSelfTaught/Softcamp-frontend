@@ -1,5 +1,5 @@
-import AuthActionTypes from './auth.type';
-import ManageUserInfoActionsTypes from '../manageUserInfo/manageUserInfo.types';
+import AuthActionTypes from 'redux/auth/auth.type';
+import ManageUserInfoActionsTypes from 'redux/manageUserInfo/manageUserInfo.types';
 
 const initialState = {
   userData: [],

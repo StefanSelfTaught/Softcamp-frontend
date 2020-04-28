@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { selectUserId } from '../auth/auth.selectors';
+import { selectUserId } from 'redux/auth/auth.selectors';
 
-const bootcampsData = (state) => state.allBootcamps;
+const bootcampsData = (state) => state.bootcamps.allBootcamps;
 const bootcampDetailsData = (state) => state.bootcamps.bootcampDetails;
 
 export const selectBootcampDetails = createSelector(
@@ -55,3 +55,28 @@ export const selectBootcampDetailsError = createSelector(
 // return bootcamp.id === bootcampUrlParam;
 // });
 // });
+
+export const selectAveragePriceState = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.filters.averagePriceState,
+);
+
+export const selectAveragePriceFilter = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.filters.averagePrice,
+);
+
+export const selectCareersFilter = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.filters.careers,
+);
+
+export const selectOtherFilters = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.filters.otherFilters,
+);
+
+export const selectBootcampsSorting = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.sorting,
+);

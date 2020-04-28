@@ -1,4 +1,4 @@
-import BootcampsActionTypes from '../bootcamps.type';
+import BootcampsActionTypes from 'redux/bootcamps/bootcamps.type';
 
 const initialState = {
   bootcampData: null,
