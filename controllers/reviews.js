@@ -113,6 +113,8 @@ module.exports.updateReview = asyncHandler(async (req, res, next) => {
     },
   );
 
+  review.save();
+
   res.status(200).json({
     success: true,
     data: review,

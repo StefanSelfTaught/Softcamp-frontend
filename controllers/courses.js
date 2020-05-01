@@ -114,6 +114,8 @@ module.exports.updateCourse = asyncHandler(async (req, res, next) => {
     );
   }
 
+  course.save();
+
   course = await Course.findByIdAndUpdate(
     req.params.id,
     req.body,

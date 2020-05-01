@@ -5,7 +5,6 @@ import { showAlertMessage } from 'redux/alertMessage/alertMessage.actions';
 import {
   selectBootcampDetails,
   selectBootcamps,
-  selectFiltersApplied,
   selectBootcampsLoading,
 } from 'redux/bootcamps/bootcamps.selectors';
 
@@ -88,13 +87,21 @@ const fetchBootcampsFailure = (error) => ({
 export const fetchBootcampsStartAsync = (
   filters = null,
   sort = '-createdAt',
+  paginate = null,
   forceRefresh = null,
 ) => async (dispatch, getState) => {
-  if (
-    selectBootcamps(getState()).length
-    && !forceRefresh
-    && !filters
-  ) {
+  // let withFilters = filters;
+
+  // for (let key in withFilters) {
+  //   if (!!withFilters[key].length) {
+  //     withFilters = true;
+  //     break;
+  //   } else {
+  //     withFilters = null;
+  //   }
+  // }
+
+  if (selectBootcamps(getState()).length && !forceRefresh && !filters && !paginate) {
     return Promise.resolve();
   }
 
@@ -130,6 +137,10 @@ export const fetchBootcampsStartAsync = (
 
       if (firstPrice) {
         urlFilters += `&averageCost[gte]=${firstPrice}&averageCost[lte]=${secondPrice}`;
+      }
+
+      if (paginate) {
+        urlFilters += `&page=${paginate}`;
       }
 
       const finalUrl = baseUrl + urlFilters.replace('undefined', '');

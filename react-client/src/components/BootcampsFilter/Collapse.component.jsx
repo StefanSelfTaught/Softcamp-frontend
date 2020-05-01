@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -22,6 +22,7 @@ import {
   setCareersFilter,
   setOtherFilters,
   toggleAveragePriceFilter,
+  sortBootcamps,
 } from 'redux/bootcamps/bootcamps.actions';
 import {
   selectFiltersApplied,
@@ -49,6 +50,7 @@ const CollapseComponent = memo(
     averagePriceFilter,
     otherFilters,
     careersFilter,
+    sortBootcamps,
     sorting,
   }) => {
     const [panelActiveKey, setpanelActiveKey] = useLocalStorage('showFilters', []);
@@ -67,6 +69,7 @@ const CollapseComponent = memo(
         setOtherFilters([]);
         setCareersFilter([]);
         toggleAveragePriceFilter(true);
+        sortBootcamps('-createdAt');
       }
     }, [
       filtersApplied,
@@ -78,7 +81,6 @@ const CollapseComponent = memo(
 
     useEffect(() => {
       if (filtersStart.current) {
-
         const filters = averagePriceState
           ? { prices: [], careers: careersFilter, otherFilters }
           : { prices: averagePriceFilter, careers: careersFilter, otherFilters };
@@ -251,6 +253,7 @@ const mapDispatchToProps = {
   toggleAveragePriceFilter,
   setCareersFilter,
   setOtherFilters,
+  sortBootcamps,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollapseComponent);

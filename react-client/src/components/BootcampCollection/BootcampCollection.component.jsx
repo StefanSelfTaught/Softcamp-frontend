@@ -3,23 +3,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { Row, Button, Spin } from 'antd';
+import { Row, Button, Spin, Typography } from 'antd';
 
 import BootcampCard from 'components/BootcampCard/BootcampCard.Component';
 import CardSkeleton from 'components/CardSkeleton/CardSkeleton.component';
 import Collapse from 'components/BootcampsFilter/Collapse.component';
 import BootcampsSorting from 'components/BootcampsSorting/BootcampsSorting.component';
+import Pagination from 'components/Pagination/Pagination.component';
 
 import {
   selectBootcamps,
   selectBootcampsLoading,
   selectBootcampsError,
   selectLastUpdated,
+  selectBootcampsCount,
 } from 'redux/bootcamps/bootcamps.selectors';
 import { fetchBootcampsStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
+const { Title } = Typography;
+
 const BootcampCollection = ({
   bootcamps,
+  bootcampsCount,
   loading,
   error,
   lastUpdated,
@@ -43,6 +48,7 @@ const BootcampCollection = ({
     )}
     <BootcampsSorting />
     <Collapse />
+    <Title style={{ marginBottom: 25 }} level={3}>{bootcampsCount} results</Title>
     <Spin size='large' tip='Loading...' spinning={loading}>
       <Row
         gutter={{
@@ -66,6 +72,7 @@ const BootcampCollection = ({
         )}
       </Row>
     </Spin>
+    <Pagination />
   </>
 );
 
@@ -74,10 +81,12 @@ BootcampCollection.proptTypes = {
   bootcamps: PropTypes.array.isRequired,
   error: PropTypes.string.isRequired,
   lastUpdated: PropTypes.number.isRequired,
+  bootcampsCount: PropTypes.number.isRequired,
   fetchBootcampsStartAsync: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
+  bootcampsCount: selectBootcampsCount,
   bootcamps: selectBootcamps,
   loading: selectBootcampsLoading,
   error: selectBootcampsError,

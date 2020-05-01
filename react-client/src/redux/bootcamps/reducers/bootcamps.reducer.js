@@ -4,13 +4,14 @@ import BootcampsActionTypes from 'redux/bootcamps/bootcamps.type';
 const initialState = {
   bootcampsData: {
     success: null,
-    count: null,
+    totalItems: 1,
+    countPerPage: null,
     pagination: null,
     data: [],
   },
   sorting: '-createdAt',
   filters: {
-  	averagePriceState: true,
+    averagePriceState: true,
     averagePrice: [],
     careers: [],
     otherFilters: [],

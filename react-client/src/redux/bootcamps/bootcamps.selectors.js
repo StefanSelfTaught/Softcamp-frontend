@@ -80,3 +80,8 @@ export const selectBootcampsSorting = createSelector(
   bootcampsData,
   (bootcamps) => bootcamps.sorting,
 );
+
+export const selectBootcampsCount = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.bootcampsData.totalItems,
+);
