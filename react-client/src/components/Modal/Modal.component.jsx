@@ -40,7 +40,7 @@ const ModalComponent = ({
   };
 
   const handleSubmitClick = () => {
-    form.validateFields().then(values => {
+    form.validateFields().then((values) => {
       form.resetFields();
       onCreate(values);
     });
@@ -48,46 +48,46 @@ const ModalComponent = ({
 
   return (
     <Modal
-      title='Reset your password'
+      title="Reset your password"
       destroyOnClose
       visible={modalShow}
       onCancel={handleCancel}
       footer={
         !emailSent
           ? [
-            <Button key='back' onClick={handleCancel}>
-              Cancel
-            </Button>,
-            <Button
-              loading={loading}
-              onClick={handleSubmitClick}
-              key='submit'
-              type='primary'
-            >
-              {loading ? 'Loading' : 'Submit'}
-            </Button>,
-          ]
+              <Button key="back" onClick={handleCancel}>
+                Cancel
+              </Button>,
+              <Button
+                loading={loading}
+                onClick={handleSubmitClick}
+                key="submit"
+                type="primary"
+              >
+                {loading ? 'Loading' : 'Submit'}
+              </Button>,
+            ]
           : [
-            <Button
-              type='primary'
-              key='back'
-              onClick={handleCancel}
-            >
-              Done
-            </Button>,
-          ]
+              <Button
+                type="primary"
+                key="back"
+                onClick={handleCancel}
+              >
+                Done
+              </Button>,
+            ]
       }
     >
       {!emailSent ? (
         <Form
           form={form}
-          name='forgotPassword'
-          layout='vertical'
+          name="forgotPassword"
+          layout="vertical"
           scrollToFirstError
         >
           <Form.Item
-            name='email'
-            label='E-mail'
+            name="email"
+            label="E-mail"
             rules={[
               {
                 type: 'email',
@@ -99,14 +99,14 @@ const ModalComponent = ({
               },
             ]}
           >
-            <Input placeholder='Enter your email' />
+            <Input placeholder="Enter your email" />
           </Form.Item>
         </Form>
       ) : (
         <Alert
-          message='Email successfully sent!'
-          description='An email with a link was sent to the email provided before.'
-          type='success'
+          message="Email successfully sent!"
+          description="An email with a link was sent to the email provided before."
+          type="success"
           showIcon
         />
       )}

@@ -12,32 +12,27 @@ import { logInStartAsync } from 'redux/auth/auth.actions';
 import { showModal } from 'redux/manageUserInfo/manageUserInfo.actions';
 import { selectLoading } from 'redux/auth/auth.selectors';
 
-const Login = ({
-  loading,
-  logInStartAsync,
-  showModal,
-  push,
-}) => {
+const Login = ({ loading, logInStartAsync, showModal, push }) => {
   const [form] = Form.useForm();
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     logInStartAsync(values);
   };
 
   return (
     <Form
       form={form}
-      layout='vertical'
-      name='normal_login'
-      className='login-form'
+      layout="vertical"
+      name="normal_login"
+      className="login-form"
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      size='large'
+      size="large"
     >
       <Form.Item
         style={{ marginBottom: 15 }}
-        label='E-mail'
-        name='email'
+        label="E-mail"
+        name="email"
         rules={[
           {
             type: 'email',
@@ -50,16 +45,14 @@ const Login = ({
         ]}
       >
         <Input
-          prefix={
-            <UserOutlined className='site-form-item-icon' />
-          }
-          placeholder='Email'
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Email"
         />
       </Form.Item>
       <Form.Item
         style={{ marginBottom: 15 }}
-        label='Password'
-        name='password'
+        label="Password"
+        name="password"
         rules={[
           {
             required: true,
@@ -69,15 +62,15 @@ const Login = ({
       >
         <Input.Password
           prefix={<LockOutlined />}
-          placeholder='Password'
+          placeholder="Password"
         />
       </Form.Item>
       <Form.Item>
         <Button
-          type='primary'
+          type="primary"
           loading={loading}
-          htmlType='submit'
-          className='login-form-button'
+          htmlType="submit"
+          className="login-form-button"
         >
           {loading ? 'Loading' : 'Log in'}
         </Button>
@@ -89,7 +82,7 @@ const Login = ({
           }}
         >
           <Button
-            type='link'
+            type="link"
             style={{
               color: '#25b864',
               cursor: 'pointer',
@@ -100,7 +93,7 @@ const Login = ({
             Or register now!
           </Button>
           <Button
-            type='link'
+            type="link"
             style={{
               color: '#25b864',
               cursor: 'pointer',
@@ -123,7 +116,7 @@ Login.proptTypes = {
   push: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: selectLoading(state),
 });
 
@@ -133,7 +126,4 @@ const mapDispatchToProps = {
   push,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

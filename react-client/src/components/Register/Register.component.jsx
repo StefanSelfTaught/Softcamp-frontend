@@ -41,7 +41,7 @@ const tailFormItemLayout = {
 const Register = ({ loading, registerStartAsync }) => {
   const [form] = Form.useForm();
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     registerStartAsync(values);
   };
 
@@ -50,14 +50,14 @@ const Register = ({ loading, registerStartAsync }) => {
       {...formItemLayout}
       style={{ maxWidth: 500, margin: '0 auto' }}
       form={form}
-      name='register'
+      name="register"
       onFinish={onFinish}
-      size='large'
+      size="large"
       scrollToFirstError
     >
       <Form.Item
-        name='email'
-        label='E-mail'
+        name="email"
+        label="E-mail"
         rules={[
           {
             type: 'email',
@@ -73,8 +73,8 @@ const Register = ({ loading, registerStartAsync }) => {
       </Form.Item>
 
       <Form.Item
-        name='name'
-        label='Name'
+        name="name"
+        label="Name"
         rules={[
           {
             required: true,
@@ -87,8 +87,8 @@ const Register = ({ loading, registerStartAsync }) => {
       </Form.Item>
 
       <Form.Item
-        name='password'
-        label='Password'
+        name="password"
+        label="Password"
         rules={[
           {
             required: true,
@@ -101,8 +101,8 @@ const Register = ({ loading, registerStartAsync }) => {
       </Form.Item>
 
       <Form.Item
-        name='confirm'
-        label='Confirm Password'
+        name="confirm"
+        label="Confirm Password"
         dependencies={['password']}
         hasFeedback
         rules={[
@@ -112,15 +112,14 @@ const Register = ({ loading, registerStartAsync }) => {
           },
           ({ getFieldValue }) => ({
             validator(rule, value) {
-              if (
-                !value
-                || getFieldValue('password') === value
-              ) {
+              if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
 
               return Promise.reject(
-                new Error('The two passwords that you entered do not match!'),
+                new Error(
+                  'The two passwords that you entered do not match!',
+                ),
               );
             },
           }),
@@ -137,23 +136,19 @@ const Register = ({ loading, registerStartAsync }) => {
             message: 'Please choose a user role!',
           },
         ]}
-        name='role'
-        label='Role'
+        name="role"
+        label="Role"
       >
         <Radio.Group>
-          <Radio value='user'>
+          <Radio value="user">
             Regular User (Browse, Write reviews, etc)
           </Radio>
-          <Radio value='publisher'>Bootcamp Publisher</Radio>
+          <Radio value="publisher">Bootcamp Publisher</Radio>
         </Radio.Group>
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button
-          type='primary'
-          loading={loading}
-          htmlType='submit'
-        >
+        <Button type="primary" loading={loading} htmlType="submit">
           {loading ? 'Loading' : 'Register'}
         </Button>
       </Form.Item>
@@ -166,7 +161,7 @@ Register.proptTypes = {
   registerStartAsync: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: selectLoading(state),
 });
 

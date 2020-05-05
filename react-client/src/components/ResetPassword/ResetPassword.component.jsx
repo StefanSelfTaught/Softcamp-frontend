@@ -18,14 +18,14 @@ const ResetPassword = ({ loading, resetPasswordStartAsync }) => {
   return (
     <Form
       style={{ width: 350, margin: '0 auto' }}
-      layour='vertical'
-      size='large'
+      layour="vertical"
+      size="large"
       onFinish={onFinishHandle}
-      layout='vertical'
+      layout="vertical"
     >
       <Form.Item
-        name='newPassword'
-        label='New Password'
+        name="newPassword"
+        label="New Password"
         rules={[
           {
             required: true,
@@ -34,13 +34,13 @@ const ResetPassword = ({ loading, resetPasswordStartAsync }) => {
         ]}
         hasFeedback
       >
-        <Input.Password placeholder='Enter new password' />
+        <Input.Password placeholder="Enter new password" />
       </Form.Item>
 
       <Form.Item
         style={{ marginBottom: 17 }}
-        name='confirm'
-        label='Confirm new password'
+        name="confirm"
+        label="Confirm new password"
         dependencies={['newPassword']}
         hasFeedback
         rules={[
@@ -50,28 +50,23 @@ const ResetPassword = ({ loading, resetPasswordStartAsync }) => {
           },
           ({ getFieldValue }) => ({
             validator(rule, value) {
-              if (
-                !value
-                || getFieldValue('newPassword') === value
-              ) {
+              if (!value || getFieldValue('newPassword') === value) {
                 return Promise.resolve();
               }
 
               return Promise.reject(
-                new Error('The two passwords that you entered do not match!'),
+                new Error(
+                  'The two passwords that you entered do not match!',
+                ),
               );
             },
           }),
         ]}
       >
-        <Input.Password placeholder='Confirm new password' />
+        <Input.Password placeholder="Confirm new password" />
       </Form.Item>
       <div>
-        <Button
-          loading={loading}
-          htmlType='submit'
-          type='primary'
-        >
+        <Button loading={loading} htmlType="submit" type="primary">
           {loading ? 'Loading' : 'Reset Password'}
         </Button>
       </div>
@@ -79,7 +74,7 @@ const ResetPassword = ({ loading, resetPasswordStartAsync }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: selectLoading(state),
 });
 
