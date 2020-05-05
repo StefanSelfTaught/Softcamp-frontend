@@ -4,7 +4,11 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter as Router } from 'connected-react-router';
 
-import { store, persistor, browserHistory as history } from 'redux/store';
+import {
+  store,
+  persistor,
+  browserHistory as history,
+} from 'redux/store';
 import App from 'App';
 import 'index.css';
 
@@ -15,7 +19,7 @@ const rootElement = document.getElementById('root');
 const renderApp = () => {
   render(
     <Provider store={store}>
-      <PersistGate loading='Loading' persistor={persistor}>
+      <PersistGate loading="Loading" persistor={persistor}>
         <Router history={history}>
           {/* <React.StrictMode> */}
           <App />
@@ -30,7 +34,7 @@ const renderApp = () => {
 if (rootElement.hasChildNodes()) {
   hydrate(
     <Provider store={store}>
-      <PersistGate loading='Loading' persistor={persistor}>
+      <PersistGate loading="Loading" persistor={persistor}>
         <Router history={history}>
           {/* <React.StrictMode> */}
           <App />

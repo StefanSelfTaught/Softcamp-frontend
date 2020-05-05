@@ -35,21 +35,23 @@ const BootcampCollection = ({
       <p style={{ marginBottom: 25 }}>
         Last updated at {new Date(lastUpdated).toLocaleTimeString()}
         <Button
-          size='small'
+          size="small"
           style={{ padding: '0 15px', marginLeft: 15 }}
           onClick={() => {
             fetchBootcampsStartAsync(null, '-createdAt', true);
           }}
-          type='dashed'
+          type="dashed"
         >
-          Refresh
+          Refresh all
         </Button>
       </p>
     )}
     <BootcampsSorting />
     <Collapse />
-    <Title style={{ marginBottom: 25 }} level={3}>{bootcampsCount} results</Title>
-    <Spin size='large' tip='Loading...' spinning={loading}>
+    <Title style={{ marginBottom: 25 }} level={3}>
+      {bootcampsCount} results
+    </Title>
+    <Spin size="large" tip="Loading..." spinning={loading}>
       <Row
         gutter={{
           xs: 8,
@@ -57,13 +59,17 @@ const BootcampCollection = ({
           md: 24,
           lg: 32,
         }}
-        justify='center'
+        justify="center"
       >
         {!error ? (
           loading && !bootcamps.length ? (
-            [...Array(6).keys()].map((skeletonKey) => <CardSkeleton key={skeletonKey} />)
+            [...Array(6).keys()].map((skeletonKey) => (
+              <CardSkeleton key={skeletonKey} />
+            ))
           ) : bootcamps.length ? (
-            bootcamps.map(({ _id, ...props }) => <BootcampCard key={_id} {...props} />)
+            bootcamps.map(({ _id, ...props }) => (
+              <BootcampCard key={_id} {...props} />
+            ))
           ) : !lastUpdated ? null : (
             <h1>No Bootcamps Founded!</h1>
           )
@@ -72,7 +78,7 @@ const BootcampCollection = ({
         )}
       </Row>
     </Spin>
-    <Pagination />
+    {!!bootcampsCount && <Pagination />}
   </>
 );
 

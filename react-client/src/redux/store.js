@@ -8,9 +8,10 @@ import rootReducer, { history } from 'redux/rootReducer';
 
 const middlewares = [thunk, routerMiddleware(history)];
 
-const composeEnhancers = process.env.NODE_ENV === 'development'
-  ? composeWithDevTools
-  : null || compose;
+const composeEnhancers =
+  process.env.NODE_ENV === 'development'
+    ? composeWithDevTools
+    : null || compose;
 
 const browserHistory = history;
 
@@ -22,7 +23,9 @@ export const store = createStore(
 );
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept('./rootReducer', () => store.replaceReducer(rootReducer));
+  module.hot.accept('./rootReducer', () =>
+    store.replaceReducer(rootReducer),
+  );
 }
 
 export const persistor = persistStore(store);

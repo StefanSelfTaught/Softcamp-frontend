@@ -12,8 +12,12 @@ import {
   selectOtherFilters,
   selectBootcampsSorting,
   selectAveragePriceState,
+  selectBootcampsPage,
 } from 'redux/bootcamps/bootcamps.selectors';
-import { fetchBootcampsStartAsync } from 'redux/bootcamps/bootcamps.actions';
+import {
+  fetchBootcampsStartAsync,
+  setBootcampsPage,
+} from 'redux/bootcamps/bootcamps.actions';
 
 import './Pagination.styles.css';
 
@@ -25,10 +29,13 @@ const PaginationComponent = ({
   careersFilter,
   otherFilters,
   averagePriceState,
+  currentPage,
+  setBootcampsPage,
 }) => {
   const scrollToTop = () => {
-    const c = document.documentElement.scrollTop || document.body.scrollTop;
-    if (c > 0) {
+    const scrollTopValue =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    if (scrollTopValue > 0) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -38,9 +45,10 @@ const PaginationComponent = ({
 
   return (
     <Pagination
-      showQuickJumper 
-      pageSize={2}
+      showQuickJumper
+      pageSize={10}
       onChange={(page) => {
+        setBootcampsPage(page);
         if (averagePriceState) {
           fetchBootcampsStartAsync(
             {
@@ -64,8 +72,10 @@ const PaginationComponent = ({
         }
         scrollToTop();
       }}
-      showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-      defaultCurrent={1}
+      showTotal={(total, range) =>
+        `${range[0]}-${range[1]} of ${total} items`
+      }
+      current={currentPage}
       total={bootcampsCount}
     />
   );
@@ -78,6 +88,7 @@ const mapStateToProps = createStructuredSelector({
   otherFilters: selectOtherFilters,
   sorting: selectBootcampsSorting,
   averagePriceState: selectAveragePriceState,
+  currentPage: selectBootcampsPage,
 });
 
 PaginationComponent.proptTypes = {
@@ -85,6 +96,7 @@ PaginationComponent.proptTypes = {
   fetchBootcampsStartAsync: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { fetchBootcampsStartAsync })(
-  PaginationComponent,
-);
+export default connect(mapStateToProps, {
+  fetchBootcampsStartAsync,
+  setBootcampsPage,
+})(PaginationComponent);

@@ -3,11 +3,12 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+    "airbnb"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -15,7 +16,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks", "jsx-a11y", "prettier"],
   "settings": {
     "import/resolver": {
       "node": {
@@ -23,7 +24,14 @@
       }
     }
   },
+  "ignorePatterns": ["serviceWorker.js"],
   "rules": {
+    "prettier/prettier": ["error"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "indent": 0,
+    "implicit-arrow-linebreak": 0,
+    "operator-linebreak": "off",
     "linebreak-style": 0,
     "global-require": 0,
     "eslint linebreak-style": [0, "error", "windows"],
@@ -38,7 +46,6 @@
     "react/jsx-wrap-multilines": 0,
     "react/jsx-props-no-spreading": 0,
     "object-curly-newline": 0,
-    "jsx-quotes": ["error", "prefer-single"],
     "no-shadow": 0,
     "no-param-reassign": [
       "error",

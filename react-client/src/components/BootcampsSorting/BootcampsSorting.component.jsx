@@ -14,6 +14,7 @@ import {
 import {
   sortBootcamps,
   fetchBootcampsStartAsync,
+  setBootcampsPage,
 } from 'redux/bootcamps/bootcamps.actions';
 
 const { Option } = Select;
@@ -27,8 +28,10 @@ class BootcampsSorting extends React.Component {
       sorting,
       averagePriceState,
       averagePriceFilter,
+      setBootcampsPage,
     } = this.props;
     if (sorting !== prevProps.sorting) {
+      setBootcampsPage(1);
       if (averagePriceState) {
         fetchBootcampsStartAsync(
           {
@@ -60,14 +63,14 @@ class BootcampsSorting extends React.Component {
         onChange={(value) => {
           sortBootcamps(value);
         }}
-        size='large'
+        size="large"
         style={{ width: 150, marginRight: 25 }}
       >
         <Option disabled>Sort</Option>
-        <Option value='-createdaaaAt'>Highest Rated</Option>
-        <Option value='-createdAt'>Newest</Option>
-        <Option value='averageCost'>Lowest Price</Option>
-        <Option value='-averageCost'>Highest Price</Option>
+        <Option value="-createdaaaAt">Highest Rated</Option>
+        <Option value="-createdAt">Newest</Option>
+        <Option value="averageCost">Lowest Price</Option>
+        <Option value="-averageCost">Highest Price</Option>
       </Select>
     );
   }
@@ -81,6 +84,13 @@ const mapStateToProps = createStructuredSelector({
   averagePriceState: selectAveragePriceState,
 });
 
-export default connect(mapStateToProps, { sortBootcamps, fetchBootcampsStartAsync })(
-  BootcampsSorting,
-);
+const mapDispatchToProps = {
+  setBootcampsPage,
+  sortBootcamps,
+  fetchBootcampsStartAsync,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BootcampsSorting);

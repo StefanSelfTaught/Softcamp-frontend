@@ -41,6 +41,16 @@
     "analyze": "npx source-map-explorer \"build/static/js/*.js\"",
     "gzip": "gzipper --verbose ./build/static ./gzipped"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -51,26 +61,31 @@
     "inlineCss": true
   },
   "browserslist": {
-	  "production": [
-	    ">0.25%",
-	    "not dead",
-	    "not ie <= 11",
-	    "not op_mini all"
-	  ],
-	  "development": [
-	    "last 1 chrome version",
-	    "last 1 firefox version",
-	    "last 1 safari version"
-	  ]
-	},
+    "production": [
+      ">0.25%",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "gzipper": "^3.7.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
+    "prettier": "^2.0.5",
     "redux-devtools-extension": "^2.13.8"
   }
 }

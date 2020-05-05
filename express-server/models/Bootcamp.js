@@ -82,7 +82,7 @@ const BootcampSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    jonAssistance: {
+    jobAssistance: {
       type: Boolean,
       default: false
     },

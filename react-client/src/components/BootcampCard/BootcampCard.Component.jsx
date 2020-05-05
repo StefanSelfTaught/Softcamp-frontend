@@ -5,11 +5,17 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { Card, Col } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 
 import selectPathName from 'redux/router/router.selectors';
 
 const { Meta } = Card;
+
+// Connect all BootcampCards to redus ( bad )
 
 const BootcampCard = ({
   route,
@@ -20,7 +26,7 @@ const BootcampCard = ({
   id,
   push,
 }) => (
-  <Col flex='auto'>
+  <Col flex="auto">
     <Card
       hoverable
       onClick={() => {
@@ -35,9 +41,9 @@ const BootcampCard = ({
       }
       style={{ width: 250, marginBottom: 50 }}
       actions={[
-        <SettingOutlined key='setting' />,
-        <EditOutlined key='edit' />,
-        <EllipsisOutlined key='ellipsis' />,
+        <SettingOutlined key="setting" />,
+        <EditOutlined key="edit" />,
+        <EllipsisOutlined key="ellipsis" />,
       ]}
     >
       {/* <Tooltip placement='bottom' title={careers.join(', ')}> */}

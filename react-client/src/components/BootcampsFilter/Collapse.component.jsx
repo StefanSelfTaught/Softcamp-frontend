@@ -18,11 +18,12 @@ import { FilterOutlined } from '@ant-design/icons';
 import useLocalStorage from 'hooks/useLocalStorage.hook';
 import {
   fetchBootcampsStartAsync,
-  setAveragePriceFilter,
-  setCareersFilter,
-  setOtherFilters,
+  addAveragePriceFilter,
+  addCareersFilter,
+  addOtherFilters,
   toggleAveragePriceFilter,
   sortBootcamps,
+  setBootcampsPage,
 } from 'redux/bootcamps/bootcamps.actions';
 import {
   selectFiltersApplied,
@@ -31,6 +32,7 @@ import {
   selectOtherFilters,
   selectBootcampsSorting,
   selectAveragePriceState,
+  selectBootcampsPage,
 } from 'redux/bootcamps/bootcamps.selectors';
 
 import 'components/BootcampsFilter/Collapse.styles.css';
@@ -42,18 +44,23 @@ const CollapseComponent = memo(
   ({
     fetchBootcampsStartAsync,
     filtersApplied,
-    setAveragePriceFilter,
+    addAveragePriceFilter,
     toggleAveragePriceFilter,
     averagePriceState,
-    setCareersFilter,
-    setOtherFilters,
+    addCareersFilter,
+    addOtherFilters,
     averagePriceFilter,
     otherFilters,
     careersFilter,
     sortBootcamps,
     sorting,
+    setBootcampsPage,
+    currentPage,
   }) => {
-    const [panelActiveKey, setpanelActiveKey] = useLocalStorage('showFilters', []);
+    const [panelActiveKey, setpanelActiveKey] = useLocalStorage(
+      'showFilters',
+      [],
+    );
     const filtersStart = useRef(false);
 
     const handlePanelToggle = () => {
@@ -63,19 +70,22 @@ const CollapseComponent = memo(
       return setpanelActiveKey([]);
     };
 
+    // Move this method elsewhere bacause it is not related to this component
+    // This is called basicaly every time 'Browse Bootacamps' renders, resolve this
     useEffect(() => {
       if (!filtersApplied) {
-        setAveragePriceFilter(1000, 15000);
-        setOtherFilters([]);
-        setCareersFilter([]);
+        addAveragePriceFilter(1000, 15000);
+        addOtherFilters([]);
+        addCareersFilter([]);
         toggleAveragePriceFilter(true);
         sortBootcamps('-createdAt');
+        setBootcampsPage(1);
       }
     }, [
       filtersApplied,
-      setAveragePriceFilter,
-      setOtherFilters,
-      setCareersFilter,
+      addAveragePriceFilter,
+      addOtherFilters,
+      addCareersFilter,
       toggleAveragePriceFilter,
     ]);
 
@@ -83,15 +93,32 @@ const CollapseComponent = memo(
       if (filtersStart.current) {
         const filters = averagePriceState
           ? { prices: [], careers: careersFilter, otherFilters }
-          : { prices: averagePriceFilter, careers: careersFilter, otherFilters };
+          : {
+              prices: averagePriceFilter,
+              careers: careersFilter,
+              otherFilters,
+            };
+
+        if (currentPage > 1) {
+          setBootcampsPage(1);
+        }
 
         fetchBootcampsStartAsync(filters, sorting);
       }
-    }, [careersFilter, otherFilters, averagePriceState, fetchBootcampsStartAsync]);
+    }, [
+      careersFilter,
+      otherFilters,
+      averagePriceState,
+      fetchBootcampsStartAsync,
+    ]);
 
     return (
       <>
-        <Button size='large' icon={<FilterOutlined />} onClick={handlePanelToggle}>
+        <Button
+          size="large"
+          icon={<FilterOutlined />}
+          onClick={handlePanelToggle}
+        >
           Filters
         </Button>
         <Collapse
@@ -101,9 +128,9 @@ const CollapseComponent = memo(
           style={{ marginBottom: 30, marginTop: 10 }}
           bordered={false}
         >
-          <Panel showArrow={false} key='1'>
-            <Row justify='center'>
-              <Col flex='auto'>
+          <Panel showArrow={false} key="1">
+            <Row justify="center">
+              <Col flex="auto">
                 <div style={{ width: 230 }}>
                   <p>
                     <b>Average Price</b>
@@ -115,24 +142,35 @@ const CollapseComponent = memo(
                     min={1}
                     max={15}
                     step={1}
-                    value={[averagePriceFilter[0] / 1000, averagePriceFilter[1] / 1000]}
+                    value={[
+                      averagePriceFilter[0] / 1000,
+                      averagePriceFilter[1] / 1000,
+                    ]}
                     onAfterChange={() =>
-                      fetchBootcampsStartAsync({
-                        prices: averagePriceFilter,
-                        courses: careersFilter,
-                        otherFilters,
-                      }, sorting)
+                      fetchBootcampsStartAsync(
+                        {
+                          prices: averagePriceFilter,
+                          courses: careersFilter,
+                          otherFilters,
+                        },
+                        sorting,
+                      )
                     }
                     onChange={(value) => {
                       filtersStart.current = true;
                       const [firstValue, secondValue] = value;
-                      setAveragePriceFilter(firstValue * 1000, secondValue * 1000);
+                      addAveragePriceFilter(
+                        firstValue * 1000,
+                        secondValue * 1000,
+                      );
                     }}
                   />
                   <InputNumber
                     disabled={averagePriceState}
                     formatter={(value) => `$ ${value}`}
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                    parser={(value) =>
+                      value.replace(/\$\s?|(,*)/g, '')
+                    }
                     min={1000}
                     max={15000}
                     value={averagePriceFilter[0]}
@@ -142,7 +180,9 @@ const CollapseComponent = memo(
                   <InputNumber
                     disabled={averagePriceState}
                     formatter={(value) => `$ ${value}`}
-                    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                    parser={(value) =>
+                      value.replace(/\$\s?|(,*)/g, '')
+                    }
                     min={1000}
                     max={15000}
                     value={averagePriceFilter[1]}
@@ -159,44 +199,50 @@ const CollapseComponent = memo(
                   </div>
                 </div>
               </Col>
-              <Col flex='auto'>
+              <Col flex="auto">
                 <div>
                   <p>
                     <b>Select Careers</b>
                   </p>
                   <Select
                     style={{ minWidth: 250, maxWidth: 330 }}
-                    mode='multiple'
-                    placeholder='Select careers'
-                    optionLabelProp='label'
+                    mode="multiple"
+                    placeholder="Select careers"
+                    optionLabelProp="label"
                     value={careersFilter}
                     onChange={(value) => {
                       filtersStart.current = true;
-                      setCareersFilter(value);
+                      addCareersFilter(value);
                     }}
                   >
-                    <Option value='Web Development' label='Web Development'>
+                    <Option
+                      value="Web Development"
+                      label="Web Development"
+                    >
                       Web Development
                     </Option>
-                    <Option value='Mobile Development' label='Mobile Development'>
+                    <Option
+                      value="Mobile Development"
+                      label="Mobile Development"
+                    >
                       Mobile Development
                     </Option>
-                    <Option value='UI/UX' label='UI/UX'>
+                    <Option value="UI/UX" label="UI/UX">
                       UI/UX
                     </Option>
-                    <Option value='Data Science' label='Data Science'>
+                    <Option value="Data Science" label="Data Science">
                       Data Science
                     </Option>
-                    <Option value='Business' label='Business'>
+                    <Option value="Business" label="Business">
                       Business
                     </Option>
-                    <Option value='Other' label='Other'>
+                    <Option value="Other" label="Other">
                       Other
                     </Option>
                   </Select>
                 </div>
               </Col>
-              <Col flex='auto'>
+              <Col flex="auto">
                 <div>
                   <p>
                     <b>Others</b>
@@ -205,26 +251,38 @@ const CollapseComponent = memo(
                     value={otherFilters}
                     onChange={(values) => {
                       filtersStart.current = true;
-                      setOtherFilters(values);
+                      addOtherFilters(values);
                     }}
                   >
                     <Row>
-                      <Checkbox value='housing' style={{ lineHeight: '32px' }}>
+                      <Checkbox
+                        value="housing"
+                        style={{ lineHeight: '32px' }}
+                      >
                         Housing
                       </Checkbox>
                     </Row>
                     <Row>
-                      <Checkbox value='jobAssistance' style={{ lineHeight: '32px' }}>
+                      <Checkbox
+                        value="jobAssistance"
+                        style={{ lineHeight: '32px' }}
+                      >
                         Job Assistance
                       </Checkbox>
                     </Row>
                     <Row>
-                      <Checkbox value='jobGuarantee' style={{ lineHeight: '32px' }}>
+                      <Checkbox
+                        value="jobGuarantee"
+                        style={{ lineHeight: '32px' }}
+                      >
                         Job Guarantee
                       </Checkbox>
                     </Row>
                     <Row>
-                      <Checkbox value='acceptGi' style={{ lineHeight: '32px' }}>
+                      <Checkbox
+                        value="acceptGi"
+                        style={{ lineHeight: '32px' }}
+                      >
                         Accepts GI Bill
                       </Checkbox>
                     </Row>
@@ -236,7 +294,8 @@ const CollapseComponent = memo(
         </Collapse>
       </>
     );
-  });
+  },
+);
 
 const mapStateToProps = createStructuredSelector({
   filtersApplied: selectFiltersApplied,
@@ -245,15 +304,20 @@ const mapStateToProps = createStructuredSelector({
   careersFilter: selectCareersFilter,
   otherFilters: selectOtherFilters,
   sorting: selectBootcampsSorting,
+  currentPage: selectBootcampsPage,
 });
 
 const mapDispatchToProps = {
   fetchBootcampsStartAsync,
-  setAveragePriceFilter,
+  addAveragePriceFilter,
   toggleAveragePriceFilter,
-  setCareersFilter,
-  setOtherFilters,
+  addCareersFilter,
+  addOtherFilters,
   sortBootcamps,
+  setBootcampsPage,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollapseComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CollapseComponent);

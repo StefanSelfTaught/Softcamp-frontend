@@ -29,18 +29,14 @@ const AlertMessage = ({
           message.loading({ content: `${alertMessage}` });
           break;
         case 'success':
-          message
-            .success({ content: `${alertMessage}` })
-            .then(() => {
-              onCloseAlertMessage();
-            });
+          message.success({ content: `${alertMessage}` }).then(() => {
+            onCloseAlertMessage();
+          });
           break;
         case 'error':
-          message
-            .error({ content: `${alertMessage}` })
-            .then(() => {
-              onCloseAlertMessage();
-            });
+          message.error({ content: `${alertMessage}` }).then(() => {
+            onCloseAlertMessage();
+          });
           break;
         default:
           return null;

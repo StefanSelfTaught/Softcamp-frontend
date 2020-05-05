@@ -2,7 +2,8 @@ import { createSelector } from 'reselect';
 import { selectUserId } from 'redux/auth/auth.selectors';
 
 const bootcampsData = (state) => state.bootcamps.allBootcamps;
-const bootcampDetailsData = (state) => state.bootcamps.bootcampDetails;
+const bootcampDetailsData = (state) =>
+  state.bootcamps.bootcampDetails;
 
 export const selectBootcampDetails = createSelector(
   bootcampDetailsData,
@@ -12,6 +13,40 @@ export const selectBootcampDetails = createSelector(
 export const selectBootcamps = createSelector(
   bootcampsData,
   (bootcamps) => bootcamps.bootcampsData.data,
+);
+
+export const selectLowestAverageBootcampPrice = createSelector(
+  bootcampsData,
+  (bootcamps) =>
+    Math.min(
+      ...bootcamps.bootcampsData.data.map(
+        (bootcamp) => bootcamp.averageCost,
+      ),
+    )
+      .toString()
+      .split('')
+      .map((digit, index) => {
+        if (index > 0) return parseInt(digit, 10) - digit;
+        return parseInt(digit, 10);
+      })
+      .join(''),
+);
+
+export const selectHighestAverageBootcampPrice = createSelector(
+  bootcampsData,
+  (bootcamps) =>
+    Math.max(
+      ...bootcamps.bootcampsData.data.map(
+        (bootcamp) => bootcamp.averageCost,
+      ),
+    )
+      .toString()
+      .split('')
+      .map((digit, index) => {
+        if (index > 0) return parseInt(digit, 10) - digit;
+        return parseInt(digit, 10) + 1;
+      })
+      .join(''),
 );
 
 export const selectFiltersApplied = createSelector(
@@ -26,7 +61,8 @@ export const selectLastUpdated = createSelector(
 
 export const selectBootcampMatchUser = createSelector(
   [selectBootcamps, selectUserId],
-  (bootcamps, userId) => bootcamps.find((bootcamp) => bootcamp.user === userId),
+  (bootcamps, userId) =>
+    bootcamps.find((bootcamp) => bootcamp.user === userId),
 );
 
 export const selectBootcampsError = createSelector(
@@ -84,4 +120,9 @@ export const selectBootcampsSorting = createSelector(
 export const selectBootcampsCount = createSelector(
   bootcampsData,
   (bootcamps) => bootcamps.bootcampsData.totalItems,
+);
+
+export const selectBootcampsPage = createSelector(
+  bootcampsData,
+  (bootcamps) => bootcamps.currentPage,
 );

@@ -8,8 +8,13 @@ import {
   selectBootcampsLoading,
 } from 'redux/bootcamps/bootcamps.selectors';
 
-export const setAveragePriceFilter = (firstPrice, secondPrice) => ({
-  type: BootcampsActionTypes.SET_AVERAGE_PRICE_FILTER,
+export const setBootcampsPage = (page) => ({
+  type: BootcampsActionTypes.SET_BOOTCAMPS_PAGE,
+  payload: page,
+});
+
+export const addAveragePriceFilter = (firstPrice, secondPrice) => ({
+  type: BootcampsActionTypes.ADD_AVERAGE_PRICE_FILTER,
   payload: {
     firstPrice,
     secondPrice,
@@ -21,13 +26,13 @@ export const toggleAveragePriceFilter = (value) => ({
   payload: value,
 });
 
-export const setCareersFilter = (filterData) => ({
-  type: BootcampsActionTypes.SET_CAREERS_FILTER,
+export const addCareersFilter = (filterData) => ({
+  type: BootcampsActionTypes.ADD_CAREERS_FILTER,
   payload: filterData,
 });
 
-export const setOtherFilters = (filterData) => ({
-  type: BootcampsActionTypes.SET_OTHER_FILTERS,
+export const addOtherFilters = (filterData) => ({
+  type: BootcampsActionTypes.ADD_OTHER_FILTERS,
   payload: filterData,
 });
 
@@ -36,7 +41,10 @@ export const sortBootcamps = (sortBy) => ({
   payload: sortBy,
 });
 
-export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState) => {
+export const fetchbootcampDetailsStartAsync = (id) => async (
+  dispatch,
+  getState,
+) => {
   // Comment
   const bootcamp = selectBootcampDetails(getState());
 
@@ -59,7 +67,8 @@ export const fetchbootcampDetailsStartAsync = (id) => async (dispatch, getState)
       payload: data,
     });
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch({
       type: BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_FAILURE,
@@ -101,7 +110,12 @@ export const fetchBootcampsStartAsync = (
   //   }
   // }
 
-  if (selectBootcamps(getState()).length && !forceRefresh && !filters && !paginate) {
+  if (
+    selectBootcamps(getState()).length &&
+    !forceRefresh &&
+    !filters &&
+    !paginate
+  ) {
     return Promise.resolve();
   }
 
@@ -131,7 +145,9 @@ export const fetchBootcampsStartAsync = (
 
       if (otherFilters) {
         otherFilters.forEach((otherFilter) => {
-          urlFilters += `&${otherFilter}=${otherFilters.includes(otherFilter)}`;
+          urlFilters += `&${otherFilter}=${otherFilters.includes(
+            otherFilter,
+          )}`;
         });
       }
 
@@ -157,7 +173,8 @@ export const fetchBootcampsStartAsync = (
 
     dispatch(fetchBootcampsSuccess(data));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch(fetchBootcampsFailure(errorResponse));
   }
@@ -177,7 +194,9 @@ const createBootcampFailure = (error) => ({
   payload: error,
 });
 
-export const createBootcampStartAsync = (bootcampData) => async (dispatch) => {
+export const createBootcampStartAsync = (bootcampData) => async (
+  dispatch,
+) => {
   dispatch(createBootcampStart());
 
   dispatch(showAlertMessage('Creating Bootcamp...', 'loading'));
@@ -195,7 +214,8 @@ export const createBootcampStartAsync = (bootcampData) => async (dispatch) => {
 
     dispatch(push('/bootcamps'));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch(createBootcampFailure(errorResponse));
 
@@ -217,7 +237,9 @@ const fetchUserBootcampsStartFailure = (error) => ({
   payload: error,
 });
 
-export const fetchUserBootcampsStartAsync = () => async (dispatch) => {
+export const fetchUserBootcampsStartAsync = () => async (
+  dispatch,
+) => {
   dispatch(fetchUserBootcampsStart());
 
   try {
@@ -227,7 +249,8 @@ export const fetchUserBootcampsStartAsync = () => async (dispatch) => {
 
     dispatch(fetchUserBootcampsStartSuccess(data));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch(fetchUserBootcampsStartFailure(errorResponse));
 

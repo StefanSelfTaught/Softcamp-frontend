@@ -28,7 +28,10 @@ export const resetForgotPasswordModal = () => ({
 });
 
 // updateUserDetailsStartAsync Async Function
-export const updateUserDetailsStartAsync = (name, email) => async (dispatch, getState) => {
+export const updateUserDetailsStartAsync = (name, email) => async (
+  dispatch,
+  getState,
+) => {
   const userData = selectUserData(getState());
 
   if (userData.name === name && userData.email === email) {
@@ -62,7 +65,8 @@ export const updateUserDetailsStartAsync = (name, email) => async (dispatch, get
 
     dispatch(showAlertMessage('Changes Saved', 'success'));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch({
       type: ManageUserInfoActionsTypes.UPDATE_USER_DETAILS_FAILURE,
@@ -73,9 +77,11 @@ export const updateUserDetailsStartAsync = (name, email) => async (dispatch, get
   }
 };
 
-
 // updateUserPasswordStartAsync Async Function
-export const updateUserPasswordStartAsync = (currentPassword, newPassword) => async (dispatch) => {
+export const updateUserPasswordStartAsync = (
+  currentPassword,
+  newPassword,
+) => async (dispatch) => {
   dispatch({
     type: ManageUserInfoActionsTypes.UPDATE_USER_PASSWORD_START,
   });
@@ -101,7 +107,8 @@ export const updateUserPasswordStartAsync = (currentPassword, newPassword) => as
 
     dispatch(showAlertMessage('Password Changed', 'success'));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch({
       type: ManageUserInfoActionsTypes.UPDATE_USER_PASSWORD_FAILURE,
@@ -112,9 +119,10 @@ export const updateUserPasswordStartAsync = (currentPassword, newPassword) => as
   }
 };
 
-
 // sendForgotPasswordEmail Async Function
-export const sendForgotPasswordEmailStartAsync = (email) => async (dispatch) => {
+export const sendForgotPasswordEmailStartAsync = (email) => async (
+  dispatch,
+) => {
   dispatch({
     type: ManageUserInfoActionsTypes.SEND_FORGOT_PASSWORD_EMAIL_START,
   });
@@ -131,23 +139,25 @@ export const sendForgotPasswordEmailStartAsync = (email) => async (dispatch) => 
     const data = await response.data;
 
     dispatch({
-      type: ManageUserInfoActionsTypes.SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
+      type:
+        ManageUserInfoActionsTypes.SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
       payload: data,
     });
 
     dispatch(showAlertMessage(data.data, 'success'));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch({
-      type: ManageUserInfoActionsTypes.SEND_FORGOT_PASSWORD_EMAIL_FAILURE,
+      type:
+        ManageUserInfoActionsTypes.SEND_FORGOT_PASSWORD_EMAIL_FAILURE,
       payload: errorResponse,
     });
 
     dispatch(showAlertMessage(errorResponse.error, 'error'));
   }
 };
-
 
 // Reset Password Action Creators
 const resetPasswordStart = () => ({
@@ -165,7 +175,9 @@ const resetPasswordFailure = (error) => ({
 });
 
 // resetPasswordStartAsync Async Function
-export const resetPasswordStartAsync = (password, token) => async (dispatch) => {
+export const resetPasswordStartAsync = (password, token) => async (
+  dispatch,
+) => {
   dispatch(resetPasswordStart());
 
   dispatch(showAlertMessage('Loading', 'loading'));
@@ -187,7 +199,8 @@ export const resetPasswordStartAsync = (password, token) => async (dispatch) => 
 
     dispatch(push('/login'));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch(resetPasswordFailure(error));
 

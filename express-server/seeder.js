@@ -13,8 +13,8 @@ const Review = require('./models/Review');
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useFindAndModify: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const bootcamps = JSON.parse(

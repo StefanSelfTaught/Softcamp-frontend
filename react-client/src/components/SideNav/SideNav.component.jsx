@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
@@ -36,7 +36,10 @@ const SideNav = ({
   logOutStartAsync,
   showDrawer,
 }) => {
-  const [collapsed, setCollapsed] = useLocalStorage('sideNavCollapse', false);
+  const [collapsed, setCollapsed] = useLocalStorage(
+    'sideNavCollapse',
+    false,
+  );
 
   // Try to use location hook from react-router-dom
 
@@ -44,24 +47,24 @@ const SideNav = ({
     <Menu
       defaultOpenKeys={['account']}
       selectedKeys={[route]}
-      theme='dark'
-      mode='inline'
+      theme="dark"
+      mode="inline"
     >
       <Menu.Item
         onClick={() => {
           push('/bootcamps');
         }}
-        key='/bootcamps'
+        key="/bootcamps"
       >
         <BookOutlined />
         <span>Browse Bootcamps</span>
       </Menu.Item>
-      <Menu.Item key='/courses'>
+      <Menu.Item key="/courses">
         <WalletOutlined />
         <span>Browse Courses</span>
       </Menu.Item>
       <SubMenu
-        key='account'
+        key="account"
         title={
           <span>
             <UserOutlined />
@@ -70,7 +73,7 @@ const SideNav = ({
         }
       >
         <Menu.Item
-          key='/account/account-settings'
+          key="/account/account-settings"
           onClick={() => {
             showDrawer();
           }}
@@ -79,7 +82,7 @@ const SideNav = ({
         </Menu.Item>
       </SubMenu>
       <Menu.Item
-        key='/logout'
+        key="/logout"
         onClick={() => {
           logOutStartAsync();
         }}
@@ -94,24 +97,24 @@ const SideNav = ({
     <Menu
       defaultOpenKeys={['account']}
       selectedKeys={[route]}
-      theme='dark'
-      mode='inline'
+      theme="dark"
+      mode="inline"
     >
       <Menu.Item
         onClick={() => {
           push('/bootcamps');
         }}
-        key='/bootcamps'
+        key="/bootcamps"
       >
         <BookOutlined />
         <span>Browse Bootcamps</span>
       </Menu.Item>
-      <Menu.Item key='/courses'>
+      <Menu.Item key="/courses">
         <WalletOutlined />
         <span>Browse Courses</span>
       </Menu.Item>
       <SubMenu
-        key='account'
+        key="account"
         title={
           <span>
             <UserOutlined />
@@ -120,7 +123,7 @@ const SideNav = ({
         }
       >
         <Menu.Item
-          key='/account/account-settings'
+          key="/account/account-settings"
           onClick={() => {
             showDrawer();
           }}
@@ -128,19 +131,17 @@ const SideNav = ({
           Account Settings
         </Menu.Item>
         <Menu.Item
-          key='/manage-bootcamp'
+          key="/manage-bootcamp"
           onClick={() => {
             push('/manage-bootcamp');
           }}
         >
           Manage Bootcamp
         </Menu.Item>
-        <Menu.Item key='/manage-courses'>
-          Manage Courses
-        </Menu.Item>
+        <Menu.Item key="/manage-courses">Manage Courses</Menu.Item>
       </SubMenu>
       <Menu.Item
-        key='/logout'
+        key="/logout"
         onClick={() => {
           logOutStartAsync();
         }}
@@ -159,15 +160,11 @@ const SideNav = ({
         setCollapsed(!collapsed);
       }}
     >
-      <div className='logo'>
+      <div className="logo">
         {collapsed ? (
-          <img
-            className='logo-img-2'
-            src={logo2}
-            alt='devcamper'
-          />
+          <img className="logo-img-2" src={logo2} alt="devcamper" />
         ) : (
-          <img className='logo-img' src={logo} alt='devcamper' />
+          <img className="logo-img" src={logo} alt="devcamper" />
         )}
       </div>
 
@@ -175,24 +172,24 @@ const SideNav = ({
         <Menu
           defaultOpenKeys={['account']}
           selectedKeys={[route]}
-          theme='dark'
-          mode='inline'
+          theme="dark"
+          mode="inline"
         >
           <Menu.Item
             onClick={() => {
               push('/bootcamps');
             }}
-            key='/bootcamps'
+            key="/bootcamps"
           >
             <BookOutlined />
             <span>Browse Bootcamps</span>
           </Menu.Item>
-          <Menu.Item key='/courses'>
+          <Menu.Item key="/courses">
             <WalletOutlined />
             <span>Browse Courses</span>
           </Menu.Item>
           <SubMenu
-            key='account'
+            key="account"
             title={
               <span>
                 <UserOutlined />
@@ -204,7 +201,7 @@ const SideNav = ({
               onClick={() => {
                 push('/login');
               }}
-              key='/login'
+              key="/login"
             >
               {' '}
               Login
@@ -213,7 +210,7 @@ const SideNav = ({
               onClick={() => {
                 push('/register');
               }}
-              key='/register'
+              key="/register"
             >
               Register
             </Menu.Item>
@@ -249,7 +246,4 @@ const mapDispatchToProps = {
   showDrawer,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SideNav);
+export default connect(mapStateToProps, mapDispatchToProps)(SideNav);
