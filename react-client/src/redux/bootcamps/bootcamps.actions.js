@@ -194,9 +194,10 @@ const createBootcampFailure = (error) => ({
   payload: error,
 });
 
-export const createBootcampStartAsync = (bootcampData) => async (
-  dispatch,
-) => {
+export const createBootcampStartAsync = (
+  bootcampData,
+  addNextCourses,
+) => async (dispatch) => {
   dispatch(createBootcampStart());
 
   dispatch(showAlertMessage('Creating Bootcamp...', 'loading'));
@@ -212,7 +213,11 @@ export const createBootcampStartAsync = (bootcampData) => async (
 
     dispatch(showAlertMessage('Bootcamp Created', 'success'));
 
-    dispatch(push('/bootcamps'));
+    if (addNextCourses) {
+      dispatch(push('./manage-bootcamp/courses'));
+    } else {
+      dispatch(push('/bootcamps'));
+    }
   } catch (error) {
     const errorResponse =
       error.response.data || 'Something went wrong';

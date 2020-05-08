@@ -15,8 +15,14 @@ import { fetchUserBootcampsStartAsync } from 'redux/bootcamps/bootcamps.actions'
 const { Header } = Layout;
 const { Title } = Typography;
 
-const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
-  const [create, setCreate] = useLocalStorage('createBootcampState', false);
+const ManageBootcampPage = ({
+  fetchUserBootcampsStartAsync,
+  userBootcamp,
+}) => {
+  const [create, setCreate] = useLocalStorage(
+    'createBootcampState',
+    false,
+  );
 
   useEffect(() => {
     fetchUserBootcampsStartAsync();
@@ -28,8 +34,14 @@ const ManageBootcampPage = ({ fetchUserBootcampsStartAsync, userBootcamp }) => {
 
   return (
     <>
-      <Header className='site-layout-background' style={{ padding: '0' }}>
-        <Title style={{ margin: '14px 16px', textAlign: 'center' }} level={4}>
+      <Header
+        className="site-layout-background"
+        style={{ padding: '0' }}
+      >
+        <Title
+          style={{ margin: '14px 16px', textAlign: 'center' }}
+          level={4}
+        >
           Manage your bootcamp
         </Title>
       </Header>
@@ -53,6 +65,6 @@ const mapStateToProps = (state) => ({
   userBootcamp: state.bootcamps.userBootcamps.bootcampData,
 });
 
-export default connect(mapStateToProps, { fetchUserBootcampsStartAsync })(
-  ManageBootcampPage,
-);
+export default connect(mapStateToProps, {
+  fetchUserBootcampsStartAsync,
+})(ManageBootcampPage);

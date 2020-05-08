@@ -28,7 +28,6 @@
     "node/prefer-global/process": ["error", "always"],
     "node/prefer-global/url-search-params": ["error", "always"],
     "node/prefer-global/url": ["error", "always"],
-    "node/prefer-promises/dns": "",
     "node/prefer-promises/fs": "error",
     "node/no-deprecated-api": "error"
   }

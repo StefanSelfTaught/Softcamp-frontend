@@ -3,12 +3,12 @@ import React from 'react';
 import { Layout, Typography } from 'antd';
 
 import Content from 'components/Content/Content.component';
-import Login from 'components/Login/Login.component';
+import BootcampCourses from 'components/BootcampCourses/BootcampCourses.component';
 
 const { Header } = Layout;
 const { Title } = Typography;
 
-const LoginPage = () => (
+const ManageBootcampCoursesPage = () => (
   <>
     <Header
       className="site-layout-background"
@@ -18,14 +18,13 @@ const LoginPage = () => (
         style={{ margin: '14px 16px', textAlign: 'center' }}
         level={4}
       >
-        Log in to list your bootcamp or rate, review and favorite
-        bootcamps
+        Manage your bootcamp courses
       </Title>
     </Header>
     <Content>
-      <Login />
+      <BootcampCourses />
     </Content>
   </>
 );
 
-export default LoginPage;
+export default ManageBootcampCoursesPage;

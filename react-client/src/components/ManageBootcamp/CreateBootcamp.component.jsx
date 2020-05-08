@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 
 import AlgoliaPlaces from 'algolia-places-react';
 import { InboxOutlined } from '@ant-design/icons';
 import {
+  Popconfirm,
   Button,
   Checkbox,
   Col,
@@ -28,6 +29,18 @@ const CreateBootcamp = ({
   setCreate,
 }) => {
   const [form] = Form.useForm();
+
+  const addNextCourses = useRef();
+
+  const handleConfirm = () => {
+    addNextCourses.current = true;
+    form.submit();
+  };
+
+  const handleCancel = () => {
+    addNextCourses.current = false;
+    form.submit();
+  };
 
   let beforeInput = 'https://';
   const handleChangeBefore = (value) => {
@@ -118,7 +131,7 @@ const CreateBootcamp = ({
     formData.append('file', photo.file);
     formData.append('bootcampData', JSON.stringify(bootcampData));
 
-    createBootcampStartAsync(formData);
+    createBootcampStartAsync(formData, addNextCourses.current);
   };
 
   const photoUploadProps = {
@@ -364,14 +377,22 @@ const CreateBootcamp = ({
             <TextArea rows={10} />
           </Form.Item>
         </Row>
-        <Button
-          style={{ marginTop: 7 }}
-          loading={loading}
-          type="primary"
-          htmlType="submit"
+        <Popconfirm
+          title="Do you want to add courses next?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
         >
-          {loading ? 'Loading' : 'Create Bootcamp'}
-        </Button>
+          <Button
+            style={{ marginTop: 7 }}
+            loading={loading}
+            type="primary"
+            htmlType="button"
+          >
+            {loading ? 'Loading' : 'Create Bootcamp'}
+          </Button>
+        </Popconfirm>
       </Form>
     </>
   );
