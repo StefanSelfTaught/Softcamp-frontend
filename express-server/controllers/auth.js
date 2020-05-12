@@ -74,7 +74,7 @@ module.exports.getMe = asyncHandler(async (req, res, next) => {
 });
 
 // @desc     Log user out / clear cookie
-// @route    GET /api/v1/auth/logout
+// @route    POST /api/v1/auth/logout
 // @access   Private
 module.exports.logout = asyncHandler(async (req, res, next) => {
 	res.clearCookie('token', { httpOnly: true });

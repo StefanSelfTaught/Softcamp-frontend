@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { selectUserId } from 'redux/auth/auth.selectors';
 
 const bootcampsData = (state) => state.bootcamps.allBootcamps;
+const userBootcamp = (state) => state.bootcamps.userBootcamps;
 const bootcampDetailsData = (state) =>
   state.bootcamps.bootcampDetails;
 
@@ -125,4 +126,9 @@ export const selectBootcampsCount = createSelector(
 export const selectBootcampsPage = createSelector(
   bootcampsData,
   (bootcamps) => bootcamps.currentPage,
+);
+
+export const selectUserBootcampId = createSelector(
+  userBootcamp,
+  (userBootcamp) => userBootcamp.bootcampData.id,
 );

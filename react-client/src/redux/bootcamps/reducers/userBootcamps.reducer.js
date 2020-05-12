@@ -31,6 +31,13 @@ const userBootcampsReducer = (state = initialState, action) => {
         loading: false,
         error: payload,
       };
+    case BootcampsActionTypes.CREATE_BOOTCAMP_SUCCESS:
+      return {
+        ...state,
+        bootcampData: payload.data,
+        loading: false,
+        error: false,
+      };
     default:
       return state;
   }

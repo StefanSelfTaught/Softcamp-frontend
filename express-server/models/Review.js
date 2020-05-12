@@ -62,7 +62,7 @@ ReviewSchema.post('save', async function() {
 	await this.constructor.getAverageRating(this.bootcamp);
 });
 
-ReviewSchema.pre('remove', async function() {
+ReviewSchema.pre('remove', { query: true }, async function() {
 	await this.constructor.getAverageRating(this.bootcamp);
 });
 

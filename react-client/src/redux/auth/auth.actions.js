@@ -52,7 +52,7 @@ export const logOutStartAsync = () => async (dispatch) => {
   dispatch(showAlertMessage('Logging out...', 'loading'));
 
   try {
-    await axios.get('/auth/logout');
+    await axios.post('/auth/logout');
 
     dispatch(logOutSuccess());
 
@@ -60,7 +60,8 @@ export const logOutStartAsync = () => async (dispatch) => {
 
     dispatch(showAlertMessage('Logged out', 'success'));
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch(logOutFailure(errorResponse));
 
@@ -97,16 +98,19 @@ export const registerStartAsync = (userData) => async (dispatch) => {
 
     dispatch(push('/bootcamps'));
 
-    dispatch(showAlertMessage(`Logged in as ${data.name}`, 'success'));
+    dispatch(
+      showAlertMessage(`Logged in as ${data.name}`, 'success'),
+    );
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch({
       type: AuthActionTypes.REGISTER_FAILURE,
       payload: errorResponse,
     });
 
-    dispatch(showAlertMessage('Bro', 'error'));
+    dispatch(showAlertMessage(errorResponse.error, 'error'));
   }
 };
 
@@ -147,9 +151,12 @@ export const logInStartAsync = (userData) => async (dispatch) => {
 
     dispatch(push('/bootcamps'));
 
-    dispatch(showAlertMessage(`Logged in as ${data.name}`, 'success'));
+    dispatch(
+      showAlertMessage(`Logged in as ${data.name}`, 'success'),
+    );
   } catch (error) {
-    const errorResponse = error.response.data || 'Something went wrong';
+    const errorResponse =
+      error.response.data || 'Something went wrong';
 
     dispatch(logInFailure(errorResponse));
 

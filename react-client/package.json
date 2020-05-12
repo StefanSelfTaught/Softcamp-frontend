@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "algolia-places-react": "^1.5.1",
-    "antd": "^4.0.3",
+    "antd": "^4.2.0",
     "antd-dayjs-webpack-plugin": "^1.0.0",
     "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",

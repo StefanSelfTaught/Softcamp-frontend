@@ -6,6 +6,7 @@ import {
   selectBootcampDetails,
   selectBootcamps,
   selectBootcampsLoading,
+  selectUserBootcampId,
 } from 'redux/bootcamps/bootcamps.selectors';
 
 export const setBootcampsPage = (page) => ({
@@ -197,7 +198,7 @@ const createBootcampFailure = (error) => ({
 export const createBootcampStartAsync = (
   bootcampData,
   addNextCourses,
-) => async (dispatch) => {
+) => async (dispatch, getState) => {
   dispatch(createBootcampStart());
 
   dispatch(showAlertMessage('Creating Bootcamp...', 'loading'));
@@ -213,8 +214,10 @@ export const createBootcampStartAsync = (
 
     dispatch(showAlertMessage('Bootcamp Created', 'success'));
 
+    const userBootcampId = selectUserBootcampId(getState());
+
     if (addNextCourses) {
-      dispatch(push('./manage-bootcamp/courses'));
+      dispatch(push(`./manage-bootcamp/${userBootcampId}/courses`));
     } else {
       dispatch(push('/bootcamps'));
     }
@@ -223,6 +226,54 @@ export const createBootcampStartAsync = (
       error.response.data || 'Something went wrong';
 
     dispatch(createBootcampFailure(errorResponse));
+
+    dispatch(showAlertMessage(errorResponse, 'error'));
+  }
+};
+
+const createBootcampCoursesStart = () => ({
+  type: BootcampsActionTypes.CREATE_BOOTCAMP_COURSES_START,
+});
+
+const createBootcampCoursesSuccess = (courses) => ({
+  type: BootcampsActionTypes.CREATE_BOOTCAMP_COURSES_SUCCESS,
+  payload: courses,
+});
+
+const createBootcampCoursesFailure = (error) => ({
+  type: BootcampsActionTypes.CREATE_BOOTCAMP_COURSES_FAILURE,
+  payload: error,
+});
+
+export const createBootcampCoursesStartAsync = (
+  bootcampId,
+  coursesData,
+) => async (dispatch) => {
+  dispatch(createBootcampCoursesStart());
+
+  dispatch(showAlertMessage('Creating Course/s...', 'loading'));
+
+  try {
+    const response = await axios.post(
+      `/bootcamps/${bootcampId}/courses`,
+      coursesData,
+      {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    const data = await response.data;
+
+    dispatch(createBootcampCoursesSuccess(data));
+
+    dispatch(showAlertMessage('Course/s Created', 'success'));
+
+    dispatch(push('/bootcamps'));
+  } catch (error) {
+    const errorResponse =
+      error.response.data || 'Something went wrong';
+
+    dispatch(createBootcampCoursesFailure(errorResponse));
 
     dispatch(showAlertMessage(errorResponse, 'error'));
   }
@@ -254,8 +305,9 @@ export const fetchUserBootcampsStartAsync = () => async (
 
     dispatch(fetchUserBootcampsStartSuccess(data));
   } catch (error) {
-    const errorResponse =
-      error.response.data || 'Something went wrong';
+    const errorResponse = 'Something went wrong';
+
+    // const errorResponse = error.response.data || 'Something went wrong';
 
     dispatch(fetchUserBootcampsStartFailure(errorResponse));
 

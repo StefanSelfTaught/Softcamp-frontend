@@ -48,32 +48,38 @@ module.exports.getCourse = asyncHandler(async (req, res, next) => {
 });
 
 // @desc     Add course
-// @route    GET /api/v1/bootcamps/:bootcampId/courses
+// @route    POST /api/v1/bootcamps/:bootcampId/courses
 // @access   Private
 module.exports.addCourse = asyncHandler(async (req, res, next) => {
-  req.body.bootcamp = req.params.bootcampId;
-  req.body.user = req.user.id;
+
+  const { bootcampId } = req.params;
+  const { id, role } = req.user;
+
+  req.body.forEach(course => {
+    course.bootcamp = bootcampId
+    course.user = id;
+  })
 
   const bootcamp = await Bootcamp.findById(
-    req.params.bootcampId,
+    bootcampId,
   );
 
   if (!bootcamp) {
     return next(
       new ErrorResponse(
-        `No bootcamp with the id of ${req.params.bootcampId}`,
+        `No bootcamp with the id of ${bootcampId}`,
         400,
       ),
     );
   }
 
   if (
-    bootcamp.user.toString() !== req.user.id &&
-    req.user.role !== 'admin'
+    bootcamp.user.toString() !== id &&
+    role !== 'admin'
   ) {
     return next(
       new ErrorResponse(
-        `User ${req.user.id} is not authorized to add a course`,
+        `User ${id} is not authorized to add a course`,
         401,
       ),
     );

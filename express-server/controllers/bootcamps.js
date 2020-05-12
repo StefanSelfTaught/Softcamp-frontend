@@ -69,7 +69,7 @@ module.exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
 // @route    POST /api/v1/bootcamps
 // @access   Private
 module.exports.createBootcamp = asyncHandler(async (req, res, next) => {
-  // Add user to req.body
+
   const bootcampData = JSON.parse(req.body.bootcampData);
 
   bootcampData.user = req.user.id;

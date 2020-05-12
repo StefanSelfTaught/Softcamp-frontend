@@ -52,8 +52,13 @@ const bootcampsReducer = produce(
         draftState.error = false;
         draftState.filtersApplied = withFilters;
         return;
+      case BootcampsActionTypes.CREATE_BOOTCAMP_COURSES_START:
       case BootcampsActionTypes.CREATE_BOOTCAMP_START:
         draftState.loading = true;
+        return;
+      case BootcampsActionTypes.CREATE_BOOTCAMP_COURSES_SUCCESS:
+        draftState.loading = false;
+        draftState.error = false;
         return;
       case BootcampsActionTypes.CREATE_BOOTCAMP_SUCCESS: {
         const { careers, photo, user, name, id, _id } = payload.data;
@@ -65,6 +70,8 @@ const bootcampsReducer = produce(
         return;
       }
       case BootcampsActionTypes.CREATE_BOOTCAMP_FAILURE:
+      case BootcampsActionTypes.CREATE_BOOTCAMP_COURSES_FAILURE:
+      case BootcampsActionTypes.FETCH_BOOTCAMPS_FAILURE:
         draftState.loading = false;
         draftState.error = payload;
         return;
@@ -73,10 +80,6 @@ const bootcampsReducer = produce(
         draftState.loading = false;
         draftState.error = false;
         draftState.lastUpdated = receivedAt;
-        return;
-      case BootcampsActionTypes.FETCH_BOOTCAMPS_FAILURE:
-        draftState.loading = false;
-        draftState.error = payload;
         return;
       default:
         return draftState;

@@ -35,10 +35,12 @@ const reviews = JSON.parse(
 
 const importDataInDb = async () => {
   try {
-    await Bootcamp.create(bootcamps);
-    await Course.create(courses);
-    await User.create(users);
-    await Review.create(reviews);
+    await Bootcamp.insertMany(bootcamps);
+    await Course.insertMany(courses);
+    await User.insertMany(users);
+    await Review.insertMany(reviews);
+
+    mongoose.disconnect();
 
     console.log('Data Imported...'.green.inverse);
     process.exit();
@@ -53,6 +55,8 @@ const deleteDataInDb = async () => {
     await Course.deleteMany();
     await User.deleteMany();
     await Review.deleteMany();
+
+    mongoose.disconnect();
 
     console.log('Data Destroyed...'.red.inverse);
     process.exit();

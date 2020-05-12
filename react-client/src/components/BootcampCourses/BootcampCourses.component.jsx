@@ -1,4 +1,7 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import {
   Form,
@@ -13,7 +16,7 @@ import {
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-import './BootcampCourses.styles.css';
+import { createBootcampCoursesStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
 const radioStyle = {
   display: 'block',
@@ -21,18 +24,21 @@ const radioStyle = {
   lineHeight: '30px',
 };
 
-const BootcampCourses = () => {
+const BootcampCourses = ({ createBootcampCoursesStartAsync }) => {
+  const { userBootcampId } = useParams();
   const [form] = Form.useForm();
 
   const onFinish = ({ courses }) => {
-    if (!courses) {
-      alert('Please add a course!');
+    if (courses) {
+      createBootcampCoursesStartAsync(userBootcampId, courses);
+    } else {
+      alert('Please add a course');
     }
   };
 
   return (
-    <>
-      <p>TO DO: Maybe add at the top some bootcamp info</p>
+    <div style={{ margin: 50 }}>
+      <p>TO DO: Maybe add some bootcamps details at the top</p>
       <Form form={form} onFinish={onFinish} className="my-form">
         <Form.List name="courses">
           {(fields, { add, remove }) => {
@@ -53,11 +59,11 @@ const BootcampCourses = () => {
                       </Col>
                       <Col>
                         <Form.Item
-                          name={[field.name, 'duration']}
-                          fieldKey={[field.fieldKey, 'duration']}
+                          name={[field.name, 'weeks']}
+                          fieldKey={[field.fieldKey, 'weeks']}
                           rules={[{ required: true }]}
                         >
-                          <InputNumber placeholder="Duration" />
+                          <InputNumber placeholder="weeks" />
                         </Form.Item>
                       </Col>
                     </Row>
@@ -71,8 +77,9 @@ const BootcampCourses = () => {
                           <InputNumber placeholder="Tuition" />
                         </Form.Item>
                         <Form.Item
-                          name={[field.name, 'skill']}
-                          fieldKey={[field.fieldKey, 'skill']}
+                          label="Minimum Skill"
+                          name={[field.name, 'minimumSkill']}
+                          fieldKey={[field.fieldKey, 'minimumSkill']}
                           rules={[{ required: true }]}
                         >
                           <Radio.Group>
@@ -101,9 +108,12 @@ const BootcampCourses = () => {
                     <Row>
                       <Col>
                         <Form.Item
-                          valuePropName="checked"
-                          name={[field.name, 'scholarship']}
-                          fieldKey={[field.fieldKey, 'scholarship']}
+                          name={[field.name, 'scholarshipAvailable']}
+                          fieldKey={[
+                            field.fieldKey,
+                            'scholarshipAvailable',
+                          ]}
+                          initialValue={false}
                         >
                           <Checkbox>Scholarship Avaliable</Checkbox>
                         </Form.Item>
@@ -125,7 +135,7 @@ const BootcampCourses = () => {
                         onClick={() => remove(field.name)}
                         icon={<MinusCircleOutlined />}
                       >
-                        Remove Above Field
+                        Remove course {index + 1}
                       </Button>
                     ) : null}
                   </Fragment>
@@ -151,8 +161,14 @@ const BootcampCourses = () => {
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 };
 
-export default BootcampCourses;
+BootcampCourses.proptTypes = {
+  createBootcampCoursesStartAsync: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createBootcampCoursesStartAsync })(
+  BootcampCourses,
+);

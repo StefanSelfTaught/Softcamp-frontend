@@ -57,7 +57,7 @@ const App = () => (
           />
 
           <Route
-            path="/manage-bootcamp/courses"
+            path="/manage-bootcamp/:userBootcampId/courses"
             component={ManageBootcampCoursesPage}
           />
 
