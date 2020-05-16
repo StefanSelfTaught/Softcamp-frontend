@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { Descriptions, Row, Col, Button } from 'antd';
 
 import BootcampCard from 'components/BootcampCard/BootcampCard.component';
+
+import { deleteUserBootcampStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
 const ManageBootcamp = (props) => {
   return (
@@ -11,16 +14,24 @@ const ManageBootcamp = (props) => {
       <Row>
         <Col span={9}>
           <BootcampCard {...props} />
-          <Button type="primary" danger>
+          <Button
+            type="primary"
+            style={{ display: 'block', marginBottom: 15 }}
+          >
+            Manage Bootcamp Courses
+          </Button>
+          <Button
+            onClick={() => props.deleteUserBootcampStartAsync(props.id)}
+            type="primary"
+            danger
+          >
             Delete Bootcamp
           </Button>
-          <Button>Manage Bootcamp Courses</Button>
-          <Button type="primary">Edit Bootcamp Details</Button>
         </Col>
         <Col span={15}>
           <Descriptions
             layout="vertical"
-            title="Bootcamp info"
+            title="Bootcamp Info"
             bordered
             column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
           >
@@ -42,6 +53,9 @@ const ManageBootcamp = (props) => {
               Total: 3 courses
             </Descriptions.Item>
           </Descriptions>
+          <Button style={{ marginTop: 15 }} type="primary">
+            Edit Bootcamp Info
+          </Button>
         </Col>
       </Row>
     </>
@@ -50,6 +64,9 @@ const ManageBootcamp = (props) => {
 
 ManageBootcamp.propTypes = {
   props: PropTypes.object.isRequired,
+  deleteUserBootcampStartAsync: PropTypes.func.isRequired,
 };
 
-export default ManageBootcamp;
+export default connect(null, { deleteUserBootcampStartAsync })(
+  ManageBootcamp,
+);

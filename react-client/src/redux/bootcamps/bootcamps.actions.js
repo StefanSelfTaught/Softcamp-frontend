@@ -279,12 +279,12 @@ const fetchUserBootcampsStart = () => ({
   type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_START,
 });
 
-const fetchUserBootcampsStartSuccess = (bootcamps) => ({
+const fetchUserBootcampsSuccess = (bootcamps) => ({
   type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_SUCCESS,
   payload: bootcamps,
 });
 
-const fetchUserBootcampsStartFailure = (error) => ({
+const fetchUserBootcampsFailure = (error) => ({
   type: BootcampsActionTypes.FETCH_USER_BOOTCAMPS_FAILURE,
   payload: error,
 });
@@ -297,13 +297,44 @@ export const fetchUserBootcampsStartAsync = () => async (dispatch) => {
 
     const data = await response.data;
 
-    dispatch(fetchUserBootcampsStartSuccess(data));
+    dispatch(fetchUserBootcampsSuccess(data));
   } catch (error) {
     const errorResponse = 'Something went wrong';
 
     // const errorResponse = error.response.data || 'Something went wrong';
 
-    dispatch(fetchUserBootcampsStartFailure(errorResponse));
+    dispatch(fetchUserBootcampsFailure(errorResponse));
+
+    dispatch(showAlertMessage(errorResponse, 'error'));
+  }
+};
+
+const deleteUserBootcampSuccess = () => ({
+  type: BootcampsActionTypes.DELETE_USER_BOOTCAMP_SUCCESS,
+});
+
+const deleteUserBootcampFailure = (error) => ({
+  type: BootcampsActionTypes.DELETE_USER_BOOTCAMP_FAILURE,
+  payload: error,
+});
+
+export const deleteUserBootcampStartAsync = (userBootcampId) => async (
+  dispatch,
+) => {
+  try {
+    await axios.delete(`/bootcamps/${userBootcampId}`);
+
+    dispatch(deleteUserBootcampSuccess());
+
+    dispatch(push('/bootcamps'));
+
+    dispatch(showAlertMessage('Bootcamp deleted!', 'success'));
+  } catch (error) {
+    const errorResponse = 'Something went wrong';
+
+    // const errorResponse = error.response.data || 'Something went wrong';
+
+    dispatch(deleteUserBootcampFailure(errorResponse));
 
     dispatch(showAlertMessage(errorResponse, 'error'));
   }

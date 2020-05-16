@@ -38,6 +38,11 @@ const userBootcampsReducer = (state = initialState, action) => {
         loading: false,
         error: false,
       };
+    case BootcampsActionTypes.DELETE_USER_BOOTCAMP_SUCCESS:
+      return {
+        ...state,
+        bootcampData: null,
+      };
     default:
       return state;
   }

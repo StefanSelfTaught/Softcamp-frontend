@@ -200,7 +200,7 @@ module.exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 
   await bootcamp.deleteOne();
 
-  res.status(200).json({ success: true, data: {} });
+  res.status(200).json({ success: true, data: null });
 });
 
 // @desc     Get bootcamps within a radius
