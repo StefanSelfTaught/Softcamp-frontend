@@ -26,7 +26,7 @@ const { Dragger } = Upload;
 const CreateBootcamp = ({
   loading,
   createBootcampStartAsync,
-  setCreate,
+  dontCreateBootcamp,
 }) => {
   const [form] = Form.useForm();
 
@@ -145,10 +145,7 @@ const CreateBootcamp = ({
 
   return (
     <>
-      <Button
-        onClick={() => setCreate(false)}
-        style={{ marginBottom: 30 }}
-      >
+      <Button onClick={dontCreateBootcamp} style={{ marginBottom: 30 }}>
         Go Back
       </Button>
       <Form
@@ -188,10 +185,7 @@ const CreateBootcamp = ({
                 placeholder="Select careers"
                 optionLabelProp="label"
               >
-                <Option
-                  value="Web Development"
-                  label="Web Development"
-                >
+                <Option value="Web Development" label="Web Development">
                   Web Development
                 </Option>
                 <Option
@@ -326,10 +320,7 @@ const CreateBootcamp = ({
             <Form.Item name="checkbox">
               <Checkbox.Group>
                 <Row>
-                  <Checkbox
-                    value="housing"
-                    style={{ lineHeight: '32px' }}
-                  >
+                  <Checkbox value="housing" style={{ lineHeight: '32px' }}>
                     Housing
                   </Checkbox>
                 </Row>
@@ -401,7 +392,7 @@ const CreateBootcamp = ({
 CreateBootcamp.proptTypes = {
   createBootcampStartAsync: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  setCreate: PropTypes.func.isRequired,
+  dontCreateBootcamp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

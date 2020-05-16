@@ -40,7 +40,7 @@ module.exports.getBootcamp = asyncHandler(async (req, res, next) => {
 // @route    GET /api/v1/bootcamps/ownedBootcamps
 // @access   Private
 module.exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
-  const { id, name } = req.user;
+  const { id } = req.user;
 
   if(!req.user) {
     return next(
@@ -53,15 +53,14 @@ module.exports.getOwnBootcamp = asyncHandler(async (req, res, next) => {
   if (!bootcamp.length) {
     res.status(200).json({
       success: true,
-      data: bootcamp,
-      message: `User ${name} doesn't have any bootcamps`,
+      data: null,
     });
     return;
   }
 
   res.status(200).json({
     success: true,
-    data: bootcamp,
+    data: bootcamp[0],
   });
 });
 
@@ -199,7 +198,7 @@ module.exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
     );
   }
 
-  bootcamp.remove();
+  await bootcamp.deleteOne();
 
   res.status(200).json({ success: true, data: {} });
 });

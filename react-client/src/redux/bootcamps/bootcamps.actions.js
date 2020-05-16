@@ -68,8 +68,7 @@ export const fetchbootcampDetailsStartAsync = (id) => async (
       payload: data,
     });
   } catch (error) {
-    const errorResponse =
-      error.response.data || 'Something went wrong';
+    const errorResponse = error.response.data || 'Something went wrong';
 
     dispatch({
       type: BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_FAILURE,
@@ -174,8 +173,7 @@ export const fetchBootcampsStartAsync = (
 
     dispatch(fetchBootcampsSuccess(data));
   } catch (error) {
-    const errorResponse =
-      error.response.data || 'Something went wrong';
+    const errorResponse = error.response.data || 'Something went wrong';
 
     dispatch(fetchBootcampsFailure(errorResponse));
   }
@@ -222,8 +220,7 @@ export const createBootcampStartAsync = (
       dispatch(push('/bootcamps'));
     }
   } catch (error) {
-    const errorResponse =
-      error.response.data || 'Something went wrong';
+    const errorResponse = error.response.data || 'Something went wrong';
 
     dispatch(createBootcampFailure(errorResponse));
 
@@ -270,8 +267,7 @@ export const createBootcampCoursesStartAsync = (
 
     dispatch(push('/bootcamps'));
   } catch (error) {
-    const errorResponse =
-      error.response.data || 'Something went wrong';
+    const errorResponse = error.response.data || 'Something went wrong';
 
     dispatch(createBootcampCoursesFailure(errorResponse));
 
@@ -293,9 +289,7 @@ const fetchUserBootcampsStartFailure = (error) => ({
   payload: error,
 });
 
-export const fetchUserBootcampsStartAsync = () => async (
-  dispatch,
-) => {
+export const fetchUserBootcampsStartAsync = () => async (dispatch) => {
   dispatch(fetchUserBootcampsStart());
 
   try {
@@ -311,6 +305,6 @@ export const fetchUserBootcampsStartAsync = () => async (
 
     dispatch(fetchUserBootcampsStartFailure(errorResponse));
 
-    dispatch(showAlertMessage(errorResponse.error, 'error'));
+    dispatch(showAlertMessage(errorResponse, 'error'));
   }
 };

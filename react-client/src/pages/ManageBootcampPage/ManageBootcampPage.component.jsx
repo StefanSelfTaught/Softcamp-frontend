@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { Layout, Typography } from 'antd';
-
-import useLocalStorage from 'hooks/useLocalStorage.hook';
+import { Layout, Typography, Spin } from 'antd';
 
 import Content from 'components/Content/Content.component';
 import ManageBootcamp from 'components/ManageBootcamp/ManageBootcamp.component';
-import NoBootcamp from 'components/ManageBootcamp/NoBootcamp.component';
-import CreateBootcamp from 'components/ManageBootcamp/CreateBootcamp.component';
+import NoBootcampState from 'components/ManageBootcamp/NoBootcampState.component';
 
 import { fetchUserBootcampsStartAsync } from 'redux/bootcamps/bootcamps.actions';
 
@@ -18,26 +16,15 @@ const { Title } = Typography;
 const ManageBootcampPage = ({
   fetchUserBootcampsStartAsync,
   userBootcamp,
+  loading,
 }) => {
-  const [create, setCreate] = useLocalStorage(
-    'createBootcampState',
-    false,
-  );
-
   useEffect(() => {
     fetchUserBootcampsStartAsync();
   }, [fetchUserBootcampsStartAsync]);
 
-  const handleCreateNow = () => {
-    setCreate(true);
-  };
-
   return (
     <>
-      <Header
-        className="site-layout-background"
-        style={{ padding: '0' }}
-      >
+      <Header className="site-layout-background" style={{ padding: '0' }}>
         <Title
           style={{ margin: '14px 16px', textAlign: 'center' }}
           level={4}
@@ -46,23 +33,37 @@ const ManageBootcampPage = ({
         </Title>
       </Header>
       <Content>
-        {create ? (
-          <CreateBootcamp setCreate={setCreate} />
+        {loading ? (
+          <Spin
+            style={{ margin: '10% auto', width: '100%' }}
+            size="large"
+            tip="Loading..."
+          />
         ) : userBootcamp ? (
           <ManageBootcamp
-            bootcampId={userBootcamp.id}
-            bootcampName={userBootcamp.name}
+            name={userBootcamp.name}
+            id={userBootcamp.id}
+            careers={userBootcamp.careers}
+            averageCost={userBootcamp.averageCost}
+            photo={userBootcamp.photo}
           />
         ) : (
-          <NoBootcamp handleCreateNow={handleCreateNow} />
+          <NoBootcampState />
         )}
       </Content>
     </>
   );
 };
 
+ManageBootcampPage.propTypes = {
+  fetchUserBootcampsStartAsync: PropTypes.func.isRequired,
+  userBootcamp: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   userBootcamp: state.bootcamps.userBootcamps.bootcampData,
+  loading: state.bootcamps.userBootcamps.loading,
 });
 
 export default connect(mapStateToProps, {

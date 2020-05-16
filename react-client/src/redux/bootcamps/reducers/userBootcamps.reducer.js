@@ -20,7 +20,7 @@ const userBootcampsReducer = (state = initialState, action) => {
     case BootcampsActionTypes.FETCH_USER_BOOTCAMPS_SUCCESS:
       return {
         ...state,
-        bootcampData: payload.data[0],
+        bootcampData: payload.data,
         loading: false,
         error: false,
       };

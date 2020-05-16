@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Empty, Button } from 'antd';
 
-const NoBootcamp = ({ handleCreateNow }) => (
+const NoBootcamp = ({ createBootcamp }) => (
   <>
     <Empty
       style={{ marginTop: 35 }}
@@ -12,7 +12,7 @@ const NoBootcamp = ({ handleCreateNow }) => (
       }}
       description={<span>No bootcamp found</span>}
     >
-      <Button onClick={handleCreateNow} type='primary'>
+      <Button onClick={createBootcamp} type="primary">
         Create Now
       </Button>
     </Empty>

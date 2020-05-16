@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { Row, Button, Spin, Typography } from 'antd';
 
-import BootcampCard from 'components/BootcampCard/BootcampCard.Component';
+import BootcampCard from 'components/BootcampCard/BootcampCard.component';
 import CardSkeleton from 'components/CardSkeleton/CardSkeleton.component';
 import Collapse from 'components/BootcampsFilter/Collapse.component';
 import BootcampsSorting from 'components/BootcampsSorting/BootcampsSorting.component';

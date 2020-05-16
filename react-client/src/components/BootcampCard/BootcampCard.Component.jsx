@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { Card, Col } from 'antd';
 import {
@@ -11,26 +10,16 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 
-import selectPathName from 'redux/router/router.selectors';
-
 const { Meta } = Card;
 
 // Connect all BootcampCards to redus ( bad )
 
-const BootcampCard = ({
-  route,
-  name,
-  careers,
-  averageCost,
-  photo,
-  id,
-  push,
-}) => (
+const BootcampCard = ({ name, careers, averageCost, photo, id, push }) => (
   <Col flex="auto">
     <Card
       hoverable
       onClick={() => {
-        push(`${route}/${id}`);
+        push(`bootcamps/${id}`);
       }}
       cover={
         <img
@@ -67,11 +56,6 @@ BootcampCard.proptTypes = {
   photo: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   push: PropTypes.func.isRequired,
-  route: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  route: selectPathName,
-});
-
-export default connect(mapStateToProps, { push })(BootcampCard);
+export default connect(null, { push })(BootcampCard);
