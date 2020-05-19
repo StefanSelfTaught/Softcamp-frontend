@@ -30,9 +30,6 @@ const reviews = require('./routes/reviews');
 
 const app = express();
 
-// Server monitor on '/server' route
-app.use(require('express-status-monitor')());
-
 app.use(
   cors({ origin: 'http://localhost:3000', credentials: true }),
 );

@@ -8,14 +8,12 @@ import Footer from 'components/Footer/Footer.component';
 
 import 'App.css';
 import BootcampsPage from 'pages/BootcampsPage/BootcampsPage.component';
-import ManageBootcampCoursesPage from 'pages/ManageBootcampCoursesPage/ManageBootcampCoursesPage.component';
+import CreateBootcampCoursesPage from 'pages/CreateBootcampCoursesPage/CreateBootcampCoursesPage.component';
 
 const AlertMessage = lazy(() =>
   import('components/AlertMessage/AlertMessage.component'),
 );
-const Drawer = lazy(() =>
-  import('components/Drawer/Drawer.component'),
-);
+const Drawer = lazy(() => import('components/Drawer/Drawer.component'));
 const Modal = lazy(() => import('components/Modal/Modal.component'));
 const LoginPage = lazy(() =>
   import('pages/LoginPage/LoginPage.component'),
@@ -58,7 +56,7 @@ const App = () => (
 
           <Route
             path="/manage-bootcamp/:userBootcampId/courses"
-            component={ManageBootcampCoursesPage}
+            component={CreateBootcampCoursesPage}
           />
 
           <Route path="/register" component={RegisterPage} />

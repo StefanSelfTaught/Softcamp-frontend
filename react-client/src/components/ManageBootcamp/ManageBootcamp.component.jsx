@@ -14,9 +14,9 @@ const ManageBootcamp = (props) => {
       <Row>
         <Col span={9}>
           <BootcampCard {...props} />
+          <Button type="primary">Change Bootcamp Image</Button>
           <Button
-            type="primary"
-            style={{ display: 'block', marginBottom: 15 }}
+            style={{ display: 'block', marginBottom: 15, marginTop: 15 }}
           >
             Manage Bootcamp Courses
           </Button>

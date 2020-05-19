@@ -8,12 +8,9 @@ import BootcampCourses from 'components/BootcampCourses/BootcampCourses.componen
 const { Header } = Layout;
 const { Title } = Typography;
 
-const ManageBootcampCoursesPage = () => (
+const CreateBootcampCoursesPage = () => (
   <>
-    <Header
-      className="site-layout-background"
-      style={{ padding: '0' }}
-    >
+    <Header className="site-layout-background" style={{ padding: '0' }}>
       <Title
         style={{ margin: '14px 16px', textAlign: 'center' }}
         level={4}
@@ -27,4 +24,4 @@ const ManageBootcampCoursesPage = () => (
   </>
 );
 
-export default ManageBootcampCoursesPage;
+export default CreateBootcampCoursesPage;

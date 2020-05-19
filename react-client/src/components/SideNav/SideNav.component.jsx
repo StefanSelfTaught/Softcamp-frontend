@@ -138,7 +138,14 @@ const SideNav = ({
         >
           Manage Bootcamp
         </Menu.Item>
-        <Menu.Item key="/manage-courses">Manage Courses</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            push('/manage-courses');
+          }}
+          key="/manage-courses"
+        >
+          Manage Courses
+        </Menu.Item>
       </SubMenu>
       <Menu.Item
         key="/logout"

@@ -143,6 +143,7 @@ BootcampSchema.pre('remove', async function(next) {
   })
 
   await this.model('Course').deleteMany({ bootcamp: this._id });
+  await this.model('Review').deleteMany({ bootcamp: this._id });
   next();
 });
 

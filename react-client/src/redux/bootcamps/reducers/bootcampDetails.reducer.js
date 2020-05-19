@@ -1,7 +1,7 @@
 import BootcampsActionTypes from 'redux/bootcamps/bootcamps.type';
 
 const initialState = {
-  bootcampData: null,
+  bootcampData: {},
   loading: false,
   error: false,
 };
@@ -13,7 +13,7 @@ const bootcampDetailsReducer = (state = initialState, action) => {
     case BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_START:
       return {
         ...state,
-        bootcampData: null,
+        bootcampData: {},
         loading: true,
         error: false,
       };
@@ -27,7 +27,7 @@ const bootcampDetailsReducer = (state = initialState, action) => {
     case BootcampsActionTypes.FETCH_BOOTCAMP_DETAILS_FAILURE:
       return {
         ...state,
-        bootcampData: null,
+        bootcampData: {},
         loading: false,
         error: payload,
       };
