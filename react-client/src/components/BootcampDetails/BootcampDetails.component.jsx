@@ -27,13 +27,10 @@ const BootcampDetails = ({
   const {
     name = 'name',
     description = 'description',
-    photo = '',
+    photo = 'no-photo.jpg',
     courses = [],
     careers = [],
     averageCost = 'some averageCost number',
-    email = 'email',
-    phone = 'phone',
-    website = 'website',
     location = { coordinates: [0, 0] },
   } = bootcamp;
 
@@ -74,7 +71,7 @@ const BootcampDetails = ({
           />
         </Col>
       </Row>
-      {/* <Map
+      <Map
         center={[location.coordinates[1], location.coordinates[0]]}
         zoom={12}
       >
@@ -87,7 +84,7 @@ const BootcampDetails = ({
         >
           <Popup>{name}</Popup>
         </Marker>
-      </Map> */}
+      </Map>
     </>
   );
 };

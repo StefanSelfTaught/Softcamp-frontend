@@ -7,9 +7,13 @@ const { Footer } = Layout;
 
 const FooterSection = () => (
   <Footer style={{ textAlign: 'center' }}>
-    DevCamper ©2020. Created with{' '}
-    <HeartFilled style={{ color: 'red' }} /> by{' '}
-    <a target="_blank" href="https://github.com/StefanSelfTaught">
+    Softcamp ©2020. Created with <HeartFilled style={{ color: 'red' }} />{' '}
+    by{' '}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://github.com/StefanSelfTaught"
+    >
       Stefan Pop
     </a>
   </Footer>
