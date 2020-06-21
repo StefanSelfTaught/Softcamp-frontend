@@ -12,7 +12,7 @@ import {
 
 const { Meta } = Card;
 
-// Connect all BootcampCards to redus ( bad )
+// Connect all BootcampCards to redux ( bad )
 
 const BootcampCard = ({ name, careers, averageCost, photo, id, push }) => (
   <Col flex="auto">
@@ -25,7 +25,7 @@ const BootcampCard = ({ name, careers, averageCost, photo, id, push }) => (
         <img
           alt={name}
           style={{ objectFit: 'cover', width: 250, height: 160 }}
-          src={`http://localhost:5000/uploads/${photo}`}
+          src={`https://softcamp-api.herokuapp.com/uploads/${photo}`}
         />
       }
       style={{ width: 250, marginBottom: 50 }}
