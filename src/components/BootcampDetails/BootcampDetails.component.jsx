@@ -67,7 +67,7 @@ const BootcampDetails = ({
           <img
             style={{ width: 400, height: 250 }}
             alt={name}
-            src={`http://localhost:5000/uploads/${photo}`}
+            src={`https://softcamp-api.herokuapp.com/uploads/${photo}`}
           />
         </Col>
       </Row>
