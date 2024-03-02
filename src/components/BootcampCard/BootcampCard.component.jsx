@@ -25,7 +25,7 @@ const BootcampCard = ({ name, careers, averageCost, photo, id, push }) => (
         <img
           alt={name}
           style={{ objectFit: 'cover', width: 250, height: 160 }}
-          src={`https://softcamp-api.herokuapp.com/uploads/${photo}`}
+          src={`https://softcamp-backend.onrender.com/uploads/${photo}`}
         />
       }
       style={{ width: 250, marginBottom: 50 }}
